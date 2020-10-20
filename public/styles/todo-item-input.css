@@ -1,0 +1,26 @@
+.todo-item-input {
+  position: relative;
+  margin: 0 0 0 30px;
+  padding: 0 30px 0 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  transition: transform 0.2s ease-out;
+}
+
+.todo-item-input > .input {
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  padding: 0.25em 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.5em;
+}
+
+.todo-item-input > .save {
+  position: absolute;
+  top: 0.15em;
+  right: 0;
+}

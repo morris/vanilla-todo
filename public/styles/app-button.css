@@ -1,0 +1,45 @@
+.app-button {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1em;
+  background: transparent;
+  margin: 0;
+  padding: 0.25em;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  vertical-align: middle;
+  border-radius: 4px;
+  transition: all 0.1s ease-out;
+  color: #999;
+}
+
+.app-button:hover {
+  color: #000;
+}
+
+.app-button:active {
+  transform: translate(0, 1px);
+  color: #000;
+  background: #f3f3f3;
+}
+
+.app-button:focus {
+  color: #000;
+}
+
+.app-button.-circle {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+}
+
+.app-button.-xl {
+  font-size: 1.5em;
+}
+
+@media (min-width: 600px) {
+  .app-button.-xl {
+    font-size: 2em;
+  }
+}

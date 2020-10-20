@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>VANILLA TODO</title>
+
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/app-button.css" />
+    <link rel="stylesheet" href="styles/app-collapsible.css" />
+    <link rel="stylesheet" href="styles/app-footer.css" />
+    <link rel="stylesheet" href="styles/app-header.css" />
+    <link rel="stylesheet" href="styles/app-icon.css" />
+    <link rel="stylesheet" href="styles/todo-custom-list.css" />
+    <link rel="stylesheet" href="styles/todo-day.css" />
+    <link rel="stylesheet" href="styles/todo-frame.css" />
+    <link rel="stylesheet" href="styles/todo-item-input.css" />
+    <link rel="stylesheet" href="styles/todo-item.css" />
+  </head>
+  <body>
+    <div class="todo-app"></div>
+
+    <script src="scripts/AppCollapsible.js"></script>
+    <script src="scripts/AppDraggable.js"></script>
+    <script src="scripts/AppFlip.js"></script>
+    <script src="scripts/AppIcon.js"></script>
+    <script src="scripts/AppLateBlur.js"></script>
+    <script src="scripts/AppSortable.js"></script>
+    <script src="scripts/TodoApp.js"></script>
+    <script src="scripts/TodoCustomList.js"></script>
+    <script src="scripts/TodoDay.js"></script>
+    <script src="scripts/TodoFrameCustom.js"></script>
+    <script src="scripts/TodoFrameDays.js"></script>
+    <script src="scripts/TodoItemInput.js"></script>
+    <script src="scripts/TodoItem.js"></script>
+    <script src="scripts/TodoList.js"></script>
+    <script src="scripts/TodoStore.js"></script>
+    <script src="scripts/util.js"></script>
+
+    <script>
+      VT.TodoApp(document.querySelector('.todo-app'));
+    </script>
+  </body>
+</html>

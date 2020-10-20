@@ -1,0 +1,34 @@
+{
+  "name": "vanilla-todo",
+  "version": "0.1.0",
+  "description": "A TeuxDeux clone built only with vanilla web technology",
+  "scripts": {
+    "format": "prettier --write *.js 'public/scripts/*.js' 'public/styles/**/*.css'",
+    "format-check": "prettier --check *.js 'public/scripts/**/*.js' 'public/styles/**/*.css'",
+    "lint": "eslint .",
+    "lint-styles": "stylelint public/styles/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morris/vanilla-todo.git"
+  },
+  "keywords": [
+    "vanilla",
+    "radio",
+    "somafm"
+  ],
+  "author": "Morris Brodersen <mb@morrisbrodersen.de>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morris/vanilla-todo/issues"
+  },
+  "homepage": "https://github.com/morris/vanilla-todo#readme",
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-plugin-compat": "^3.8.0",
+    "prettier": "^2.0.5",
+    "stylelint": "^13.6.1",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-rscss": "^0.4.0"
+  }
+}
