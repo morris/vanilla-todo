@@ -27,21 +27,21 @@ VT.TodoStore = function (el) {
       done: false,
     });
 
-    update({ items: state.items });
+    dispatch({ items: state.items });
   });
 
   el.addEventListener('checkItem', function (e) {
     if (e.detail.item.done === e.detail.done) return;
 
     e.detail.item.done = e.detail.done;
-    update({ items: state.items });
+    dispatch({ items: state.items });
   });
 
   el.addEventListener('saveItem', function (e) {
     if (e.detail.item.label === e.detail.label) return;
 
     e.detail.item.label = e.detail.label;
-    update({ items: state.items });
+    dispatch({ items: state.items });
   });
 
   el.addEventListener('moveItem', function (e) {
@@ -64,11 +64,11 @@ VT.TodoStore = function (el) {
       item.index = index;
     });
 
-    update({ items: state.items });
+    dispatch({ items: state.items });
   });
 
   el.addEventListener('deleteItem', function (e) {
-    update({
+    dispatch({
       items: state.items.filter(function (item) {
         return item.id !== e.detail.id;
       }),
@@ -88,7 +88,7 @@ VT.TodoStore = function (el) {
       title: e.detail.title || '',
     });
 
-    update({ customLists: state.customLists });
+    dispatch({ customLists: state.customLists });
   });
 
   el.addEventListener('saveList', function (e) {
@@ -100,7 +100,7 @@ VT.TodoStore = function (el) {
 
     list.title = e.detail.title;
 
-    update({ customLists: state.customLists });
+    dispatch({ customLists: state.customLists });
   });
 
   el.addEventListener('moveList', function (e) {
@@ -119,11 +119,11 @@ VT.TodoStore = function (el) {
       item.index = index;
     });
 
-    update({ customLists: state.customLists });
+    dispatch({ customLists: state.customLists });
   });
 
   el.addEventListener('deleteList', function (e) {
-    update({
+    dispatch({
       customLists: state.customLists.filter(function (customList) {
         return customList.id !== e.detail.id;
       }),
@@ -134,19 +134,19 @@ VT.TodoStore = function (el) {
     var t = new Date(state.at);
     t.setDate(t.getDate() + e.detail);
 
-    update({
+    dispatch({
       at: VT.formatDateId(t),
     });
   });
 
   el.addEventListener('seekHome', function () {
-    update({
+    dispatch({
       at: VT.formatDateId(new Date()),
     });
   });
 
   el.addEventListener('customSeek', function (e) {
-    update({
+    dispatch({
       customAt: Math.max(
         0,
         Math.min(state.customLists.length - 1, state.customAt + e.detail)
@@ -154,7 +154,7 @@ VT.TodoStore = function (el) {
     });
   });
 
-  function update(next) {
+  function dispatch(next) {
     Object.assign(state, next);
     store();
 
@@ -172,7 +172,7 @@ VT.TodoStore = function (el) {
     }
 
     try {
-      update(JSON.parse(localStorage.todo));
+      dispatch(JSON.parse(localStorage.todo));
     } catch (err) {
       console.warn(err);
     }
@@ -191,7 +191,7 @@ VT.TodoStore = function (el) {
   }
 
   el.todoStore = {
-    update: update,
+    dispatch: dispatch,
     load: load,
   };
 };

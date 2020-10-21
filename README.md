@@ -1,16 +1,46 @@
 # VANILLA TODO
 
 A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and
-JavaScript (zero dependencies).
+JavaScript, with zero dependencies.
 It's fully animated and runs smoothly at 60 FPS.
 
 More importantly, it's also a
 **case study on viable techniques and patterns for vanilla web development.**
 
-[Try it online →](https://github.com/morris/vanilla-todo)
+**[Try it online →](https://github.com/morris/vanilla-todo)**
 
-_This document is a "live" case study, expected to evolve a bit over time.
+_This document presents a "live" case study, expected to evolve a bit over time.
 Intermediate understanding of the web platform is required to follow through._
+
+## Table of Contents
+
+- [1. Motivation](#1-motivation)
+- [2. Method](#2-method)
+  - [2.1. Subject](#21-subject)
+  - [2.2. Rules](#22-rules)
+  - [2.3. Goals](#23-goals)
+    - [2.3.1. User Experience](#231-user-experience)
+    - [2.3.2. Code Quality](#232-code-quality)
+    - [2.3.3. Generality of Patterns](#233-generality-of-patterns)
+- [3. Implementation](#3-implementation)
+  - [3.1. Basic Structure](#31-basic-structure)
+  - [3.2. JavaScript Architecture](#32-javascript-architecture)
+    - [3.2.1. Mount Function Pattern](#321-mount-function-pattern)
+    - [3.2.2. Data Flow](#322-data-flow)
+    - [3.2.3. Rendering](#323-rendering)
+    - [3.2.4. Reconciliation](#324-reconciliation)
+    - [3.2.5. Drag & Drop](#325-drag--drop)
+    - [3.2.6. Animations](#326-animations)
+- [4. Testing](#4-testing)
+- [5. Assessment](#5-assessment)
+  - [5.1. User Experience](#51-user-experience)
+  - [5.2. Code Quality](#52-code-quality)
+    - [5.2.1. The Good](#521-the-good)
+    - [5.2.2. The Verbose](#521-the-verbose)
+    - [5.2.3. The Bad](#521-the-bad)
+  - [5.3. Generality of Patterns](#53-generality-of-patterns)
+- [6. Conclusion](#6-conclusion)
+- [7. What's Next?](#7-whats-next)
 
 ## 1. Motivation
 
@@ -90,7 +120,7 @@ This includes testing major browsers and devices.
 The resulting implementation should adhere to
 established code quality standards in the industry.
 
-This will be hard to do objectively, as we will see later.
+This will be difficult to assess objectively, as we will see later.
 
 #### 2.3.3. Generality of Patterns
 
@@ -299,7 +329,7 @@ See for example:
 - [TodoItem.js](./public/scripts/TodoItem.js)
 - [TodoItemInput.js](./public/scripts/TodoItemInput.js)
 
-### 3.2.2. Data Flow
+#### 3.2.2. Data Flow
 
 I found it effective to implement one-way data flow similar to React's approach.
 
@@ -323,10 +353,10 @@ See for example:
 - [TodoDay.js](./public/scripts/TodoDay.js)
 - [TodoStore.js](./public/scripts/TodoStore.js)
 
-### 3.2.3. Rendering
+#### 3.2.3. Rendering
 
 Naively re-rendering a whole component using `.innerHTML` should be avoided,
-as this may hurt performance and may likely break important functionality such as
+as this may hurt performance and will likely break important functionality such as
 input state, focus, text selection etc. which browsers have already been
 optimizing for years.
 
@@ -355,7 +385,7 @@ See for example:
 
 Expectedly, the hardest part of the study was rendering a variable
 amount of dynamic components efficiently. Here's a commented example
-from the implementation:
+from the implementation outlining the algorithm:
 
 ```js
 /* global VT */
@@ -405,7 +435,7 @@ VT.TodoList = function (el) {
       container.removeChild(child);
     });
 
-    // insert new list of children (may reorder existing)
+    // insert new list of children (may reorder existing children)
     children.forEach(function (child, index) {
       if (child !== container.children[index]) {
         container.insertBefore(child, container.children[index]);
@@ -419,9 +449,9 @@ VT.TodoList = function (el) {
 };
 ```
 
-Very verbose and lots of opportunity to introduce bugs.
+It's very verbose and has lots of opportunity to introduce bugs.
 Compared with a simple loop in JSX, this seems insane.
-It is quite performant but otherwise clearly messy;
+It is quite performant as it does minimal work but is otherwise messy;
 definitely a candidate for a utility function or library.
 
 #### 3.2.5. Drag & Drop
@@ -432,7 +462,8 @@ especially regarding browser/device consistency.
 Using a library would have been a lot more cost-effective initially.
 However, having a customized implementation paid off once I started
 introducing animations, as both had to be coordinated closely.
-I can imagine this would have been a hassle when using third party code for either.
+I can imagine this would have been a difficult problem
+when using third party code for either.
 
 The drag & drop implementation is (again) based on DOM events and integrates
 well with the remaining architecture.
@@ -453,11 +484,12 @@ This is a cross-cutting concern which was implemented using the
 [FLIP](https://aerotwist.com/blog/flip-your-animations/) technique as devised
 by [Paul Lewis](https://twitter.com/aerotwist) (thanks!).
 
-Implementing FLIP animations without a large refactoring was the biggest challenge
-of this case study, especially in combination with drag & drop.
+Implementing FLIP animations without a large refactoring was the biggest
+challenge of this case study, especially in combination with drag & drop.
 After days of work I was able to implement the algorithm in isolation and
 coordinate it with other concerns at the application's root level.
-The `useCapture` mode of `addEventListener` proved to be very useful in this case.
+The `useCapture` mode of `addEventListener` was proven to be useful
+in this case.
 
 Reference:
 
@@ -468,15 +500,11 @@ Reference:
 
 TODO
 
-## 5. Evaluation
+## 5. Assessment
 
 ### 5.1. User Experience
 
 TODO
-
-- Great load performance
-- Great rendering performance
-- Works
 
 ### 5.2. Code Quality
 
@@ -492,17 +520,14 @@ and some of my own opinions based on my experience in the industry.
 #### 5.2.1. The Good
 
 - No build steps
-- No external dependencies at runtime
+- No external dependencies at runtime besides polyfills
 - Used only standard technologies:
   - Plain HTML, CSS and JavaScript
-  - DOM APIs, in particular:
-    - `querySelector` and `querySelectorAll`
-    - DOM Events (especially `CustomEvent`)
-    - Local Storage
-    - `requestAnimationFrame`
+  - Standard DOM APIs
 - Very few concepts introduced:
   - Mount functions (loosely mapped by CSS class names)
   - Component = Rigid Base HTML + Event Listeners + Idempotent Update Function
+  - Data flow using DOM events
 - Compare the proposed architecture to the API/conceptual surface of Angular or React...
 - Progressive developer experience
   - Markup, style, and behavior are orthogonal and can be developed separately.
@@ -516,16 +541,17 @@ and some of my own opinions based on my experience in the industry.
 
 #### 5.2.2. The Verbose
 
+- Stylesheets are a bit verbose. SCSS would help here.
 - Simple components require quite some boilerplate code.
-- SCSS would simplify stylesheets a lot.
-- ES6 would be very helpful.
+- ES5 is generally a lot more verbose than ES6.
   - Especially arrow functions, template literals,
     and async/await would make the code more readable.
+  - ES6 modules would eliminate the need for a global namespace.
 - `el.querySelectorAll(':scope ...')` is somewhat default/expected and
-  would justify a simplified helper.
+  would justify a helper.
 - Listening to and dispatching events is slightly verbose.
-- Although not used in this study, event delegation is not trivial to
-  implement without code duplication.
+- Although not used in this study,
+  event delegation is not trivial to implement without code duplication.
 
 #### 5.2.3. The Bad
 
@@ -534,9 +560,9 @@ and some of my own opinions based on my experience in the industry.
 - Reconciliation is verbose, brittle and repetitive.
   I wouldn't recommend the proposed technique
   without a well-tested helper function, at least.
-- JSX/virtual DOMs provide much better development ergonomics.
+- JSX/virtual DOM techniques provide much better development ergonomics.
 - You have to remember mounting behaviors correctly when
-  creating new elements. It would be nice to automate this somehow,
+  creating new elements. It would be helpful to automate this somehow,
   e.g. watch elements of selector X (at all times) and ensure the desired
   behaviors are mounted once on them.
 - No type safety. I've always been a proponent of dynamic languages
@@ -556,25 +582,22 @@ The underlying principles power the established frameworks, after all:
 - Rendering is idempotent and complete (React's pure `render` function).
 - One-way data flow (React)
 
-## Conclusion
+## 6. Conclusion
 
 The result of this study is a working todo application with decent UI/UX and
 most of the functionality of the original TeuxDeux app,
-built using only standard web technologies and with zero dependencies.
+built using only standard web technologies.
 Some extra features were introduced to demonstrate the implementation of
 cross-cutting concerns in the study's codebase.
 
 The codebase seems manageable through a handful of simple concepts,
 although it is quite verbose and even messy in some areas.
-
-Setting some constraints up-front forced me to challenge
-my assumptions and preconceptions about vanilla web development.
-It was quite liberating to avoid general-purpose utilities and
-get things done with what's readily available.
+This could be mitigated by a small number of helper functions and
+simple build steps (e.g. SCSS and TypeScript).
 
 The study's method helped discovering patterns and techniques that
 are at least on par with a framework-based approach for the given subject,
-without diverging into building a custom framework, except for
+without diverging into building a custom framework. except for
 rendering variable numbers of elements efficiently.
 Further research is needed in this area, but for now this appears to be
 a valid candidate for a (possibly external) general-purpose utility.
@@ -584,6 +607,11 @@ self-contained, highly decoupled, portable, and congruent to the web platform.
 The resulting implementation cannot "rust", by definition.
 
 ---
+
+Setting some constraints up-front forced me to challenge
+my assumptions and preconceptions about vanilla web development.
+It was quite liberating to avoid general-purpose utilities and
+get things done with what's readily available.
 
 As detailed in the discussion section,
 the study would likely be more convincing if build steps were allowed.
@@ -596,7 +624,7 @@ It was a constrained experiment designed to discover novel methods
 for vanilla web development and, hopefully,
 inspire innovation and further research in the area.
 
-## What's Next?
+## 7. What's Next?
 
 I'd love to hear feedback and ideas on any aspect of the case study.
 It's still lacking in some important areas, e.g. testing techniques.

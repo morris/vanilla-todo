@@ -12,6 +12,12 @@ module.exports = {
   },
   rules: {},
   settings: {
-    polyfills: ['Array.from', 'Set', 'Map', 'fetch', 'Object.assign'],
+    polyfills: [
+      'Set',
+      'Map',
+      'fetch',
+      'Object.assign',
+      'requestAnimationFrame',
+    ],
   },
 };

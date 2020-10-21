@@ -5,9 +5,8 @@ VT.TodoApp = function (el) {
   var state = {
     items: [],
     customLists: [],
-    date: VT.formatDateId(new Date()),
-    index: 0,
-    showLists: true,
+    at: VT.formatDateId(new Date()),
+    customAt: 0,
   };
 
   el.innerHTML = [
