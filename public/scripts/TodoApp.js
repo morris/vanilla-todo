@@ -12,6 +12,7 @@ VT.TodoApp = function (el) {
   el.innerHTML = [
     '<header class="app-header">',
     '  <h1 class="title">VANILLA TODO</h1>',
+    '  <p class="app-fps"></p>',
     '</header>',
     '<div class="todo-frame -days"></div>',
     '<div class="app-collapsible">',
@@ -39,6 +40,7 @@ VT.TodoApp = function (el) {
 
   el.querySelectorAll('.app-collapsible').forEach(VT.AppCollapsible);
   el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
+  el.querySelectorAll('.app-fps').forEach(VT.AppFps);
 
   VT.TodoFrameDays(el.querySelector('.todo-frame.-days'));
   VT.TodoFrameCustom(el.querySelector('.todo-frame.-custom'));

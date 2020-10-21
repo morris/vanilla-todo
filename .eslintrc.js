@@ -18,6 +18,7 @@ module.exports = {
       'fetch',
       'Object.assign',
       'requestAnimationFrame',
+      'performance.now',
     ],
   },
 };

@@ -497,7 +497,7 @@ Implementing FLIP animations without a large refactoring was the biggest
 challenge of this case study, especially in combination with drag & drop.
 After days of work I was able to implement the algorithm in isolation and
 coordinate it with other concerns at the application's root level.
-The `useCapture` mode of `addEventListener` was proven to be useful
+The `useCapture` mode of `addEventListener` proved to be very useful
 in this case.
 
 Reference:

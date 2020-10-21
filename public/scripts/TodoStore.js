@@ -168,6 +168,7 @@ VT.TodoStore = function (el) {
 
   function load() {
     if (!localStorage || !localStorage.todo) {
+      dispatch(state);
       return;
     }
 
