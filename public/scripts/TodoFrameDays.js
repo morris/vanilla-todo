@@ -58,11 +58,14 @@ VT.TodoFrameDays = function (el) {
 
     var container = el.querySelector('.container');
     var obsolete = new Set(container.children);
+    var childrenByKey = new Map();
+
+    obsolete.forEach(function (child) {
+      childrenByKey.set(child.getAttribute('data-key'), child);
+    });
 
     var children = days.map(function (day) {
-      var child = container.querySelector(
-        '.todo-day[data-key="' + day.id + '"]'
-      );
+      var child = childrenByKey.get(day.id);
 
       if (child) {
         obsolete.delete(child);

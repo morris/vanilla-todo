@@ -62,7 +62,7 @@ VT.TodoFrameCustom = function (el) {
   el.addEventListener('draggableOver', function (e) {
     if (!e.detail.data.list) return;
 
-    updateTranslation();
+    updatePositions();
   });
 
   el.todoFrameCustom = {
@@ -75,11 +75,14 @@ VT.TodoFrameCustom = function (el) {
     var lists = getLists();
     var container = el.querySelector('.container');
     var obsolete = new Set(container.children);
+    var childrenByKey = new Map();
+
+    obsolete.forEach(function (child) {
+      childrenByKey.set(child.getAttribute('data-key'), child);
+    });
 
     var children = lists.map(function (list) {
-      var child = container.querySelector(
-        '.todo-custom-list[data-key="' + list.id + '"]'
-      );
+      var child = childrenByKey.get(list.id);
 
       if (child) {
         obsolete.delete(child);
@@ -105,11 +108,11 @@ VT.TodoFrameCustom = function (el) {
       }
     });
 
-    updateTranslation();
+    updatePositions();
     updateHeight();
   }
 
-  function updateTranslation() {
+  function updatePositions() {
     el.querySelectorAll('.container > *').forEach(function (child, index) {
       child.style.transform = 'translateX(' + (index - state.at) * 100 + '%)';
     });

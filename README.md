@@ -236,6 +236,9 @@ MYAPP.HelloWorld = function (el) {
     update: update,
   };
 
+  // initial update
+  update();
+
   // define idempotent update function
   function update(next) {
     // update state
@@ -265,7 +268,7 @@ MYAPP.MyCounter = function (el) {
   // no ES6 template literals :(
   el.innerHTML = [
     '<p>',
-    '  <span class="counter"></span>',
+    '  <span class="value"></span>',
     '  <button class="increment">Increment</button>',
     '  <button class="decrement">Decrement</button>',
     '</p>',
@@ -407,15 +410,20 @@ VT.TodoList = function (el) {
     // mark current children for removal
     var obsolete = new Set(container.children);
 
+    // map current children by data-key
+    var childrenByKey = new Map();
+
+    obsolete.forEach(function (child) {
+      childrenByKey.set(child.getAttribute('data-key'), child);
+    });
+
     // build new list of child elements from data
     var children = state.items.map(function (item) {
-      // find existing child by key
-      var child = container.querySelector(
-        '.todo-item[data-key="' + item.id + '"]'
-      );
+      // find existing child by data-key
+      var child = childrenByKey.get(item.id);
 
       if (child) {
-        // if it exists, keep child
+        // if child exists, keep it
         obsolete.delete(child);
       } else {
         // otherwise, create new child

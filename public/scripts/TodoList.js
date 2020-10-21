@@ -31,10 +31,14 @@ VT.TodoList = function (el) {
 
     var container = el.querySelector('.items');
     var obsolete = new Set(container.children);
+    var childrenByKey = new Map();
+
+    obsolete.forEach(function (child) {
+      childrenByKey.set(child.getAttribute('data-key'), child);
+    });
+
     var children = state.items.map(function (item) {
-      var child = container.querySelector(
-        '.todo-item[data-key="' + item.id + '"]'
-      );
+      var child = childrenByKey.get(item.id);
 
       if (child) {
         obsolete.delete(child);
