@@ -8,7 +8,7 @@ with a total transferred size of roughly **30KB**.
 More importantly, it's also a
 **case study on viable techniques for vanilla web development.**
 
-**[Try it online →](https://rawcdn.githack.com/morris/vanilla-todo/f64deb0039a085fcf4fc535407f75ba04255a057/public/index.html)**
+**[Try it online →](https://rawcdn.githack.com/morris/vanilla-todo/b4ce72a87b83015b593d270aa7f31adbd7e13f98/public/index.html)**
 
 _This document presents a "live" case study, expected to evolve a bit over time.
 Intermediate understanding of the web platform is required to follow through._
