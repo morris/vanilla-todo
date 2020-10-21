@@ -5,7 +5,7 @@ JavaScript, with zero dependencies.
 It's fully animated and runs smoothly at 60 FPS.
 
 More importantly, it's also a
-**case study on viable techniques and patterns for vanilla web development.**
+**case study on viable techniques for vanilla web development.**
 
 **[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
@@ -513,7 +513,29 @@ TODO
 
 ### 5.1. User Experience
 
-TODO
+Most important features from the original TeuxDeux application are implemented
+and usable:
+
+- Daily to-do lists
+- Add/edit/delete to-do items
+- Custom to-do lists
+- Add/edit/delete custom to-do lists
+- Drag & drop to-do items across lists
+- Reorder custom to-do lists via drag & drop
+- Local Storage Persistence
+
+Additionally, most interactions are smoothly animated at 60 frames per second.
+In particular, drag & drop gives proper visual feedback when reordering elements
+(an improvement over the original application).
+
+One notable missing feature is Markdown support. It would be insensible
+to implement Markdown from scratch; this is a valid candidate for using
+an external library as it is entirely orthogonal to the remaining codebase.
+
+The application has been tested on latest Chrome, Firefox, and Safari.
+
+- TODO test devices
+- TODO measure load performance
 
 ### 5.2. Code Quality
 
@@ -523,8 +545,8 @@ The only generally accepted assessment seems to be peer reviewal
 which is only possible after publication.
 
 To have at least some degree of assessment of the code's quality,
-the following sections provide relevant, objective facts about the codebase
-and some of my own opinions based on my experience in the industry.
+the following sections summarize relevant facts about the codebase
+and some opinionated statements based on my experience in the industry.
 
 #### 5.2.1. The Good
 
