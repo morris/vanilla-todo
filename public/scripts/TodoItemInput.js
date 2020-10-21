@@ -39,6 +39,7 @@ VT.TodoItemInput = function (el) {
     );
 
     inputEl.value = '';
+    inputEl.focus();
   }
 
   function clear() {

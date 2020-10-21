@@ -499,6 +499,11 @@ It's clearly the most complex part of the study, but I was able to implement it
 without changing existing code besides mounting behaviors and
 adding event handlers.
 
+I suspect the drag & drop implementation to have some subtle problems on
+touch devices, as I haven't extensively tested them. Using a library for
+identifying the gestures could be more sensible and would reduce costs in
+testing browsers and devices.
+
 Reference:
 
 - [AppDraggable.js](./public/scripts/AppDraggable.js)
@@ -555,7 +560,8 @@ One notable missing feature is Markdown support. It would be insensible
 to implement Markdown from scratch; this is a valid candidate for using
 an external library as it is entirely orthogonal to the remaining codebase.
 
-The application has been tested on latest Chrome, Firefox, and Safari.
+The application has been tested on latest Chrome, Firefox, Safari,
+and Safari on iOS.
 
 The original TeuxDeux application transfers around 435 KB and finishes loading
 around 1000 ms, sometimes up to 2000ms (measured on 10/21 2020).
