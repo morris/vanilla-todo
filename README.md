@@ -14,13 +14,16 @@ Intermediate understanding of the web platform is required to follow through._
 
 ## TL;DR
 
-- The result has comparable or favorable UX, better load and rendering performance,
-  at a fraction of the code size and bandwidth.
-- Vanilla web development is viable at scale but comes with significant
-  verbosity and requires more effort in browser testing. The former may be
-  easily solved by simple build steps (SCSS, TypeScript).
+- By introducing a [few simple concepts](#3-implementation),
+  vanilla web development seems viable at scale but comes with significant
+  verbosity and effort in browser testing.
+  The former may be solved by simple build steps (SCSS, TypeScript).
+- The resulting product has comparable or favorable UX, better load and
+  rendering performance, at a fraction of the code size and bandwidth.
 - Frameworks and libraries provide lots of value but there's only a few
-  critical areas where a vanilla approach is clearly inferior.
+  [critical areas](#523-the-bad) where a vanilla approach is clearly inferior.
+- Case studies constrained by a set of well-defined [rules](#22-rules)
+  are an effective way to find new patterns and techniques in any domain.
 
 ## Table of Contents
 
