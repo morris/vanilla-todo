@@ -12,6 +12,16 @@ More importantly, it's also a
 _This document presents a "live" case study, expected to evolve a bit over time.
 Intermediate understanding of the web platform is required to follow through._
 
+## TL;DR
+
+- The result has comparable or favorable UX, better load and rendering performance,
+  at a fraction of the code size and bandwidth.
+- Vanilla web development is viable at scale but comes with significant
+  verbosity and requires more effort in browser testing. The former may be
+  easily solved by simple build steps (SCSS, TypeScript).
+- Frameworks and libraries provide lots of value but there's only a few
+  critical areas where a vanilla approach is clearly inferior.
+
 ## Table of Contents
 
 - [1. Motivation](#1-motivation)
@@ -522,11 +532,11 @@ and usable:
 - Add/edit/delete custom to-do lists
 - Drag & drop to-do items across lists
 - Reorder custom to-do lists via drag & drop
-- Local Storage Persistence
+- Local Storage persistence
 
 Additionally, most interactions are smoothly animated at 60 frames per second.
-In particular, drag & drop gives proper visual feedback when reordering elements
-(an improvement over the original application).
+In particular, dragging and dropping gives proper visual feedback
+when elements are reordered (an improvement over the original application).
 
 One notable missing feature is Markdown support. It would be insensible
 to implement Markdown from scratch; this is a valid candidate for using
@@ -599,6 +609,9 @@ and some opinionated statements based on my experience in the industry.
 - No type safety. I've always been a proponent of dynamic languages
   but since TypeScripts' type system provides the best of both worlds,
   I cannot recommend using it enough.
+- Most frameworks or libraries handle a lot of browser inconsistencies for free
+  and continuously test for regressions with extensive test suites.
+  The cost of browser testing is surely a lot higher when using a vanilla approach.
 
 ### 5.3. Generality of Patterns
 
