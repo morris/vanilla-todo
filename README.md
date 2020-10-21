@@ -7,7 +7,7 @@ It's fully animated and runs smoothly at 60 FPS.
 More importantly, it's also a
 **case study on viable techniques and patterns for vanilla web development.**
 
-**[Try it online →](https://github.com/morris/vanilla-todo)**
+**[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
 _This document presents a "live" case study, expected to evolve a bit over time.
 Intermediate understanding of the web platform is required to follow through._
@@ -25,19 +25,19 @@ Intermediate understanding of the web platform is required to follow through._
 - [3. Implementation](#3-implementation)
   - [3.1. Basic Structure](#31-basic-structure)
   - [3.2. JavaScript Architecture](#32-javascript-architecture)
-    - [3.2.1. Mount Function Pattern](#321-mount-function-pattern)
+    - [3.2.1. Mount Functions](#321-mount-functions)
     - [3.2.2. Data Flow](#322-data-flow)
     - [3.2.3. Rendering](#323-rendering)
     - [3.2.4. Reconciliation](#324-reconciliation)
-    - [3.2.5. Drag & Drop](#325-drag--drop)
-    - [3.2.6. Animations](#326-animations)
+  - [3.3. Drag & Drop](#33-drag--drop)
+  - [3.4. Animations](#34-animations)
 - [4. Testing](#4-testing)
 - [5. Assessment](#5-assessment)
   - [5.1. User Experience](#51-user-experience)
   - [5.2. Code Quality](#52-code-quality)
     - [5.2.1. The Good](#521-the-good)
-    - [5.2.2. The Verbose](#521-the-verbose)
-    - [5.2.3. The Bad](#521-the-bad)
+    - [5.2.2. The Verbose](#522-the-verbose)
+    - [5.2.3. The Bad](#523-the-bad)
   - [5.3. Generality of Patterns](#53-generality-of-patterns)
 - [6. Conclusion](#6-conclusion)
 - [7. What's Next?](#7-whats-next)
@@ -106,7 +106,7 @@ established and tested libraries/frameworks in the first place.
 
 ### 2.3. Goals
 
-The results are going to be assessed by two major concerns:
+The results are going to be assessed by three major concerns:
 
 #### 2.3.1. User Experience
 
@@ -137,7 +137,8 @@ and problems found during the process. You're encouraged to inspect the
 
 Since build steps are ruled out, the codebase is organized around
 plain HTML, CSS and JS files. The HTML and CSS mostly follows
-[rscss](https://rscss.io) which yields an intuitive, component-oriented structure.
+[rscss](https://rscss.io) (devised by [Rico Sta. Cruz](https://ricostacruz.com))
+which yields an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
 I missed [SCSS](https://sass-lang.com/) here,
@@ -192,13 +193,13 @@ with the DOM and styles:
 
 This proved to be a useful, repeatable pattern throughout all of the implementation process.
 
-#### 3.2.1. Mount Function Pattern
+#### 3.2.1. Mount Functions
 
 _Mount functions_ take a DOM element as their (only) argument.
 Their responsibility is to set up initial state, event listeners, and
 provide behavior and rendering for the target element.
 
-Here's a "Hello, World!" example of the mount function pattern:
+Here's a "Hello, World!" example of mount functions:
 
 ```js
 // safely initialize namespace
@@ -340,7 +341,7 @@ I found it effective to implement one-way data flow similar to React's approach.
   propagated downwards through `update` functions.
 
 The data store is factored into a separate mount function (`TodoStore`).
-It only receives and dispatches events and encapsulates any data manipulation.
+It only receives and dispatches events, and encapsulates any data manipulation.
 
 Listening to and dispatching events is slightly verbose with standard APIs and
 certainly justifies introducing helpers.
@@ -454,7 +455,7 @@ Compared with a simple loop in JSX, this seems insane.
 It is quite performant as it does minimal work but is otherwise messy;
 definitely a candidate for a utility function or library.
 
-#### 3.2.5. Drag & Drop
+### 3.3. Drag & Drop
 
 Implementing drag & drop from scratch was challenging,
 especially regarding browser/device consistency.
@@ -477,12 +478,12 @@ Reference:
 - [AppSortable.js](./public/scripts/AppSortable.js)
 - [TodoList.js](./public/scripts/TodoList.js)
 
-#### 3.2.6. Animations
+### 3.4. Animations
 
 For the final product I wanted smooth animations for most user interactions.
 This is a cross-cutting concern which was implemented using the
 [FLIP](https://aerotwist.com/blog/flip-your-animations/) technique as devised
-by [Paul Lewis](https://twitter.com/aerotwist) (thanks!).
+by [Paul Lewis](https://twitter.com/aerotwist).
 
 Implementing FLIP animations without a large refactoring was the biggest
 challenge of this case study, especially in combination with drag & drop.
