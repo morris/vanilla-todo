@@ -6,6 +6,10 @@
   background: #eee;
 }
 
+.app-collapsible > .bar > .app-button:active {
+  background: #fff;
+}
+
 .app-collapsible > .body {
   transition: height 0.2s ease-out;
   overflow: hidden;

@@ -119,7 +119,7 @@ VT.TodoFrameCustom = function (el) {
   }
 
   function updateHeight() {
-    var height = 400;
+    var height = 280;
     var container = el.querySelector('.container');
 
     var i, l;

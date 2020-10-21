@@ -96,7 +96,7 @@ VT.TodoFrameDays = function (el) {
   }
 
   function updateHeight() {
-    var height = 400;
+    var height = 280;
     var container = el.querySelector('.container');
 
     for (var i = 0, l = container.children.length; i < l; ++i) {

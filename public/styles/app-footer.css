@@ -5,6 +5,10 @@
   color: #999;
 }
 
+.app-footer a {
+  color: #999;
+}
+
 .app-footer > p {
   margin: 0;
 }

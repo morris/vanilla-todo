@@ -27,7 +27,7 @@ VT.TodoApp = function (el) {
     '  <p>',
     '    VANILLA TODO &copy 2020 <a href="https://morrisbrodersen.de">Morris Brodersen</a>',
     '    &mdash; A case study on viable techniques for vanilla web development.',
-    '    <a href="https://github.com/morris/vanilla-todo">About</a>',
+    '    <a href="https://github.com/morris/vanilla-todo">About →</a>',
     '  </p>',
     '</footer>',
   ].join('\n');
