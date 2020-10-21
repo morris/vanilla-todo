@@ -10,12 +10,10 @@ VT.TodoItemInput = function (el) {
   var inputEl = el.querySelector('.input');
   var saveEl = el.querySelector('.save');
 
+  VT.AppLateBlur(inputEl);
   el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
 
-  saveEl.addEventListener('click', save);
-  inputEl.addEventListener('keypress', handleKeypress);
-
-  function handleKeypress(e) {
+  inputEl.addEventListener('keypress', function (e) {
     switch (e.keyCode) {
       case 13: // enter
         save();
@@ -24,7 +22,14 @@ VT.TodoItemInput = function (el) {
         clear();
         break;
     }
-  }
+  });
+
+  inputEl.addEventListener('lateBlur', save);
+
+  saveEl.addEventListener('click', function () {
+    save();
+    inputEl.focus();
+  });
 
   function save() {
     var label = inputEl.value.trim();
@@ -39,7 +44,6 @@ VT.TodoItemInput = function (el) {
     );
 
     inputEl.value = '';
-    inputEl.focus();
   }
 
   function clear() {

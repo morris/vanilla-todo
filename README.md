@@ -738,3 +738,7 @@ Projects I've inspected for drag & drop architecture:
 - [React DnD](https://react-dnd.github.io)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [dragula](https://github.com/bevacqua/dragula)
+
+Other interesting articles:
+
+- [The case for vanilla front-end development (pushdata.io)](https://pushdata.io/blog/1)

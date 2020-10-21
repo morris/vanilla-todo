@@ -8,6 +8,7 @@ VT.AppDraggable = function (el, options) {
 
   var originX, originY;
   var clientX, clientY;
+  var startTime;
   var dragging = false;
   var clicked = false;
   var data;
@@ -40,13 +41,75 @@ VT.AppDraggable = function (el, options) {
   function start(e) {
     if (el.classList.contains('_nodrag')) return;
     if (e.type === 'mousedown' && e.button !== 0) return;
+    if (e.touches && e.touches.length > 1) return;
 
     e.preventDefault();
 
     var p = getPositionHost(e);
     clientX = originX = p.clientX || p.pageX;
     clientY = originY = p.clientY || p.pageY;
+    startTime = Date.now();
 
+    startListening();
+  }
+
+  function move(e) {
+    e.preventDefault();
+
+    var p = getPositionHost(e);
+    clientX = p.clientX || p.pageX;
+    clientY = p.clientY || p.pageY;
+
+    if (dragging) {
+      dispatchDrag();
+      dispatchTarget();
+      return;
+    }
+
+    var deltaX = clientX - originX;
+    var deltaY = clientY - originY;
+
+    if (Math.abs(deltaX) < dragThreshold && Math.abs(deltaY) < dragThreshold) {
+      return;
+    }
+
+    // prevent unintentional dragging on touch devices
+    if (e.touches && Date.now() - startTime < 50) {
+      stopListening();
+      return;
+    }
+
+    dragging = true;
+    data = {};
+
+    dispatchStart();
+    dispatchDrag();
+    dispatchTarget();
+    dispatchOverContinuously();
+  }
+
+  function end(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    if (!dragging) {
+      e.target.click();
+      clicked = true;
+    }
+
+    stopListening();
+
+    requestAnimationFrame(function () {
+      clicked = false;
+
+      if (dragging) {
+        dispatchTarget();
+        dispatchEnd();
+      }
+    });
+  }
+
+  function startListening() {
     if (window.navigator.pointerEnabled) {
       el.addEventListener('pointermove', move);
       el.addEventListener('pointerup', end);
@@ -61,61 +124,24 @@ VT.AppDraggable = function (el, options) {
     }
   }
 
-  function move(e) {
-    e.preventDefault();
-
-    var p = getPositionHost(e);
-    clientX = p.clientX || p.pageX;
-    clientY = p.clientY || p.pageY;
-
-    if (dragging) return;
-
-    var deltaX = clientX - originX;
-    var deltaY = clientY - originY;
-
-    if (Math.abs(deltaX) < dragThreshold && Math.abs(deltaY) < dragThreshold) {
-      return;
+  function stopListening() {
+    if (window.navigator.pointerEnabled) {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerup', end);
+    } else if (window.navigator.msPointerEnabled) {
+      el.removeEventListener('MSPointerMove', move);
+      el.removeEventListener('MSPointerUp', end);
+    } else {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', end);
+      el.removeEventListener('touchmove', move);
+      el.removeEventListener('touchend', end);
     }
-
-    dispatchStart();
-    dispatchLoop();
-    dispatchOver();
-  }
-
-  function end(e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-
-    if (!dragging) {
-      e.target.click();
-      clicked = true;
-    }
-
-    requestAnimationFrame(function () {
-      dragging = false;
-      clicked = false;
-
-      if (window.navigator.pointerEnabled) {
-        el.removeEventListener('pointermove', move);
-        el.removeEventListener('pointerup', end);
-      } else if (window.navigator.msPointerEnabled) {
-        el.removeEventListener('MSPointerMove', move);
-        el.removeEventListener('MSPointerUp', end);
-      } else {
-        window.removeEventListener('mousemove', move);
-        window.removeEventListener('mouseup', end);
-        el.removeEventListener('touchmove', move);
-        el.removeEventListener('touchend', end);
-      }
-    });
   }
 
   //
 
   function dispatchStart() {
-    dragging = true;
-    data = {};
-
     setImage(el);
 
     el.dispatchEvent(
@@ -124,17 +150,6 @@ VT.AppDraggable = function (el, options) {
         bubbles: true,
       })
     );
-  }
-
-  function dispatchLoop() {
-    dispatchDrag();
-    dispatchTarget();
-
-    if (dragging) {
-      requestAnimationFrame(dispatchLoop);
-    } else {
-      dispatchEnd();
-    }
   }
 
   function dispatchDrag() {
@@ -147,6 +162,8 @@ VT.AppDraggable = function (el, options) {
   }
 
   function dispatchTarget() {
+    if (!dragging) return;
+
     var nextTarget = getTarget();
 
     if (nextTarget === currentTarget) return;
@@ -174,6 +191,26 @@ VT.AppDraggable = function (el, options) {
     currentTarget = nextTarget;
   }
 
+  function dispatchOverContinuously() {
+    if (!dragging) return;
+
+    dispatchOver();
+    setTimeout(dispatchOver, 50);
+  }
+
+  function dispatchOver() {
+    if (currentTarget) {
+      currentTarget.dispatchEvent(
+        new CustomEvent('draggableOver', {
+          detail: buildDetail(),
+          bubbles: true,
+        })
+      );
+    }
+
+    setTimeout(dispatchOver, 50);
+  }
+
   function dispatchEnd() {
     if (currentTarget) {
       currentTarget.addEventListener('draggableDrop', cleanUpOnce);
@@ -191,21 +228,6 @@ VT.AppDraggable = function (el, options) {
         })
       );
     }
-  }
-
-  function dispatchOver() {
-    if (!dragging) return;
-
-    if (currentTarget) {
-      currentTarget.dispatchEvent(
-        new CustomEvent('draggableOver', {
-          detail: buildDetail(),
-          bubbles: true,
-        })
-      );
-    }
-
-    setTimeout(dispatchOver, 50);
   }
 
   //
