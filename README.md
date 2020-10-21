@@ -2,12 +2,13 @@
 
 A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and
 JavaScript, with zero dependencies.
-It's fully animated and runs smoothly at 60 FPS.
+It's fully animated and runs smoothly at 60 FPS,
+with a total transferred size of roughly **30KB**.
 
 More importantly, it's also a
 **case study on viable techniques for vanilla web development.**
 
-**[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
+**[Try it online →](https://rawcdn.githack.com/morris/vanilla-todo/f64deb0039a085fcf4fc535407f75ba04255a057/public/index.html)**
 
 _This document presents a "live" case study, expected to evolve a bit over time.
 Intermediate understanding of the web platform is required to follow through._
@@ -18,8 +19,8 @@ Intermediate understanding of the web platform is required to follow through._
   vanilla web development seems viable at scale but comes with significant
   verbosity and effort in browser testing.
   The former may be solved by simple build steps (SCSS, TypeScript).
-- The resulting product has comparable or favorable UX, better load and
-  rendering performance, at a fraction of the code size and bandwidth.
+- The resulting product has comparable or favorable UX over the original,
+  better load and rendering performance, at a fraction of the code size and bandwidth.
 - Frameworks and libraries provide lots of value but there's only a few
   [critical areas](#523-the-bad) where a vanilla approach is clearly inferior.
 - Case studies constrained by a set of well-defined [rules](#22-rules)
@@ -54,6 +55,7 @@ Intermediate understanding of the web platform is required to follow through._
   - [5.3. Generality of Patterns](#53-generality-of-patterns)
 - [6. Conclusion](#6-conclusion)
 - [7. What's Next?](#7-whats-next)
+- [8. Appendix](#8-appendix)
 
 ## 1. Motivation
 
@@ -160,6 +162,10 @@ and I think it's a must-have for bigger projects.
 ES6 modules are ruled out so all JavaScript lives under
 a global namespace (`VT`). This works everywhere but has some downsides
 e.g. cannot be statically analyzed and may miss code completion.
+
+Polyfills are directly fetched from [polyfill.io](https://polyfill.io/).
+I've set the `nomodule` script attribute so polyfills are only fetched
+for older browsers.
 
 Basic code quality (code style, linting) is enforced by [Prettier](https://prettier.io),
 [stylelint](https://stylelint.io) and [ESLint](https://eslint.org).
@@ -520,7 +526,7 @@ Reference:
 
 ## 4. Testing
 
-TODO
+_TODO_
 
 ## 5. Assessment
 
@@ -539,7 +545,11 @@ and usable:
 
 Additionally, most interactions are smoothly animated at 60 frames per second.
 In particular, dragging and dropping gives proper visual feedback
-when elements are reordered (an improvement over the original application).
+when elements are reordered.
+
+_The latter was an improvement over the original application when I started
+working on the case study some weeks ago. In the meantime, the TeuxDeux
+team released an update with a much better drag & drop experience. Good job!_
 
 One notable missing feature is Markdown support. It would be insensible
 to implement Markdown from scratch; this is a valid candidate for using
@@ -547,8 +557,14 @@ an external library as it is entirely orthogonal to the remaining codebase.
 
 The application has been tested on latest Chrome, Firefox, and Safari.
 
-- TODO test devices
-- TODO measure load performance
+The original TeuxDeux application transfers around 435 KB and finishes loading
+around 1000 ms, sometimes up to 2000ms (measured on 10/21 2020).
+
+With a transferred size of around 35 KB, the vanilla application consistently
+loads in 300-500 ms&mdash;not minified and with each script, stylesheet and icon
+served as an individual file.
+
+_TODO Run more formal performance tests and add figures for the results._
 
 ### 5.2. Code Quality
 
@@ -583,6 +599,12 @@ and some opinionated statements based on my experience in the industry.
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
 
+All source files (HTML, CSS and JS) combine to **under 2500 lines of code**,
+including comments and empty lines.
+
+For comparison, prettifying the original TeuxDeux's minified application bundle
+yields 48787 lines of code (10/21 2020).
+
 #### 5.2.2. The Verbose
 
 - Stylesheets are a bit verbose. SCSS would help here.
@@ -596,6 +618,9 @@ and some opinionated statements based on my experience in the industry.
 - Listening to and dispatching events is slightly verbose.
 - Although not used in this study,
   event delegation is not trivial to implement without code duplication.
+
+Eliminating verbosities through build steps and a minimal set of helpers
+would reduce the comparably low code size (see above) even further.
 
 #### 5.2.3. The Bad
 
@@ -612,9 +637,10 @@ and some opinionated statements based on my experience in the industry.
 - No type safety. I've always been a proponent of dynamic languages
   but since TypeScripts' type system provides the best of both worlds,
   I cannot recommend using it enough.
-- Most frameworks or libraries handle a lot of browser inconsistencies for free
-  and continuously test for regressions with extensive test suites.
-  The cost of browser testing is surely a lot higher when using a vanilla approach.
+- Most frameworks or libraries handle a lot of browser inconsistencies
+  and continuously test for regressions with extensive test suites **for free**.
+  The cost of browser testing is surely a lot higher
+  when using a vanilla approach.
 
 ### 5.3. Generality of Patterns
 
@@ -686,3 +712,23 @@ Here are a few ideas I'd like to see explored in the future:
 - Research validation rules for utility functions and external dependencies.
 - Experiment with architectures based on virtual DOM rendering and standard DOM events.
 - Compile discovered rules, patterns and techniques into a comprehensive guide.
+
+## 8. Appendix
+
+General resources I've used extensively:
+
+- [MDN Web Docs](https://developer.mozilla.org)
+- [Can I use...](https://caniuse.com)
+- [React](https://reactjs.org)
+
+Useful articles regarding FLIP animations:
+
+- [FLIP Your Animations (aerotwist.com)](https://aerotwist.com/blog/flip-your-animations)
+- [Animating Layouts with the FLIP Technique (css-tricks.com)](https://css-tricks.com/animating-layouts-with-the-flip-technique)
+- [Animating the Unanimatable (medium.com)](https://medium.com/developers-writing/animating-the-unanimatable-1346a5aab3cd)
+
+Projects I've inspected for drag & drop architecture:
+
+- [React DnD](https://react-dnd.github.io)
+- [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
+- [dragula](https://github.com/bevacqua/dragula)
