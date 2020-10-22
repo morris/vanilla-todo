@@ -13,7 +13,7 @@ VT.TodoCustomList = function (el) {
     '<div class="header">',
     '  <h3 class="title"></h3>',
     '  <p class="form">',
-    '    <input type="text" class="input">',
+    '    <input type="text" class="input use-focus-other">',
     '    <button class="app-button delete"><i class="app-icon" data-id="trashcan-16"></i></button>',
     '  </p>',
     '</div>',
@@ -46,6 +46,10 @@ VT.TodoCustomList = function (el) {
   inputEl.addEventListener('blur', function () {
     if (saveOnBlur) save();
     saveOnBlur = true;
+  });
+
+  inputEl.addEventListener('focusOther', function () {
+    if (state.editing) save();
   });
 
   inputEl.addEventListener('keyup', function (e) {

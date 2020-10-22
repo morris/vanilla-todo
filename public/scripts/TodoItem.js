@@ -15,7 +15,7 @@ VT.TodoItem = function (el) {
     '</div>',
     '<p class="label"></p>',
     '<p class="form">',
-    '  <input class="input" type="text">',
+    '  <input type="text" class="input use-focus-other">',
     '  <button class="app-button save"><i class="app-icon" data-id="check-16"></i></button>',
     '</p>',
   ].join('\n');
@@ -74,6 +74,10 @@ VT.TodoItem = function (el) {
     saveOnBlur = true;
   });
 
+  inputEl.addEventListener('focusOther', function () {
+    if (state.editing) save();
+  });
+
   saveEl.addEventListener('mousedown', function () {
     saveOnBlur = false;
   });
@@ -93,12 +97,18 @@ VT.TodoItem = function (el) {
     var label = inputEl.value.trim();
 
     if (label === '') {
-      el.dispatchEvent(
-        new CustomEvent('deleteItem', {
-          detail: state.item,
-          bubbles: true,
-        })
-      );
+      // deferred deletion prevents a bug at reconciliation in TodoList:
+      //   Failed to execute 'removeChild' on 'Node': The node to be removed is
+      //   no longer a child of this node. Perhaps it was moved in a 'blur'
+      //   event handler?
+      requestAnimationFrame(function () {
+        el.dispatchEvent(
+          new CustomEvent('deleteItem', {
+            detail: state.item,
+            bubbles: true,
+          })
+        );
+      });
 
       return;
     }

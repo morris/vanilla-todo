@@ -5,7 +5,7 @@ VT.TodoItemInput = function (el) {
   var saveOnBlur = true;
 
   el.innerHTML = [
-    '<input class="input" type="text">',
+    '<input type="text" class="input use-focus-other">',
     '<button class="app-button save"><i class="app-icon" data-id="plus-24"></i></button>',
   ].join('\n');
 
@@ -29,6 +29,8 @@ VT.TodoItemInput = function (el) {
     if (saveOnBlur) save();
     saveOnBlur = true;
   });
+
+  inputEl.addEventListener('focusOther', save);
 
   saveEl.addEventListener('mousedown', function () {
     saveOnBlur = false;

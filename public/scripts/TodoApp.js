@@ -71,6 +71,17 @@ VT.TodoApp = function (el) {
     e.detail.placeholder.classList.add('_noflip');
   });
 
+  // dispatch "focusOther" .use-focus-other inputs if they are not active
+  // ensures only one edit input is active
+  el.addEventListener('focusin', function (e) {
+    if (!e.target.classList.contains('use-focus-other')) return;
+
+    document.querySelectorAll('.use-focus-other').forEach(function (el) {
+      if (el === e.target) return;
+      el.dispatchEvent(new CustomEvent('focusOther'));
+    });
+  });
+
   // listen to the TodoStore's data
   // this is the main update
   // everything else is related to drag & drop or FLIP animations
