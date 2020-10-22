@@ -17,14 +17,8 @@ VT.AppDraggable = function (el, options) {
   var imageX, imageY;
   var currentTarget;
 
-  if (window.navigator.pointerEnabled) {
-    el.addEventListener('pointerdown', start);
-  } else if (window.navigator.msPointerEnabled) {
-    el.addEventListener('MSPointerDown', start);
-  } else {
-    el.addEventListener('mousedown', start);
-    el.addEventListener('touchstart', start);
-  }
+  el.addEventListener('touchstart', start);
+  el.addEventListener('mousedown', start);
 
   // maybe prevent click
   el.addEventListener(
@@ -90,7 +84,6 @@ VT.AppDraggable = function (el, options) {
 
   function end(e) {
     e.preventDefault();
-    e.stopImmediatePropagation();
 
     if (!dragging) {
       e.target.click();
@@ -110,33 +103,17 @@ VT.AppDraggable = function (el, options) {
   }
 
   function startListening() {
-    if (window.navigator.pointerEnabled) {
-      el.addEventListener('pointermove', move);
-      el.addEventListener('pointerup', end);
-    } else if (window.navigator.msPointerEnabled) {
-      el.addEventListener('MSPointerMove', move);
-      el.addEventListener('MSPointerUp', end);
-    } else {
-      window.addEventListener('mousemove', move);
-      window.addEventListener('mouseup', end);
-      el.addEventListener('touchmove', move);
-      el.addEventListener('touchend', end);
-    }
+    el.addEventListener('touchmove', move);
+    el.addEventListener('touchend', end);
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
   }
 
   function stopListening() {
-    if (window.navigator.pointerEnabled) {
-      el.removeEventListener('pointermove', move);
-      el.removeEventListener('pointerup', end);
-    } else if (window.navigator.msPointerEnabled) {
-      el.removeEventListener('MSPointerMove', move);
-      el.removeEventListener('MSPointerUp', end);
-    } else {
-      window.removeEventListener('mousemove', move);
-      window.removeEventListener('mouseup', end);
-      el.removeEventListener('touchmove', move);
-      el.removeEventListener('touchend', end);
-    }
+    el.removeEventListener('touchmove', move);
+    el.removeEventListener('touchend', end);
+    window.removeEventListener('mousemove', move);
+    window.removeEventListener('mouseup', end);
   }
 
   //

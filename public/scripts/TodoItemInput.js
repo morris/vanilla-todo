@@ -2,6 +2,8 @@
 window.VT = window.VT || {};
 
 VT.TodoItemInput = function (el) {
+  var saveOnBlur = true;
+
   el.innerHTML = [
     '<input class="input" type="text">',
     '<button class="app-button save"><i class="app-icon" data-id="plus-24"></i></button>',
@@ -10,10 +12,9 @@ VT.TodoItemInput = function (el) {
   var inputEl = el.querySelector('.input');
   var saveEl = el.querySelector('.save');
 
-  VT.AppLateBlur(inputEl);
   el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
 
-  inputEl.addEventListener('keypress', function (e) {
+  inputEl.addEventListener('keyup', function (e) {
     switch (e.keyCode) {
       case 13: // enter
         save();
@@ -24,7 +25,14 @@ VT.TodoItemInput = function (el) {
     }
   });
 
-  inputEl.addEventListener('lateBlur', save);
+  inputEl.addEventListener('blur', function () {
+    if (saveOnBlur) save();
+    saveOnBlur = true;
+  });
+
+  saveEl.addEventListener('mousedown', function () {
+    saveOnBlur = false;
+  });
 
   saveEl.addEventListener('click', function () {
     save();

@@ -6,7 +6,8 @@ VT.TodoItem = function (el) {
     item: null,
     editing: false,
   };
-  var focus = false;
+  var startEditing = false;
+  var saveOnBlur = true;
 
   el.innerHTML = [
     '<div class="checkbox">',
@@ -19,17 +20,28 @@ VT.TodoItem = function (el) {
     '</p>',
   ].join('\n');
 
-  var inputEl = el.querySelector('.input');
+  var checkboxEl = el.querySelector('.checkbox');
   var labelEl = el.querySelector('.label');
+  var inputEl = el.querySelector('.input');
+  var saveEl = el.querySelector('.save');
 
   VT.AppDraggable(el, {
     dropSelector: '.todo-list > .items',
   });
-  VT.AppLateBlur(inputEl);
 
   el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
 
-  el.querySelector('.checkbox').addEventListener('click', function () {
+  checkboxEl.addEventListener('touchstart', function () {
+    saveOnBlur = false;
+  });
+
+  checkboxEl.addEventListener('mousedown', function () {
+    saveOnBlur = false;
+  });
+
+  checkboxEl.addEventListener('click', function () {
+    if (state.editing) save();
+
     el.dispatchEvent(
       new CustomEvent('checkItem', {
         detail: {
@@ -42,22 +54,31 @@ VT.TodoItem = function (el) {
   });
 
   labelEl.addEventListener('click', function () {
-    focus = true;
+    startEditing = true;
     update({ editing: true });
   });
 
-  el.querySelector('.save').addEventListener('click', function () {
-    save();
+  inputEl.addEventListener('keyup', function (e) {
+    switch (e.keyCode) {
+      case 13: // enter
+        save();
+        break;
+      case 27: // escape
+        cancelEdit();
+        break;
+    }
   });
 
-  inputEl.addEventListener('keypress', function (e) {
-    if (e.keyCode === 13) save();
+  inputEl.addEventListener('blur', function () {
+    if (saveOnBlur) save();
+    saveOnBlur = true;
   });
 
-  inputEl.addEventListener('lateBlur', function () {
-    save();
-    update({ editing: false });
+  saveEl.addEventListener('mousedown', function () {
+    saveOnBlur = false;
   });
+
+  saveEl.addEventListener('click', save);
 
   el.addEventListener('draggableStart', function (e) {
     e.detail.data.item = state.item;
@@ -95,21 +116,27 @@ VT.TodoItem = function (el) {
     update({ editing: false });
   }
 
+  function cancelEdit() {
+    saveOnBlur = false;
+    update({ editing: false });
+  }
+
   function update(next) {
     // TODO optimize
     Object.assign(state, next);
 
     el.classList.toggle('-done', state.item.done);
-    el.querySelector('.checkbox > input').checked = state.item.done;
+    checkboxEl.querySelector('input').checked = state.item.done;
     labelEl.innerText = state.item.label;
-    inputEl.value = state.item.label;
+
     el.classList.toggle('-editing', state.editing);
     el.classList.toggle('_nodrag', state.editing);
 
-    if (state.editing && focus) {
-      el.querySelector('.input').focus();
-      el.querySelector('.input').select();
-      focus = false;
+    if (state.editing && startEditing) {
+      inputEl.value = state.item.label;
+      inputEl.focus();
+      inputEl.select();
+      startEditing = false;
     }
   }
 };

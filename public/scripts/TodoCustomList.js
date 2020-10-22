@@ -6,7 +6,8 @@ VT.TodoCustomList = function (el) {
     list: null,
     editing: false,
   };
-  var focus = false;
+  var startEditing = false;
+  var saveOnBlur = true;
 
   el.innerHTML = [
     '<div class="header">',
@@ -26,31 +27,35 @@ VT.TodoCustomList = function (el) {
   VT.AppDraggable(titleEl, {
     dropSelector: '.todo-frame.-custom .container',
   });
-  VT.AppLateBlur(inputEl);
   VT.TodoList(el.querySelector('.todo-list'));
   el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
 
   titleEl.addEventListener('click', function () {
-    focus = true;
+    startEditing = true;
     update({ editing: true });
   });
 
-  inputEl.addEventListener('input', function () {
-    el.dispatchEvent(
-      new CustomEvent('saveList', {
-        detail: { list: state.list, title: inputEl.value.trim() },
-        bubbles: true,
-      })
-    );
+  deleteEl.addEventListener('touchstart', function () {
+    saveOnBlur = false;
   });
 
-  inputEl.addEventListener('lateBlur', function () {
-    update({ editing: false });
+  deleteEl.addEventListener('mousedown', function () {
+    saveOnBlur = false;
   });
 
-  inputEl.addEventListener('keypress', function (e) {
-    if (e.keyCode === 13) {
-      update({ editing: false });
+  inputEl.addEventListener('blur', function () {
+    if (saveOnBlur) save();
+    saveOnBlur = true;
+  });
+
+  inputEl.addEventListener('keyup', function (e) {
+    switch (e.keyCode) {
+      case 13: // enter
+        save();
+        break;
+      case 27: // escape
+        cancelEdit();
+        break;
     }
   });
 
@@ -103,11 +108,26 @@ VT.TodoCustomList = function (el) {
     update: update,
   };
 
+  function save() {
+    el.dispatchEvent(
+      new CustomEvent('saveList', {
+        detail: { list: state.list, title: inputEl.value.trim() },
+        bubbles: true,
+      })
+    );
+    update({ editing: false });
+  }
+
+  function cancelEdit() {
+    saveOnBlur = false;
+    update({ editing: false });
+  }
+
   function update(next) {
     Object.assign(state, next);
 
     titleEl.innerText = state.list.title || '...';
-    inputEl.value = state.list.title;
+
     el.querySelector('.todo-list').todoList.update({ items: state.list.items });
     el.querySelector('.todo-list > .todo-item-input').setAttribute(
       'data-key',
@@ -116,10 +136,11 @@ VT.TodoCustomList = function (el) {
 
     el.classList.toggle('-editing', state.editing);
 
-    if (state.editing && focus) {
+    if (state.editing && startEditing) {
+      inputEl.value = state.list.title;
       inputEl.focus();
       inputEl.select();
-      focus = false;
+      startEditing = false;
     }
   }
 };
