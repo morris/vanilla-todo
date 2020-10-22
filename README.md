@@ -3,7 +3,7 @@
 A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and
 JavaScript, with zero dependencies.
 It's fully animated and runs smoothly at 60 FPS,
-with a total transferred size of roughly **30KB**.
+with a total transferred size of roughly **35KB**.
 
 More importantly, it's also a
 **case study on viable techniques for vanilla web development.**
@@ -168,8 +168,9 @@ Polyfills are directly fetched from [polyfill.io](https://polyfill.io/).
 I've set the `nomodule` script attribute so polyfills are only fetched
 for older browsers.
 
-Basic code quality (code style, linting) is enforced by [Prettier](https://prettier.io),
-[stylelint](https://stylelint.io) and [ESLint](https://eslint.org).
+Basic code quality (code style, linting) is guided by
+[Prettier](https://prettier.io), [stylelint](https://stylelint.io) and
+[ESLint](https://eslint.org).
 I've set the ESLint parser to ES5 to ensure only ES5 code is allowed.
 
 Note that I've opted out of web components completely.
@@ -382,8 +383,8 @@ Reference:
 #### 3.2.3. Rendering
 
 Naively re-rendering a whole component using `.innerHTML` should be avoided,
-as this may hurt performance and will likely break important functionality such as
-input state, focus, text selection etc. which browsers have already been
+as this may hurt performance and will likely break important functionality such
+as input state, focus, text selection etc. which browsers have already been
 optimizing for years.
 
 As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
@@ -573,12 +574,18 @@ and Safari on iOS.
 
 _TODO test more browsers and devices._
 
-The original TeuxDeux application transfers around 435 KB and finishes loading
-around 1000 ms, sometimes up to 2000ms (measured on 10/21 2020).
+A fresh load of the original TeuxDeux application transfers around **435 KB** and
+finishes loading around **1000 ms**, sometimes up to 2000ms
+(measured on 10/21 2020).
+Reloads finish at around **500ms**.
 
-With a transferred size of around 35 KB, the vanilla application consistently
-loads in 300-500 ms&mdash;not minified and with each script, stylesheet and icon
-served as an individual file.
+With a transferred size of around **35 KB**, the vanilla application consistently
+loads in **300-500 ms**&mdash;not minified and with each script, stylesheet and icon
+served as an individual file. Reloads finish at **100-200ms**; again, not
+optimized at all (with e.g. asset hashing/indefinite caching).
+
+_To be fair, my implementation misses quite a few features from the original.
+I suspect a fully equivalent clone to be well below 100 KB transfer, though._
 
 _TODO Run more formal performance tests and add figures for the results._
 
@@ -601,8 +608,9 @@ and some opinionated statements based on my experience in the industry.
   - Standard DOM APIs
 - Very few concepts introduced:
   - Mount functions (loosely mapped by CSS class names)
-  - Component = Rigid Base HTML + Event Listeners + Idempotent Update Function
-  - Data flow using DOM events
+  - State separate from DOM
+  - Idempotent updates
+  - Data flow using custom events
 - Compare the proposed architecture to the API/conceptual surface of Angular or React...
 - Progressive developer experience
   - Markup, style, and behavior are orthogonal and can be developed separately.
@@ -617,8 +625,11 @@ and some opinionated statements based on my experience in the industry.
 All source files (HTML, CSS and JS) combine to **under 2500 lines of code**,
 including comments and empty lines.
 
-For comparison, prettifying the original TeuxDeux's minified application bundle
-yields 48787 lines of code (10/21 2020).
+For comparison, prettifying the original TeuxDeux's minified JS application
+bundle yields **48787 LOC** (10/21 2020).
+
+_To be fair, my implementation misses quite a few features from the original.
+I suspect a fully equivalent clone to be well below 10000 LOC, though._
 
 #### 5.2.2. The Verbose
 
@@ -659,9 +670,9 @@ would reduce the comparably low code size (see above) even further.
 
 ---
 
-Besides the downsides described above, I believe the codebase is well organized
+Besides the issues described above, I believe the codebase is well organized
 and there are clear paths for bugfixes and feature development.
-Since there's no third party code bugs are easy to find and fix,
+Since there's no third party code, bugs are easy to find and fix,
 and there are no dependency limitations to work around.
 
 A certain degree of DOM API knowledge is required but I believe this
@@ -670,11 +681,10 @@ should be a goal for any web developer.
 ### 5.3. Generality of Patterns
 
 Assessing the generality of the discovered techniques objectively is
-not really possible without production usage.
-
-From my experience, however, I can't imagine any
-scenario where mount functions, event-based data flow etc. are not applicable.
-The underlying principles power the established frameworks, after all:
+not really possible without production usage. From my experience, however,
+I can't imagine any scenario where mount functions, event-based data flow etc.
+are not applicable. The underlying principles power the established frameworks,
+after all:
 
 - State is separated from the DOM (React, Angular, Vue).
 - Rendering is idempotent and complete (React's pure `render` function).
@@ -711,7 +721,7 @@ my assumptions and preconceptions about vanilla web development.
 It was quite liberating to avoid general-purpose utilities and
 get things done with what's readily available.
 
-As detailed in the discussion section,
+As detailed in the assessment,
 the study would likely be more convincing if build steps were allowed.
 Modern JavaScript and SCSS could reduce most of
 the unnecessarily verbose parts to a minimum.
