@@ -19,8 +19,9 @@ Intermediate understanding of the web platform is required to follow through._
   vanilla web development seems viable at scale but comes with significant
   verbosity and effort in browser testing.
   The former may be solved by simple build steps (SCSS, TypeScript).
-- The resulting product has comparable or favorable UX over the original,
-  better load and rendering performance, at a fraction of the code size and bandwidth.
+- At a fraction of the code size and bandwidth, the resulting product has
+  [comparable UX](#51-user-experience) over the original and better load and
+  rendering performance.
 - Frameworks and libraries provide lots of value but there's only a few
   [critical areas](#523-the-bad) where a vanilla approach is clearly inferior.
 - Case studies constrained by a set of well-defined [rules](#22-rules)
@@ -210,7 +211,8 @@ with the DOM and styles:
 ...
 ```
 
-This proved to be a useful, repeatable pattern throughout all of the implementation process.
+This proved to be a useful, repeatable pattern throughout all of the
+implementation process.
 
 #### 3.2.1. Mount Functions
 
@@ -341,14 +343,15 @@ Note that any part of a mount function is entirely optional.
 For example, a mount function does not have to set any base HTML,
 and may instead only set event listeners to enable some behavior.
 
-Also note that an element can be mounted with multiple functions.
-For example, to-do items are mounted with
-`VT.TodoItem`, `VT.AppDraggable` and `VT.AppLateBlur`
+Also note that an element can be mounted with multiple mount functions.
+For example, to-do items are mounted with `VT.TodoItem` and `VT.AppDraggable`.
 
-See for example:
+Compared to React components, mount functions provide superior flexibility as
+components and behaviors can be implemented using the same idiom.
+
+Reference:
 
 - [AppIcon.js](./public/scripts/AppIcon.js)
-- [AppLateBlur.js](./public/scripts/AppLateBlur.js)
 - [TodoItem.js](./public/scripts/TodoItem.js)
 - [TodoItemInput.js](./public/scripts/TodoItemInput.js)
 
@@ -362,16 +365,16 @@ I found it effective to implement one-way data flow similar to React's approach.
   usually resulting in some parent component state change which is in turn
   propagated downwards through `update` functions.
 
-The data store is factored into a separate mount function (`TodoStore`).
+The data store is factored into a separate mount function (`VT.TodoStore`).
 It only receives and dispatches events, and encapsulates any data manipulation.
 
 Listening to and dispatching events is slightly verbose with standard APIs and
 certainly justifies introducing helpers.
 I didn't need event delegation à la jQuery for this study
-but I believe it's a useful concept that is likely hard to do
+but I believe it's a useful concept that is difficult to do
 properly with standard APIs.
 
-See for example:
+Reference:
 
 - [TodoDay.js](./public/scripts/TodoDay.js)
 - [TodoStore.js](./public/scripts/TodoStore.js)
@@ -383,8 +386,9 @@ as this may hurt performance and will likely break important functionality such 
 input state, focus, text selection etc. which browsers have already been
 optimizing for years.
 
-As seen in 3.2.1., rendering is therefore split between setting a rigid base HTML
-and an idempotent, complete update function which only makes necessary changes.
+As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
+some rigid base HTML and an idempotent, complete update function which only
+makes necessary changes.
 
 - **Idempotency** is key here, i.e. update functions may be called at any time
   and should always render the component correctly.
@@ -394,12 +398,12 @@ and an idempotent, complete update function which only makes necessary changes.
 In effect, this means almost all DOM manipulation is done in update functions,
 which greatly contributes to robustness and readability of the codebase.
 
-As seen above, this approach is quite verbose and ugly compared to JSX, for example.
-However, it's very performant and can be further optimized
+As seen above, this approach is quite verbose and ugly compared to JSX, for
+example. However, it's very performant and can be further optimized
 by checking for data changes, caching selectors, etc.
-It is also easy to understand.
+It is also simple to understand.
 
-See for example:
+Reference:
 
 - [TodoItem.js](./public/scripts/TodoItem.js)
 - [TodoCustomList.js](./public/scripts/TodoCustomList.js)
@@ -408,7 +412,7 @@ See for example:
 
 Expectedly, the hardest part of the study was rendering a variable
 amount of dynamic components efficiently. Here's a commented example
-from the implementation outlining the algorithm:
+from the implementation outlining the reconciliation algorithm:
 
 ```js
 /* global VT */
@@ -448,7 +452,11 @@ VT.TodoList = function (el) {
         // otherwise, create new child
         child = document.createElement('div');
         child.classList.add('todo-item');
+
+        // set data-key
         child.setAttribute('data-key', item.id);
+
+        // mount component function
         VT.TodoItem(child);
       }
 
@@ -463,7 +471,7 @@ VT.TodoList = function (el) {
       container.removeChild(child);
     });
 
-    // insert new list of children (may reorder existing children)
+    // (re-)insert new list of children (may reorder existing children)
     children.forEach(function (child, index) {
       if (child !== container.children[index]) {
         container.insertBefore(child, container.children[index]);
@@ -554,7 +562,7 @@ when elements are reordered.
 
 _The latter was an improvement over the original application when I started
 working on the case study some weeks ago. In the meantime, the TeuxDeux
-team released an update with a much better drag & drop experience. Good job!_
+team released an update with a much better drag & drop experience. Great job!_
 
 One notable missing feature is Markdown support. It would be insensible
 to implement Markdown from scratch; this is a valid candidate for using
@@ -562,6 +570,8 @@ an external library as it is entirely orthogonal to the remaining codebase.
 
 The application has been tested on latest Chrome, Firefox, Safari,
 and Safari on iOS.
+
+_TODO test more browsers and devices._
 
 The original TeuxDeux application transfers around 435 KB and finishes loading
 around 1000 ms, sometimes up to 2000ms (measured on 10/21 2020).
@@ -576,8 +586,7 @@ _TODO Run more formal performance tests and add figures for the results._
 
 Unfortunately, it is quite hard to find undisputed, objective measurements
 for code quality (besides trivialities like code style, linting, etc.).
-The only generally accepted assessment seems to be peer reviewal
-which is only possible after publication.
+The only generally accepted assessment seems to be peer reviewal.
 
 To have at least some degree of assessment of the code's quality,
 the following sections summarize relevant facts about the codebase
@@ -643,10 +652,20 @@ would reduce the comparably low code size (see above) even further.
 - No type safety. I've always been a proponent of dynamic languages
   but since TypeScripts' type system provides the best of both worlds,
   I cannot recommend using it enough.
-- Most frameworks or libraries handle a lot of browser inconsistencies
-  and continuously test for regressions with extensive test suites **for free**.
+- Most frameworks handle a lot of browser inconsistencies **for free** and
+  continuously test for regressions with extensive test suites.
   The cost of browser testing is surely a lot higher
   when using a vanilla approach.
+
+---
+
+Besides the downsides described above, I believe the codebase is well organized
+and there are clear paths for bugfixes and feature development.
+Since there's no third party code bugs are easy to find and fix,
+and there are no dependency limitations to work around.
+
+A certain degree of DOM API knowledge is required but I believe this
+should be a goal for any web developer.
 
 ### 5.3. Generality of Patterns
 
@@ -738,7 +757,3 @@ Projects I've inspected for drag & drop architecture:
 - [React DnD](https://react-dnd.github.io)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [dragula](https://github.com/bevacqua/dragula)
-
-Other interesting articles:
-
-- [The case for vanilla front-end development (pushdata.io)](https://pushdata.io/blog/1)
