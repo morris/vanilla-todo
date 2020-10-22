@@ -74,7 +74,8 @@ We're missing thorough examples of complex web applications
 built only with standard web technologies, covering as many aspects of
 the development process as possible.
 
-This case study is an attempt to fill this gap, at least a little bit.
+This case study is an attempt to fill this gap, at least a little bit,
+and inspire further research in the area.
 
 ## 2. Method
 
@@ -347,7 +348,7 @@ and may instead only set event listeners to enable some behavior.
 Also note that an element can be mounted with multiple mount functions.
 For example, to-do items are mounted with `VT.TodoItem` and `VT.AppDraggable`.
 
-Compared to React components, mount functions provide superior flexibility as
+Compared to React components, mount functions provide interesting flexibility as
 components and behaviors can be implemented using the same idiom.
 
 Reference:
@@ -366,14 +367,14 @@ I found it effective to implement one-way data flow similar to React's approach.
   usually resulting in some parent component state change which is in turn
   propagated downwards through `update` functions.
 
-The data store is factored into a separate mount function (`VT.TodoStore`).
-It only receives and dispatches events, and encapsulates any data manipulation.
+The data store is factored into a separate behavior (`VT.TodoStore`).
+It only receives and dispatches events, and encapsulates all of the data logic.
 
 Listening to and dispatching events is slightly verbose with standard APIs and
 certainly justifies introducing helpers.
 I didn't need event delegation à la jQuery for this study
 but I believe it's a useful concept that is difficult to do
-properly with standard APIs.
+concisely with standard APIs.
 
 Reference:
 
@@ -487,7 +488,7 @@ VT.TodoList = function (el) {
 ```
 
 It's very verbose and has lots of opportunity to introduce bugs.
-Compared with a simple loop in JSX, this seems insane.
+Compared to a simple loop in JSX, this seems insane.
 It is quite performant as it does minimal work but is otherwise messy;
 definitely a candidate for a utility function or library.
 
@@ -608,7 +609,7 @@ and some opinionated statements based on my experience in the industry.
   - Standard DOM APIs
 - Very few concepts introduced:
   - Mount functions (loosely mapped by CSS class names)
-  - State separate from DOM
+  - State separated from the DOM
   - Idempotent updates
   - Data flow using custom events
 - Compare the proposed architecture to the API/conceptual surface of Angular or React...
@@ -663,8 +664,10 @@ would reduce the comparably low code size (see above) even further.
 - No type safety. I've always been a proponent of dynamic languages
   but since TypeScripts' type system provides the best of both worlds,
   I cannot recommend using it enough.
+- We're effectively locked out of using NPM dependencies that don't provide
+  browser builds as we cannot use CommonJS or ES6 modules.
 - Most frameworks handle a lot of browser inconsistencies **for free** and
-  continuously test for regressions with extensive test suites.
+  continuously monitor regressions with extensive test suites.
   The cost of browser testing is surely a lot higher
   when using a vanilla approach.
 
@@ -695,8 +698,8 @@ after all:
 The result of this study is a working todo application with decent UI/UX and
 most of the functionality of the original TeuxDeux app,
 built using only standard web technologies.
-Some extra features were introduced to demonstrate the implementation of
-cross-cutting concerns in the study's codebase.
+It comes with better overall performance
+at a fraction of the code size and bandwidth.
 
 The codebase seems manageable through a handful of simple concepts,
 although it is quite verbose and even messy in some areas.
@@ -705,14 +708,18 @@ simple build steps (e.g. SCSS and TypeScript).
 
 The study's method helped discovering patterns and techniques that
 are at least on par with a framework-based approach for the given subject,
-without diverging into building a custom framework. except for
+without diverging into building a custom framework&mdash;except for
 rendering variable numbers of elements efficiently.
 Further research is needed in this area, but for now this appears to be
 a valid candidate for a (possibly external) general-purpose utility.
 
-When looking at the downsides, remember that all of the individual parts are
+When looking at the downsides remember that all of the individual parts are
 self-contained, highly decoupled, portable, and congruent to the web platform.
 The resulting implementation cannot "rust", by definition.
+
+Another thought be taken with a grain of salt: I believe frameworks
+make simple tasks even simpler but hard tasks (e.g. implementing cross-cutting
+concerns or performance optimizations) often more difficult.
 
 ---
 
@@ -726,8 +733,8 @@ the study would likely be more convincing if build steps were allowed.
 Modern JavaScript and SCSS could reduce most of
 the unnecessarily verbose parts to a minimum.
 
-Finally, this case study does not question
-using dependencies or frameworks in general.
+Finally, this case study does not question using dependencies or frameworks
+in general&mdash;they do provide lots of value in many areas.
 It was a constrained experiment designed to discover novel methods
 for vanilla web development and, hopefully,
 inspire innovation and further research in the area.
@@ -752,9 +759,9 @@ Here are a few ideas I'd like to see explored in the future:
 
 General resources I've used extensively:
 
-- [MDN Web Docs](https://developer.mozilla.org)
-- [Can I use...](https://caniuse.com)
-- [React](https://reactjs.org)
+- [MDN Web Docs](https://developer.mozilla.org) as a reference for DOM APIs
+- [Can I use...](https://caniuse.com) as a reference for browser support
+- [React](https://reactjs.org) as inspiration for the architecture
 
 Useful articles regarding FLIP animations:
 
