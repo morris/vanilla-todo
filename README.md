@@ -159,8 +159,8 @@ plain HTML, CSS and JS files. The HTML and CSS mostly follows
 which yields an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
-I missed [SCSS](https://sass-lang.com/) here,
-and I think it's a must-have for bigger projects.
+I missed [SCSS](https://sass-lang.com/) or [LESS](http://lesscss.org/) here
+and I think one of these is a must-have for bigger projects.
 
 ES6 modules are ruled out so all JavaScript lives under
 a global namespace (`VT`). This works everywhere but has some downsides
