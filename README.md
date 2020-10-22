@@ -8,7 +8,7 @@ with a total transferred size of roughly **35KB**.
 More importantly, it's also a
 **case study on viable techniques for vanilla web development.**
 
-**[Try it online →](https://rawcdn.githack.com/morris/vanilla-todo/b4ce72a87b83015b593d270aa7f31adbd7e13f98/public/index.html)**
+**[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
 _This document presents a "live" case study, expected to evolve a bit over time.
 Intermediate understanding of the web platform is required to follow through._
@@ -20,12 +20,13 @@ Intermediate understanding of the web platform is required to follow through._
   verbosity and effort in browser testing.
   The former may be solved by simple build steps (SCSS, TypeScript).
 - At a fraction of the code size and bandwidth, the resulting product has
-  [comparable UX](#51-user-experience) over the original and better load and
+  [comparable UX](#51-user-experience) over the original and much better load and
   rendering performance.
-- Frameworks and libraries provide lots of value but there's only a few
+- Frameworks and libraries provide lots of value but there are only a few
   [critical areas](#523-the-bad) where a vanilla approach is clearly inferior.
-- Case studies constrained by a set of well-defined [rules](#22-rules)
-  are an effective way to find new patterns and techniques in any domain.
+- Case studies constrained by a set of formal [rules](#22-rules)
+  are an effective way to find new patterns and techniques
+  in a wide range of domains.
 
 ## Table of Contents
 
@@ -70,7 +71,7 @@ It's also rather harmful to write an article
 saying you don't need library X, and then proceed in describing how
 to roll your own untested, inferior version of X.
 
-We're missing thorough examples of complex web applications
+What's missing are thorough examples of complex web applications
 built only with standard web technologies, covering as many aspects of
 the development process as possible.
 
@@ -189,7 +190,7 @@ It is otherwise straight-forward and trivial to understand
 
 ### 3.2. JavaScript Architecture
 
-Naturally, the JS architecture is the most interesting part of this study.
+Naturally, the JavaScript architecture is the most interesting part of this study.
 
 I found that using a combination of functions,
 query selectors and DOM events is sufficient
@@ -255,6 +256,7 @@ MYAPP.HelloWorld = function (el) {
   });
 
   // expose public interface
+  // use lower-case function name
   el.helloWorld = {
     update: update,
   };
@@ -321,6 +323,7 @@ MYAPP.MyCounter = function (el) {
   });
 
   // expose public interface
+  // use lower-case function name
   el.myCounter = {
     update: update,
   };
@@ -349,7 +352,8 @@ Also note that an element can be mounted with multiple mount functions.
 For example, to-do items are mounted with `VT.TodoItem` and `VT.AppDraggable`.
 
 Compared to React components, mount functions provide interesting flexibility as
-components and behaviors can be implemented using the same idiom.
+components and behaviors can be implemented using the same idiom and combined
+arbitrarily.
 
 Reference:
 
@@ -383,10 +387,10 @@ Reference:
 
 #### 3.2.3. Rendering
 
-Naively re-rendering a whole component using `.innerHTML` should be avoided,
+Naively re-rendering a whole component using `.innerHTML` should be avoided
 as this may hurt performance and will likely break important functionality such
 as input state, focus, text selection etc. which browsers have already been
-optimizing for years.
+optimizing for decades.
 
 As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
 some rigid base HTML and an idempotent, complete update function which only
@@ -400,7 +404,7 @@ makes necessary changes.
 In effect, this means almost all DOM manipulation is done in update functions,
 which greatly contributes to robustness and readability of the codebase.
 
-As seen above, this approach is quite verbose and ugly compared to JSX, for
+As seen above this approach is quite verbose and ugly compared to JSX, for
 example. However, it's very performant and can be further optimized
 by checking for data changes, caching selectors, etc.
 It is also simple to understand.
@@ -458,7 +462,7 @@ VT.TodoList = function (el) {
         // set data-key
         child.setAttribute('data-key', item.id);
 
-        // mount component function
+        // mount component
         VT.TodoItem(child);
       }
 
@@ -473,7 +477,7 @@ VT.TodoList = function (el) {
       container.removeChild(child);
     });
 
-    // (re-)insert new list of children (may reorder existing children)
+    // (re-)insert new list of children
     children.forEach(function (child, index) {
       if (child !== container.children[index]) {
         container.insertBefore(child, container.children[index]);
@@ -499,13 +503,13 @@ especially regarding browser/device consistency.
 
 Using a library would have been a lot more cost-effective initially.
 However, having a customized implementation paid off once I started
-introducing animations, as both had to be coordinated closely.
+introducing animations as both had to be coordinated closely.
 I can imagine this would have been a difficult problem
 when using third party code for either.
 
 The drag & drop implementation is (again) based on DOM events and integrates
 well with the remaining architecture.
-It's clearly the most complex part of the study, but I was able to implement it
+It's clearly the most complex part of the study but I was able to implement it
 without changing existing code besides mounting behaviors and
 adding event handlers.
 
@@ -573,10 +577,10 @@ an external library as it is entirely orthogonal to the remaining codebase.
 The application has been tested on latest Chrome, Firefox, Safari,
 and Safari on iOS.
 
-_TODO test more browsers and devices._
+_TODO Test more browsers and devices._
 
 A fresh load of the original TeuxDeux application transfers around **435 KB** and
-finishes loading around **1000 ms**, sometimes up to 2000ms
+finishes loading at around **1000 ms**, sometimes up to 2000ms
 (measured on 10/21 2020).
 Reloads finish at around **500ms**.
 
@@ -636,6 +640,7 @@ I suspect a fully equivalent clone to be well below 10000 LOC, though._
 
 - Stylesheets are a bit verbose. SCSS would help here.
 - Simple components require quite some boilerplate code.
+- Writing HTML templates as an array of lines is ugly (and sub-optimal).
 - ES5 is generally a lot more verbose than ES6.
   - Especially arrow functions, template literals,
     and async/await would make the code more readable.
@@ -653,10 +658,10 @@ would reduce the comparably low code size (see above) even further.
 
 - The separation between base HTML and dynamic rendering is not ideal
   when compared to JSX, for example.
+- JSX/virtual DOM techniques provide much better development ergonomics.
 - Reconciliation is verbose, brittle and repetitive.
   I wouldn't recommend the proposed technique
   without a well-tested helper function, at least.
-- JSX/virtual DOM techniques provide much better development ergonomics.
 - You have to remember mounting behaviors correctly when
   creating new elements. It would be helpful to automate this somehow,
   e.g. watch elements of selector X (at all times) and ensure the desired
@@ -708,17 +713,20 @@ simple build steps (e.g. SCSS and TypeScript).
 
 The study's method helped discovering patterns and techniques that
 are at least on par with a framework-based approach for the given subject,
-without diverging into building a custom framework&mdash;except for
-rendering variable numbers of elements efficiently.
+without diverging into building a custom framework.
+
+A notable exception to the latter is rendering variable numbers of elements
+in a concise way. I was unable to eliminate the verbosity involved
+in basic but efficient reconciliation.
 Further research is needed in this area, but for now this appears to be
 a valid candidate for a (possibly external) general-purpose utility.
 
-When looking at the downsides remember that all of the individual parts are
+When looking at the downsides, remember that all of the individual parts are
 self-contained, highly decoupled, portable, and congruent to the web platform.
 The resulting implementation cannot "rust", by definition.
 
-Another thought be taken with a grain of salt: I believe frameworks
-make simple tasks even simpler but hard tasks (e.g. implementing cross-cutting
+Another thought to be taken with a grain of salt: I believe frameworks
+make simple tasks even simpler, but hard tasks (e.g. implementing cross-cutting
 concerns or performance optimizations) often more difficult.
 
 ---
