@@ -4,6 +4,8 @@ A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and JavaScript
 (no build steps). It's fully animated and runs smoothly at 60 FPS
 with a total transfer size of **44KB** (unminified).
 
+**[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
+
 More importantly, it's a case study showing that **vanilla web development** is
 viable in terms of [maintainability](#521-the-good),
 and worthwhile in terms of [user experience](#51-user-experience)
@@ -19,8 +21,6 @@ If anything, the case study validates the value of build steps and frameworks,
 but also demonstrates that standard web technologies can be used effectively and
 there are only a few [critical areas](#523-the-bad) where a vanilla approach is
 clearly inferior (especially in browser testing).
-
-**[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
 _Intermediate understanding of the web platform is required to follow through._
 
