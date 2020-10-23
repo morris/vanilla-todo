@@ -580,7 +580,7 @@ finishes loading at around **1000 ms**, sometimes up to 2000ms
 (measured on 10/21 2020).
 Reloads finish at around **500ms**.
 
-With a transferred size of around **35 KB**, the vanilla application consistently
+With a transferred size of around **44 KB**, the vanilla application consistently
 loads in **300-500 ms**&mdash;not minified and with each script, stylesheet and icon
 served as an individual file. Reloads finish at **100-200ms**; again, not
 optimized at all (with e.g. asset hashing/indefinite caching).
