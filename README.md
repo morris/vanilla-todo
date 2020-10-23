@@ -1,32 +1,28 @@
 # VANILLA TODO
 
-A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and
-JavaScript, with zero dependencies.
-It's fully animated and runs smoothly at 60 FPS,
-with a total transferred size of roughly **35KB**.
+A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and JavaScript
+(no build steps). It's fully animated and runs smoothly at 60 FPS
+with a total transfer size of **44KB** (unminified).
 
-More importantly, it's also a
-**case study on viable techniques for vanilla web development.**
+More importantly, it's a case study showing that **vanilla web development** is
+viable in terms of [maintainability](#521-the-good),
+and worthwhile in terms of [user experience](#51-user-experience)
+(**100%** faster loads and **90%** less bandwidth in this case).
+
+**There's no custom framework invented here.**
+Instead, the case study was [designed](#22-rules) to discover
+minimum viable [patterns](#321-mount-functions) that are truly vanilla.
+The result is maintainable, albeit [verbose](#522-the-verbose) and with
+considerable duplication (most of which is mitigated by ES6).
+
+If anything, the case study validates the value of build steps and frameworks,
+but also demonstrates that standard web technologies can be used effectively and
+there are only a few [critical areas](#523-the-bad) where a vanilla approach is
+clearly inferior (especially in browser testing).
 
 **[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
-_This document presents a "live" case study, expected to evolve a bit over time.
-Intermediate understanding of the web platform is required to follow through._
-
-## TL;DR
-
-- By introducing a [few simple concepts](#3-implementation),
-  vanilla web development seems viable at scale but comes with significant
-  verbosity and effort in browser testing.
-  The former may be solved by simple build steps (SCSS, TypeScript).
-- At a fraction of the code size and bandwidth, the resulting product has
-  [comparable UX](#51-user-experience) over the original and much better load and
-  rendering performance.
-- Frameworks and libraries provide lots of value but there are only a few
-  [critical areas](#523-the-bad) where a vanilla approach is clearly inferior.
-- Case studies constrained by a set of formal [rules](#22-rules)
-  are an effective way to find new patterns and techniques
-  in a wide range of domains.
+_Intermediate understanding of the web platform is required to follow through._
 
 ## Table of Contents
 
@@ -608,6 +604,8 @@ and some opinionated statements based on my experience in the industry.
 
 - No build steps
 - No external dependencies at runtime besides polyfills
+  - No dependency maintenance
+  - No breaking changes to monitor
 - Used only standard technologies:
   - Plain HTML, CSS and JavaScript
   - Standard DOM APIs
@@ -723,7 +721,8 @@ a valid candidate for a (possibly external) general-purpose utility.
 
 When looking at the downsides, remember that all of the individual parts are
 self-contained, highly decoupled, portable, and congruent to the web platform.
-The resulting implementation cannot "rust", by definition.
+The resulting implementation cannot "rust", by definition, as no dependencies
+can become out of date.
 
 Another thought to be taken with a grain of salt: I believe frameworks
 make simple tasks even simpler, but hard tasks (e.g. implementing cross-cutting
@@ -762,6 +761,10 @@ Here are a few ideas I'd like to see explored in the future:
 - Research validation rules for utility functions and external dependencies.
 - Experiment with architectures based on virtual DOM rendering and standard DOM events.
 - Compile discovered rules, patterns and techniques into a comprehensive guide.
+
+Case studies constrained by a set of formal rules are an effective way to find
+new patterns and techniques in a wide range of domains.
+I'd love to see similar experiments in the future.
 
 ## 8. Appendix
 
