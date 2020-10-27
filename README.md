@@ -536,8 +536,8 @@ in this case.
 
 Reference:
 
-- [AppFlip.js](./public/scripts/AppDraggable.js)
-- [TodoApp.js](./public/scripts/AppSortable.js)
+- [AppFlip.js](./public/scripts/AppFlip.js)
+- [TodoApp.js](./public/scripts/TodoApp.js)
 
 ## 4. Testing
 
