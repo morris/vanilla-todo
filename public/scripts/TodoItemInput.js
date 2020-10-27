@@ -46,14 +46,14 @@ VT.TodoItemInput = function (el) {
 
     if (label === '') return;
 
+    inputEl.value = '';
+
     el.dispatchEvent(
       new CustomEvent('addItem', {
-        detail: { label: inputEl.value },
+        detail: { label: label },
         bubbles: true,
       })
     );
-
-    inputEl.value = '';
   }
 
   function clear() {
