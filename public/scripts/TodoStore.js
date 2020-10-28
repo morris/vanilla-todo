@@ -131,7 +131,7 @@ VT.TodoStore = function (el) {
   });
 
   el.addEventListener('seek', function (e) {
-    var t = new Date(state.at);
+    var t = new Date(state.at + ' 00:00:00');
     t.setDate(t.getDate() + e.detail);
 
     dispatch({
