@@ -107,7 +107,7 @@ VT.AppSortable = function (el, options) {
     for (var i = 0, l = el.children.length; i < l; ++i) {
       var child = el.children[i];
 
-      if (child && child.getAttribute('data-key') === key) {
+      if (child && child.dataset.key === key) {
         el.removeChild(child);
       }
     }

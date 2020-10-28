@@ -3,7 +3,7 @@ window.VT = window.VT || {};
 
 VT.TodoDay = function (el) {
   var state = {
-    dateId: el.getAttribute('data-key'),
+    dateId: el.dataset.key,
     items: [],
   };
 

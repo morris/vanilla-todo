@@ -46,7 +46,7 @@ VT.AppFlip = function (el, options) {
     var map = new Map();
 
     el.querySelectorAll(options.selector).forEach(function (el) {
-      var key = el.getAttribute('data-key') || el;
+      var key = el.dataset.key || el;
 
       // parse original transform
       // i.e. strip inverse transform using "scale(1)" marker
@@ -73,7 +73,7 @@ VT.AppFlip = function (el, options) {
       var current = entry.el.parentNode;
 
       while (current && current !== el) {
-        var ancestor = map.get(current.getAttribute('data-key') || current);
+        var ancestor = map.get(current.dataset.key || current);
 
         if (ancestor) {
           entry.ancestor = ancestor;

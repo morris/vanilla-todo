@@ -78,7 +78,7 @@ VT.TodoFrameCustom = function (el) {
     var childrenByKey = new Map();
 
     obsolete.forEach(function (child) {
-      childrenByKey.set(child.getAttribute('data-key'), child);
+      childrenByKey.set(child.dataset.key, child);
     });
 
     var children = lists.map(function (list) {
@@ -89,7 +89,7 @@ VT.TodoFrameCustom = function (el) {
       } else {
         child = document.createElement('div');
         child.className = 'card todo-custom-list';
-        child.setAttribute('data-key', list.id);
+        child.dataset.key = list.id;
         VT.TodoCustomList(child);
       }
 
