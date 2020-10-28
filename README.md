@@ -54,6 +54,7 @@ _Intermediate understanding of the web platform is required to follow through._
 - [6. Conclusion](#6-conclusion)
 - [7. What's Next?](#7-whats-next)
 - [8. Appendix](#8-appendix)
+- [9. Changelog](#9-changelog)
 
 ## 1. Motivation
 
@@ -91,6 +92,10 @@ I've chosen to build a functionally equivalent clone of
 [TeuxDeux](https://teuxdeux.com) for this study.
 The user interface has interesting challenges,
 in particular performant drag & drop when combined with animations.
+
+_The original TeuxDeux app deserves praise here. In my opinion it has the
+best over-all concept and UX of all the to-do apps out there.
+[Thank you!](https://fictivekin.com/)_
 
 The user interface is arguably small (which is good for a case study)
 but large enough to require thought on its architecture.
@@ -785,3 +790,16 @@ Projects I've inspected for drag & drop architecture:
 - [React DnD](https://react-dnd.github.io)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [dragula](https://github.com/bevacqua/dragula)
+
+## 9. Changelog
+
+### 10/2020
+
+- Fixed [#3](https://github.com/morris/vanilla-todo/issues/3) (navigation bug) &mdash;
+  [@anchepiece](https://github.com/anchepiece),
+  [@jcoussard](https://github.com/jcoussard)
+- Fixed [#4](https://github.com/morris/vanilla-todo/issues/4) (double item creation) &mdash;
+  [@n0nick](https://github.com/n0nick)
+- Fixed [#1](https://github.com/morris/vanilla-todo/issues/4) (bad links) &mdash;
+  [@roryokane](https://github.com/roryokane)
+- Initial version.
