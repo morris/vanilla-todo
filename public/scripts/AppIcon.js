@@ -4,7 +4,7 @@ window.VT = window.VT || {};
 VT.AppIcon = function (el) {
   if (el.children.length > 0) return;
 
-  var id = el.getAttribute('data-id');
+  var id = el.dataset.id;
   var promise = VT.AppIcon.cache[id];
 
   if (!promise) {

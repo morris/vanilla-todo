@@ -34,7 +34,7 @@ VT.TodoList = function (el) {
     var childrenByKey = new Map();
 
     obsolete.forEach(function (child) {
-      childrenByKey.set(child.getAttribute('data-key'), child);
+      childrenByKey.set(child.dataset.key, child);
     });
 
     var children = state.items.map(function (item) {
@@ -45,7 +45,7 @@ VT.TodoList = function (el) {
       } else {
         child = document.createElement('div');
         child.classList.add('todo-item');
-        child.setAttribute('data-key', item.id);
+        child.dataset.key = item.id;
         VT.TodoItem(child);
       }
 

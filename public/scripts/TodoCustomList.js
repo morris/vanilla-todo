@@ -133,10 +133,8 @@ VT.TodoCustomList = function (el) {
     titleEl.innerText = state.list.title || '...';
 
     el.querySelector('.todo-list').todoList.update({ items: state.list.items });
-    el.querySelector('.todo-list > .todo-item-input').setAttribute(
-      'data-key',
-      'todo-item-input-' + state.list.id
-    );
+    el.querySelector('.todo-list > .todo-item-input').dataset.key =
+      'todo-item-input' + state.list.id;
 
     el.classList.toggle('-editing', state.editing);
 

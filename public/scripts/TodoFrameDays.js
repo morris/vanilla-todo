@@ -61,7 +61,7 @@ VT.TodoFrameDays = function (el) {
     var childrenByKey = new Map();
 
     obsolete.forEach(function (child) {
-      childrenByKey.set(child.getAttribute('data-key'), child);
+      childrenByKey.set(child.dataset.key, child);
     });
 
     var children = days.map(function (day) {
@@ -72,7 +72,7 @@ VT.TodoFrameDays = function (el) {
       } else {
         child = document.createElement('div');
         child.className = 'card todo-day';
-        child.setAttribute('data-key', day.id);
+        child.dataset.key = day.id;
         VT.TodoDay(child);
       }
 
