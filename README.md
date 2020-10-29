@@ -795,6 +795,8 @@ Projects I've inspected for drag & drop architecture:
 
 ### 10/2020
 
+- Refactored for `dataset` [#2](https://github.com/morris/vanilla-todo/issues/2) &mdash;
+  [@opethrocks](https://github.com/opethrocks)
 - Fixed [#3](https://github.com/morris/vanilla-todo/issues/3) (navigation bug) &mdash;
   [@anchepiece](https://github.com/anchepiece),
   [@jcoussard](https://github.com/jcoussard)
