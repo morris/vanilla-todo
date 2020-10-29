@@ -15,7 +15,7 @@ and worthwhile in terms of [user experience](#51-user-experience)
 Instead, the case study was [designed](#22-rules) to discover
 minimum viable [patterns](#321-mount-functions) that are truly vanilla.
 The result is maintainable, albeit [verbose](#522-the-verbose) and with
-considerable duplication (most of which may be mitigated by ES6).
+considerable duplication.
 
 If anything, the case study validates the value of build steps and frameworks,
 but also demonstrates that standard web technologies can be used effectively and
