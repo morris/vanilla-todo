@@ -787,7 +787,7 @@ Useful articles regarding FLIP animations:
 
 Projects I've inspected for drag & drop architecture:
 
-- [React DnD](https://react-dnd.github.io)
+- [React DnD](https://github.com/react-dnd/react-dnd/)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [dragula](https://github.com/bevacqua/dragula)
 
