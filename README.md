@@ -54,6 +54,8 @@ _Intermediate understanding of the web platform is required to follow through._
 - [6. Conclusion](#6-conclusion)
 - [7. What's Next?](#7-whats-next)
 - [8. Appendix](#8-appendix)
+  - [8.1. Links](#81-links)
+  - [8.2. Response](#82-response)
 - [9. Changelog](#9-changelog)
 
 ## 1. Motivation
@@ -773,6 +775,8 @@ I'd love to see similar experiments in the future.
 
 ## 8. Appendix
 
+### 8.1. Links
+
 General resources I've used extensively:
 
 - [MDN Web Docs](https://developer.mozilla.org) as a reference for DOM APIs
@@ -791,7 +795,23 @@ Projects I've inspected for drag & drop architecture:
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [dragula](https://github.com/bevacqua/dragula)
 
+### 8.2. Response
+
+#### 10/2020
+
+- Trending on [Hacker News](https://news.ycombinator.com/item?id=24893247)
+- [Lobsters](https://lobste.rs/s/5gcrxh/case_study_on_vanilla_web_development)
+- [@desandro (Twitter)](https://twitter.com/desandro/status/1321095247091433473)
+  (developer for the original TeuxDeux)
+- [Reddit](https://www.reddit.com/r/javascript/comments/jj10k9/vanillatodo_a_case_study_on_viable_techniques_for/)
+
+Thanks!
+
 ## 9. Changelog
+
+### 01/2021
+
+- Add [response section](#82-response)
 
 ### 10/2020
 
