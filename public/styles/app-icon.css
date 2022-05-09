@@ -8,7 +8,7 @@
   width: 1em;
   height: 1em;
   vertical-align: bottom;
-  fill: currentColor;
+  fill: currentcolor;
   transition: transform 0.1s ease-out;
 }
 

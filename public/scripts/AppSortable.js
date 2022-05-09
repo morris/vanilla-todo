@@ -1,34 +1,29 @@
-/* global VT */
-window.VT = window.VT || {};
+export function AppSortable(el, options) {
+  let placeholder;
+  let placeholderSource;
+  const horizontal = options.direction === 'horizontal';
+  let currentIndex = -1;
 
-VT.AppSortable = function (el, options) {
-  var placeholder;
-  var placeholderSource;
-  var horizontal = options.direction === 'horizontal';
-  var currentIndex = -1;
+  el.addEventListener('draggableStart', (e) =>
+    e.detail.image.addEventListener('draggableCancel', cleanUp)
+  );
 
-  el.addEventListener('draggableStart', function (e) {
-    e.detail.image.addEventListener('draggableCancel', cleanUp);
-  });
+  el.addEventListener('draggableOver', (e) =>
+    maybeDispatchUpdate(calculateIndex(e.detail.image), e)
+  );
 
-  el.addEventListener('draggableOver', function (e) {
-    maybeDispatchUpdate(calculateIndex(e.detail.image), e);
-  });
+  el.addEventListener('draggableLeave', (e) => maybeDispatchUpdate(-1, e));
 
-  el.addEventListener('draggableLeave', function (e) {
-    maybeDispatchUpdate(-1, e);
-  });
-
-  el.addEventListener('draggableDrop', function (e) {
+  el.addEventListener('draggableDrop', (e) =>
     el.dispatchEvent(
       new CustomEvent('sortableDrop', {
         detail: buildDetail(e),
         bubbles: true,
       })
-    );
-  });
+    )
+  );
 
-  el.addEventListener('sortableUpdate', function (e) {
+  el.addEventListener('sortableUpdate', (e) => {
     if (!placeholder) {
       e.detail.setPlaceholder(e.detail.originalEvent.detail.imageSource);
     }
@@ -65,11 +60,11 @@ VT.AppSortable = function (el, options) {
   }
 
   function buildDetail(e) {
-    var detail = {
+    const detail = {
       data: e.detail.data,
       index: currentIndex,
-      placeholder: placeholder,
-      setPlaceholder: function (source) {
+      placeholder,
+      setPlaceholder: (source) => {
         setPlaceholder(source);
         detail.placeholder = placeholder;
       },
@@ -98,14 +93,12 @@ VT.AppSortable = function (el, options) {
   }
 
   function removePlaceholder() {
-    if (placeholder && placeholder.parentNode) {
-      placeholder.parentNode.removeChild(placeholder);
-    }
+    placeholder?.parentNode?.removeChild(placeholder);
   }
 
   function removeByKey(key) {
-    for (var i = 0, l = el.children.length; i < l; ++i) {
-      var child = el.children[i];
+    for (let i = 0, l = el.children.length; i < l; ++i) {
+      const child = el.children[i];
 
       if (child && child.dataset.key === key) {
         el.removeChild(child);
@@ -116,12 +109,12 @@ VT.AppSortable = function (el, options) {
   function calculateIndex(image) {
     if (el.children.length === 0) return 0;
 
-    var isBefore = horizontal ? isLeft : isAbove;
-    var rect = image.getBoundingClientRect();
-    var p = 0;
+    const isBefore = horizontal ? isLeft : isAbove;
+    const rect = image.getBoundingClientRect();
+    let p = 0;
 
-    for (var i = 0, l = el.children.length; i < l; ++i) {
-      var child = el.children[i];
+    for (let i = 0, l = el.children.length; i < l; ++i) {
+      const child = el.children[i];
 
       if (isBefore(rect, child.getBoundingClientRect())) return i - p;
       if (child === placeholder) p = 1;
@@ -143,4 +136,4 @@ VT.AppSortable = function (el, options) {
       rectB.left + (rectB.right - rectB.left) / 2
     );
   }
-};
+}

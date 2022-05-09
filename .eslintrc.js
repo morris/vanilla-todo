@@ -1,24 +1,19 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:compat/recommended'],
-  globals: {
-    Set: 'readonly',
-    Map: 'readonly',
-  },
+  extends: 'eslint:recommended',
   env: {
     browser: true,
+    es2020: true,
   },
   parserOptions: {
-    ecmaVersion: 5,
+    ecmaVersion: 2020,
+    sourceType: 'module',
   },
-  rules: {},
-  settings: {
-    polyfills: [
-      'Set',
-      'Map',
-      'fetch',
-      'Object.assign',
-      'requestAnimationFrame',
-      'performance.now',
-    ],
+  rules: {
+    'object-shorthand': 'error',
+    'prefer-arrow-callback': 'error',
+    'arrow-body-style': ['error', 'as-needed'],
+    'no-var': 'error',
+    'prefer-template': 'error',
+    'no-console': 'error',
   },
 };

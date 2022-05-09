@@ -52,8 +52,8 @@
 }
 
 .todo-custom-list.-dragging {
-  box-shadow: 10px 0 12px -14px rgba(0, 0, 0, 0.3),
-    -10px 0 12px -14px rgba(0, 0, 0, 0.3);
+  box-shadow: 10px 0 12px -14px rgba(0, 0, 0, 30%),
+    -10px 0 12px -14px rgba(0, 0, 0, 30%);
   background: #fff;
   opacity: 0.8;
 }

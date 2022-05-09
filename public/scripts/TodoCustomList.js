@@ -1,58 +1,59 @@
-/* global VT */
-window.VT = window.VT || {};
+import { AppDraggable } from './AppDraggable.js';
+import { AppIcon } from './AppIcon.js';
+import { TodoList } from './TodoList.js';
 
-VT.TodoCustomList = function (el) {
-  var state = {
+export function TodoCustomList(el) {
+  const state = {
     list: null,
     editing: false,
   };
-  var startEditing = false;
-  var saveOnBlur = true;
+  let startEditing = false;
+  let saveOnBlur = true;
 
-  el.innerHTML = [
-    '<div class="header">',
-    '  <h3 class="title"></h3>',
-    '  <p class="form">',
-    '    <input type="text" class="input use-focus-other">',
-    '    <button class="app-button delete"><i class="app-icon" data-id="trashcan-16"></i></button>',
-    '  </p>',
-    '</div>',
-    '<div class="todo-list"></div>',
-  ].join('\n');
+  el.innerHTML = `
+    <div class="header">
+      <h3 class="title"></h3>
+      <p class="form">
+        <input type="text" class="input use-focus-other">
+        <button class="app-button delete"><i class="app-icon" data-id="trashcan-16"></i></button>
+      </p>
+    </div>
+    <div class="todo-list"></div>
+  `;
 
-  var titleEl = el.querySelector('.title');
-  var inputEl = el.querySelector('.input');
-  var deleteEl = el.querySelector('.delete');
+  const titleEl = el.querySelector('.title');
+  const inputEl = el.querySelector('.input');
+  const deleteEl = el.querySelector('.delete');
 
-  VT.AppDraggable(titleEl, {
+  AppDraggable(titleEl, {
     dropSelector: '.todo-frame.-custom .container',
   });
-  VT.TodoList(el.querySelector('.todo-list'));
-  el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
+  el.querySelectorAll('.app-icon').forEach(AppIcon);
+  TodoList(el.querySelector('.todo-list'));
 
-  titleEl.addEventListener('click', function () {
+  titleEl.addEventListener('click', () => {
     startEditing = true;
     update({ editing: true });
   });
 
-  deleteEl.addEventListener('touchstart', function () {
+  deleteEl.addEventListener('touchstart', () => {
     saveOnBlur = false;
   });
 
-  deleteEl.addEventListener('mousedown', function () {
+  deleteEl.addEventListener('mousedown', () => {
     saveOnBlur = false;
   });
 
-  inputEl.addEventListener('blur', function () {
+  inputEl.addEventListener('blur', () => {
     if (saveOnBlur) save();
     saveOnBlur = true;
   });
 
-  inputEl.addEventListener('focusOther', function () {
+  inputEl.addEventListener('focusOther', () => {
     if (state.editing) save();
   });
 
-  inputEl.addEventListener('keyup', function (e) {
+  inputEl.addEventListener('keyup', (e) => {
     switch (e.keyCode) {
       case 13: // enter
         save();
@@ -63,7 +64,7 @@ VT.TodoCustomList = function (el) {
     }
   });
 
-  deleteEl.addEventListener('click', function () {
+  deleteEl.addEventListener('click', () => {
     if (state.list.items.length > 0) {
       if (
         !confirm(
@@ -82,7 +83,7 @@ VT.TodoCustomList = function (el) {
     );
   });
 
-  el.addEventListener('draggableStart', function (e) {
+  el.addEventListener('draggableStart', (e) => {
     if (e.target !== titleEl) return;
 
     e.detail.data.list = state.list;
@@ -92,25 +93,23 @@ VT.TodoCustomList = function (el) {
     e.detail.setImage(el);
 
     // override for horizontal dragging only
-    e.detail.image.addEventListener('draggableDrag', function (e) {
-      var x = e.detail.clientX - e.detail.imageX;
-      var y = e.detail.originY - e.detail.imageY;
-      e.detail.image.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+    e.detail.image.addEventListener('draggableDrag', (e) => {
+      const x = e.detail.clientX - e.detail.imageX;
+      const y = e.detail.originY - e.detail.imageY;
+      e.detail.image.style.transform = `translate(${x}px, ${y}px)`;
     });
   });
 
-  el.addEventListener('addItem', function (e) {
+  el.addEventListener('addItem', (e) => {
     e.detail.listId = state.list.id;
   });
 
-  el.addEventListener('moveItem', function (e) {
+  el.addEventListener('moveItem', (e) => {
     e.detail.listId = state.list.id;
-    e.detail.index = e.detail.index || 0;
+    e.detail.index = e.detail.index ?? 0;
   });
 
-  el.todoCustomList = {
-    update: update,
-  };
+  el.addEventListener('todoCustomList', (e) => update({ list: e.detail }));
 
   function save() {
     el.dispatchEvent(
@@ -132,9 +131,13 @@ VT.TodoCustomList = function (el) {
 
     titleEl.innerText = state.list.title || '...';
 
-    el.querySelector('.todo-list').todoList.update({ items: state.list.items });
-    el.querySelector('.todo-list > .todo-item-input').dataset.key =
-      'todo-item-input' + state.list.id;
+    el.querySelector('.todo-list').dispatchEvent(
+      new CustomEvent('todoItems', { detail: state.list.items })
+    );
+
+    el.querySelector(
+      '.todo-list > .todo-item-input'
+    ).dataset.key = `todo-item-input${state.list.id}`;
 
     el.classList.toggle('-editing', state.editing);
 
@@ -145,4 +148,4 @@ VT.TodoCustomList = function (el) {
       startEditing = false;
     }
   }
-};
+}

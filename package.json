@@ -5,8 +5,9 @@
   "scripts": {
     "format": "prettier --write *.js 'public/scripts/*.js' 'public/styles/**/*.css'",
     "format-check": "prettier --check *.js 'public/scripts/**/*.js' 'public/styles/**/*.css'",
-    "lint": "eslint .",
-    "lint-styles": "stylelint public/styles/*"
+    "lint": "eslint public",
+    "lint-styles": "stylelint public/styles/*",
+    "serve": "http-server public"
   },
   "repository": {
     "type": "git",
@@ -14,8 +15,9 @@
   },
   "keywords": [
     "vanilla",
-    "radio",
-    "somafm"
+    "html",
+    "javascript",
+    "css"
   ],
   "author": "Morris Brodersen <mb@morrisbrodersen.de>",
   "license": "ISC",
@@ -24,11 +26,12 @@
   },
   "homepage": "https://github.com/morris/vanilla-todo#readme",
   "devDependencies": {
-    "eslint": "^7.17.0",
-    "eslint-plugin-compat": "^3.9.0",
-    "prettier": "^2.2.1",
-    "stylelint": "^13.8.0",
-    "stylelint-config-standard": "^20.0.0",
+    "eslint": "^8.14.0",
+    "eslint-plugin-compat": "^4.0.2",
+    "http-server": "^14.1.0",
+    "prettier": "^2.6.2",
+    "stylelint": "^14.8.2",
+    "stylelint-config-standard": "^25.0.0",
     "stylelint-rscss": "^0.4.0"
   }
 }

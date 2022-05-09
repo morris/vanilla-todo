@@ -9,7 +9,7 @@
   margin: 0;
 }
 
-.app-header > .app-fps {
+.app-header > .fps {
   position: absolute;
   top: 10px;
   right: 20px;

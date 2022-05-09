@@ -24,30 +24,10 @@
   <body>
     <div class="todo-app"></div>
 
-    <script
-      nomodule
-      crossorigin
-      src="https://polyfill.io/v3/polyfill.min.js?features=Set%2CMap%2CObject.assign%2Cfetch%2CrequestAnimationFrame%2CNodeList.prototype.forEach%2CElement.prototype.classList%2Cperformance.now%2CNode.prototype.contains%2CElement.prototype.dataset"
-    ></script>
-    <script src="scripts/AppCollapsible.js"></script>
-    <script src="scripts/AppDraggable.js"></script>
-    <script src="scripts/AppFlip.js"></script>
-    <script src="scripts/AppFps.js"></script>
-    <script src="scripts/AppIcon.js"></script>
-    <script src="scripts/AppSortable.js"></script>
-    <script src="scripts/TodoApp.js"></script>
-    <script src="scripts/TodoCustomList.js"></script>
-    <script src="scripts/TodoDay.js"></script>
-    <script src="scripts/TodoFrameCustom.js"></script>
-    <script src="scripts/TodoFrameDays.js"></script>
-    <script src="scripts/TodoItemInput.js"></script>
-    <script src="scripts/TodoItem.js"></script>
-    <script src="scripts/TodoList.js"></script>
-    <script src="scripts/TodoStore.js"></script>
-    <script src="scripts/util.js"></script>
+    <script type="module">
+      import { TodoApp } from './scripts/TodoApp.js';
 
-    <script>
-      VT.TodoApp(document.querySelector('.todo-app'));
+      TodoApp(document.querySelector('.todo-app'));
     </script>
   </body>
 </html>

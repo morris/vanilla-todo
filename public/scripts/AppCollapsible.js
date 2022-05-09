@@ -1,18 +1,15 @@
-/* global VT */
-window.VT = window.VT || {};
-
-VT.AppCollapsible = function (el) {
-  var state = {
+export function AppCollapsible(el) {
+  const state = {
     show: true,
   };
 
-  el.querySelector('.bar > .toggle').addEventListener('click', function () {
-    update({ show: !state.show });
-  });
+  el.addEventListener('collapse', (e) => update({ show: !e.detail }));
 
-  el.appCollapsible = {
-    update: update,
-  };
+  el.querySelector('.bar > .toggle').addEventListener('click', () =>
+    update({ show: !state.show })
+  );
+
+  update();
 
   function update(next) {
     Object.assign(state, next);
@@ -22,8 +19,8 @@ VT.AppCollapsible = function (el) {
       state.show
     );
 
-    el.querySelectorAll('.body').forEach(function (el) {
-      el.style.height = state.show ? el.children[0].offsetHeight + 'px' : '0';
+    el.querySelectorAll('.body').forEach((el) => {
+      el.style.height = state.show ? `${el.children[0].offsetHeight}px` : '0';
     });
   }
-};
+}

@@ -1,21 +1,18 @@
-/* global VT */
-window.VT = window.VT || {};
+export function AppDraggable(el, options) {
+  const dragThreshold = options.dragThreshold ?? 5;
+  const dropRange = options.dropRange ?? 50;
+  const dropRangeSquared = dropRange * dropRange;
 
-VT.AppDraggable = function (el, options) {
-  var dragThreshold = options.dragThreshold || 5;
-  var dropRange = options.dropRange || 50;
-  var dropRangeSquared = dropRange * dropRange;
-
-  var originX, originY;
-  var clientX, clientY;
-  var startTime;
-  var dragging = false;
-  var clicked = false;
-  var data;
-  var image;
-  var imageSource;
-  var imageX, imageY;
-  var currentTarget;
+  let originX, originY;
+  let clientX, clientY;
+  let startTime;
+  let dragging = false;
+  let clicked = false;
+  let data;
+  let image;
+  let imageSource;
+  let imageX, imageY;
+  let currentTarget;
 
   el.addEventListener('touchstart', start);
   el.addEventListener('mousedown', start);
@@ -23,7 +20,7 @@ VT.AppDraggable = function (el, options) {
   // maybe prevent click
   el.addEventListener(
     'click',
-    function (e) {
+    (e) => {
       if (dragging || clicked) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -39,9 +36,9 @@ VT.AppDraggable = function (el, options) {
 
     e.preventDefault();
 
-    var p = getPositionHost(e);
-    clientX = originX = p.clientX || p.pageX;
-    clientY = originY = p.clientY || p.pageY;
+    const p = getPositionHost(e);
+    clientX = originX = p.clientX ?? p.pageX;
+    clientY = originY = p.clientY ?? p.pageY;
     startTime = Date.now();
 
     startListening();
@@ -50,9 +47,9 @@ VT.AppDraggable = function (el, options) {
   function move(e) {
     e.preventDefault();
 
-    var p = getPositionHost(e);
-    clientX = p.clientX || p.pageX;
-    clientY = p.clientY || p.pageY;
+    const p = getPositionHost(e);
+    clientX = p.clientX ?? p.pageX;
+    clientY = p.clientY ?? p.pageY;
 
     if (dragging) {
       dispatchDrag();
@@ -60,8 +57,8 @@ VT.AppDraggable = function (el, options) {
       return;
     }
 
-    var deltaX = clientX - originX;
-    var deltaY = clientY - originY;
+    const deltaX = clientX - originX;
+    const deltaY = clientY - originY;
 
     if (Math.abs(deltaX) < dragThreshold && Math.abs(deltaY) < dragThreshold) {
       return;
@@ -92,7 +89,7 @@ VT.AppDraggable = function (el, options) {
 
     stopListening();
 
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
       clicked = false;
 
       if (dragging) {
@@ -141,7 +138,7 @@ VT.AppDraggable = function (el, options) {
   function dispatchTarget() {
     if (!dragging) return;
 
-    var nextTarget = getTarget();
+    const nextTarget = getTarget();
 
     if (nextTarget === currentTarget) return;
 
@@ -210,18 +207,18 @@ VT.AppDraggable = function (el, options) {
   //
 
   function buildDetail() {
-    var detail = {
-      el: el,
-      data: data,
-      image: image,
-      imageSource: imageSource,
-      originX: originX,
-      originY: originY,
-      clientX: clientX,
-      clientY: clientY,
-      imageX: imageX,
-      imageY: imageY,
-      setImage: function (source) {
+    const detail = {
+      el,
+      data,
+      image,
+      imageSource,
+      originX,
+      originY,
+      clientX,
+      clientY,
+      imageX,
+      imageY,
+      setImage: (source) => {
         setImage(source);
         detail.image = image;
       },
@@ -240,21 +237,21 @@ VT.AppDraggable = function (el, options) {
     image.style.position = 'fixed';
     image.style.left = '0';
     image.style.top = '0';
-    image.style.width = imageSource.offsetWidth + 'px';
-    image.style.height = imageSource.offsetHeight + 'px';
+    image.style.width = `${imageSource.offsetWidth}px`;
+    image.style.height = `${imageSource.offsetHeight}px`;
     image.style.margin = '0';
     image.style.zIndex = 9999;
     image.classList.add('-dragging');
 
-    var rect = source.getBoundingClientRect();
+    const rect = source.getBoundingClientRect();
     imageX = originX - rect.left;
     imageY = originY - rect.top;
 
-    image.addEventListener('draggableDrag', function (e) {
-      var x = e.detail.clientX - e.detail.imageX;
-      var y = e.detail.clientY - e.detail.imageY;
+    image.addEventListener('draggableDrag', (e) => {
+      const x = e.detail.clientX - e.detail.imageX;
+      const y = e.detail.clientY - e.detail.imageY;
       image.style.transition = 'none';
-      image.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+      image.style.transform = `translate(${x}px, ${y}px)`;
     });
 
     image.addEventListener('draggableCancel', cleanUp);
@@ -278,9 +275,7 @@ VT.AppDraggable = function (el, options) {
   }
 
   function cleanUp() {
-    if (currentTarget) {
-      currentTarget.classList.remove('-drop');
-    }
+    currentTarget?.classList.remove('-drop');
 
     removeImage();
 
@@ -291,27 +286,29 @@ VT.AppDraggable = function (el, options) {
   }
 
   function removeImage() {
-    if (image && image.parentNode) {
-      image.parentNode.removeChild(image);
-    }
+    image?.parentNode?.removeChild(image);
   }
 
   function getTarget() {
-    var candidates = [];
+    const candidates = [];
 
-    document.querySelectorAll(options.dropSelector).forEach(function (el) {
-      var rect = el.getBoundingClientRect();
-      var distanceSquared = pointDistanceToRectSquared(clientX, clientY, rect);
+    document.querySelectorAll(options.dropSelector).forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const distanceSquared = pointDistanceToRectSquared(
+        clientX,
+        clientY,
+        rect
+      );
 
       if (distanceSquared > dropRangeSquared) return;
 
       candidates.push({
-        el: el,
+        el,
         distance2: distanceSquared,
       });
     });
 
-    candidates.sort(function (a, b) {
+    candidates.sort((a, b) => {
       if (a.distance2 === 0 && b.distance2 === 0) {
         // in this case, the client position is inside both rectangles
         // if A contains B, B is the correct target and vice versa
@@ -327,9 +324,9 @@ VT.AppDraggable = function (el, options) {
   }
 
   function pointDistanceToRectSquared(x, y, rect) {
-    var dx =
+    const dx =
       x < rect.left ? x - rect.left : x > rect.right ? x - rect.right : 0;
-    var dy =
+    const dy =
       y < rect.top ? y - rect.top : y > rect.bottom ? y - rect.bottom : 0;
 
     return dx * dx + dy * dy;
@@ -346,4 +343,4 @@ VT.AppDraggable = function (el, options) {
 
     return e;
   }
-};
+}

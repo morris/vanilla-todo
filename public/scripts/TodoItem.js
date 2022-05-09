@@ -1,45 +1,46 @@
-/* global VT */
-window.VT = window.VT || {};
+import { AppDraggable } from './AppDraggable.js';
+import { AppIcon } from './AppIcon.js';
 
-VT.TodoItem = function (el) {
-  var state = {
+export function TodoItem(el) {
+  const state = {
     item: null,
     editing: false,
   };
-  var startEditing = false;
-  var saveOnBlur = true;
 
-  el.innerHTML = [
-    '<div class="checkbox">',
-    '  <input type="checkbox">',
-    '</div>',
-    '<p class="label"></p>',
-    '<p class="form">',
-    '  <input type="text" class="input use-focus-other">',
-    '  <button class="app-button save"><i class="app-icon" data-id="check-16"></i></button>',
-    '</p>',
-  ].join('\n');
+  let startEditing = false;
+  let saveOnBlur = true;
 
-  var checkboxEl = el.querySelector('.checkbox');
-  var labelEl = el.querySelector('.label');
-  var inputEl = el.querySelector('.input');
-  var saveEl = el.querySelector('.save');
+  el.innerHTML = `
+    <div class="checkbox">
+      <input type="checkbox">
+    </div>
+    <p class="label"></p>
+    <p class="form">
+      <input type="text" class="input use-focus-other">
+      <button class="app-button save"><i class="app-icon" data-id="check-16"></i></button>
+    </p>
+  `;
 
-  VT.AppDraggable(el, {
+  const checkboxEl = el.querySelector('.checkbox');
+  const labelEl = el.querySelector('.label');
+  const inputEl = el.querySelector('.input');
+  const saveEl = el.querySelector('.save');
+
+  AppDraggable(el, {
     dropSelector: '.todo-list > .items',
   });
 
-  el.querySelectorAll('.app-icon').forEach(VT.AppIcon);
+  el.querySelectorAll('.app-icon').forEach(AppIcon);
 
-  checkboxEl.addEventListener('touchstart', function () {
+  checkboxEl.addEventListener('touchstart', () => {
     saveOnBlur = false;
   });
 
-  checkboxEl.addEventListener('mousedown', function () {
+  checkboxEl.addEventListener('mousedown', () => {
     saveOnBlur = false;
   });
 
-  checkboxEl.addEventListener('click', function () {
+  checkboxEl.addEventListener('click', () => {
     if (state.editing) save();
 
     el.dispatchEvent(
@@ -53,12 +54,12 @@ VT.TodoItem = function (el) {
     );
   });
 
-  labelEl.addEventListener('click', function () {
+  labelEl.addEventListener('click', () => {
     startEditing = true;
     update({ editing: true });
   });
 
-  inputEl.addEventListener('keyup', function (e) {
+  inputEl.addEventListener('keyup', (e) => {
     switch (e.keyCode) {
       case 13: // enter
         save();
@@ -69,39 +70,37 @@ VT.TodoItem = function (el) {
     }
   });
 
-  inputEl.addEventListener('blur', function () {
+  inputEl.addEventListener('blur', () => {
     if (saveOnBlur) save();
     saveOnBlur = true;
   });
 
-  inputEl.addEventListener('focusOther', function () {
+  inputEl.addEventListener('focusOther', () => {
     if (state.editing) save();
   });
 
-  saveEl.addEventListener('mousedown', function () {
+  saveEl.addEventListener('mousedown', () => {
     saveOnBlur = false;
   });
 
   saveEl.addEventListener('click', save);
 
-  el.addEventListener('draggableStart', function (e) {
+  el.addEventListener('draggableStart', (e) => {
     e.detail.data.item = state.item;
     e.detail.data.key = state.item.id;
   });
 
-  el.todoItem = {
-    update: update,
-  };
+  el.addEventListener('todoItem', (e) => update({ item: e.detail }));
 
   function save() {
-    var label = inputEl.value.trim();
+    const label = inputEl.value.trim();
 
     if (label === '') {
       // deferred deletion prevents a bug at reconciliation in TodoList:
       //   Failed to execute 'removeChild' on 'Node': The node to be removed is
       //   no longer a child of this node. Perhaps it was moved in a 'blur'
       //   event handler?
-      requestAnimationFrame(function () {
+      requestAnimationFrame(() => {
         el.dispatchEvent(
           new CustomEvent('deleteItem', {
             detail: state.item,
@@ -117,7 +116,7 @@ VT.TodoItem = function (el) {
       new CustomEvent('saveItem', {
         detail: {
           item: state.item,
-          label: label,
+          label,
         },
         bubbles: true,
       })
@@ -149,4 +148,4 @@ VT.TodoItem = function (el) {
       startEditing = false;
     }
   }
-};
+}

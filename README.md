@@ -9,7 +9,7 @@ with a total transfer size of **44KB** (unminified).
 More importantly, it's a case study showing that **vanilla web development** is
 viable in terms of [maintainability](#521-the-good),
 and worthwhile in terms of [user experience](#51-user-experience)
-(**100%** faster loads and **90%** less bandwidth in this case).
+(**50%** less time to load and **90%** less bandwidth in this case).
 
 **There's no custom framework invented here.**
 Instead, the case study was [designed](#22-rules) to discover
@@ -119,7 +119,7 @@ I came up with a set of rules to follow throughout the process:
 - No build steps.
 - No general-purpose utility functions related to the DOM/UI (2).
 
-(1) This is a moving target; I used ES5 for maximum support.
+(1) This is a moving target; the current version is using ES2020.
 
 (2) These usually end up becoming a custom micro-framework,
 thereby questioning why you didn't use one of the
@@ -162,16 +162,12 @@ plain HTML, CSS and JS files. The HTML and CSS mostly follows
 which yields an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
-I missed [SCSS](https://sass-lang.com/) or [LESS](http://lesscss.org/) here
+I missed [SCSS](https://sass-lang.com/) here
 and I think one of these is a must-have for bigger projects.
+Additionally, the global CSS namespace problem is unaddressed
+(see e.g. [CSS Modules](https://github.com/css-modules/css-modules)).
 
-ES6 modules are ruled out so all JavaScript lives under
-a global namespace (`VT`). This works everywhere but has some downsides
-e.g. cannot be statically analyzed and may miss code completion.
-
-Polyfills are directly fetched from [polyfill.io](https://polyfill.io/).
-I've set the `nomodule` script attribute so polyfills are only fetched
-for older browsers.
+All JavaScript files are ES modules (`import`/`export`).
 
 Basic code quality (code style, linting) is guided by
 [Prettier](https://prettier.io), [stylelint](https://stylelint.io) and
@@ -206,11 +202,11 @@ per matching element. This yields a simple mental model and synergizes
 with the DOM and styles:
 
 ```
-.todo-list -> VT.TodoList
+.todo-list -> TodoList
   scripts/TodoList.js
   styles/todo-list.css
 
-.app-collapsible -> VT.AppCollapsible
+.app-collapsible -> AppCollapsible
   scripts/AppCollapsible.js
   styles/app-collapsible.css
 
@@ -229,40 +225,30 @@ provide behavior and rendering for the target element.
 Here's a "Hello, World!" example of mount functions:
 
 ```js
-// safely initialize namespace
-window.MYAPP = window.MYAPP || {};
-
 // define mount function
 // loosely mapped to ".hello-world"
-MYAPP.HelloWorld = function (el) {
+export function HelloWorld(el) {
   // define initial state
-  var state = {
+  const state = {
     title: 'Hello, World!',
     description: 'An example vanilla component',
     counter: 0,
   };
 
   // set rigid base HTML
-  // no ES6 template literals :(
-  el.innerHTML = [
-    '<h1 class="title"></h1>',
-    '<p class="description"></p>',
-    '<div class="my-counter"></div>',
-  ].join('\n');
+  el.innerHTML = `
+    <h1 class="title"></h1>
+    <p class="description"></p>
+    <div class="my-counter"></div>
+  `;
 
   // mount sub-components
   el.querySelectorAll('.my-counter').forEach(MYAPP.MyCounter);
 
   // attach event listeners
-  el.addEventListener('modifyCounter', function (e) {
-    update({ counter: state.counter + e.detail });
-  });
-
-  // expose public interface
-  // use lower-case function name
-  el.helloWorld = {
-    update: update,
-  };
+  el.addEventListener('modifyCounter', (e) =>
+    update({ counter: state.counter + e.detail })
+  );
 
   // initial update
   update();
@@ -278,29 +264,30 @@ MYAPP.HelloWorld = function (el) {
     el.querySelector('.description').innerText = state.description;
 
     // pass data to sub-scomponents
-    el.querySelector('.my-counter').myCounter.update({
-      value: state.counter,
-    });
+    el.querySelector('.my-counter').dispatchEvent(
+      new CustomEvent('updateMyCounter', {
+        detail: { value: state.counter },
+      })
+    );
   }
-};
+}
 
 // define another component
 // loosely mapped to ".my-counter"
-MYAPP.MyCounter = function (el) {
+export function MyCounter(el) {
   // define initial state
-  var state = {
+  const state = {
     value: 0,
   };
 
   // set rigid base HTML
-  // no ES6 template literals :(
-  el.innerHTML = [
-    '<p>',
-    '  <span class="value"></span>',
-    '  <button class="increment">Increment</button>',
-    '  <button class="decrement">Decrement</button>',
-    '</p>',
-  ].join('\n');
+  el.innerHTML = `
+    <p>
+      <span class="value"></span>
+      <button class="increment">Increment</button>
+      <button class="decrement">Decrement</button>
+    </p>
+  `;
 
   // attach event listeners
   el.querySelector('.increment').addEventListener('click', function () {
@@ -325,11 +312,7 @@ MYAPP.MyCounter = function (el) {
     );
   });
 
-  // expose public interface
-  // use lower-case function name
-  el.myCounter = {
-    update: update,
-  };
+  el.addEventListener('updateMyCounter', (e) => update(e.detail));
 
   // define idempotent update function
   function update(next) {
@@ -337,11 +320,11 @@ MYAPP.MyCounter = function (el) {
 
     el.querySelector('.value').innerText = state.value;
   }
-};
+}
 
 // mount HelloWorld component(s)
 // any <div class="hello-world"></div> in the document will be mounted
-document.querySelectorAll('.hello-world').forEach(MYAPP.HelloWorld);
+document.querySelectorAll('.hello-world').forEach(HelloWorld);
 ```
 
 This comes with quite some boilerplate but has useful properties,
@@ -352,7 +335,7 @@ For example, a mount function does not have to set any base HTML,
 and may instead only set event listeners to enable some behavior.
 
 Also note that an element can be mounted with multiple mount functions.
-For example, to-do items are mounted with `VT.TodoItem` and `VT.AppDraggable`.
+For example, to-do items are mounted with `TodoItem` and `AppDraggable`.
 
 Compared to React components, mount functions provide interesting flexibility as
 components and behaviors can be implemented using the same idiom and combined
@@ -366,16 +349,17 @@ Reference:
 
 #### 3.2.2. Data Flow
 
-I found it effective to implement one-way data flow similar to React's approach.
+I found it effective to implement one-way data flow similar to React's approach,
+however exclusively using custom DOM events.
 
 - **Data flows downwards** from parent components to child components
-  through their public interfaces (usually `update` functions).
+  through custom DOM events.
 - **Actions flow upwards** through custom DOM events (bubbling up),
   usually resulting in some parent component state change which is in turn
-  propagated downwards through `update` functions.
+  propagated downwards through data events.
 
-The data store is factored into a separate behavior (`VT.TodoStore`).
-It only receives and dispatches events, and encapsulates all of the data logic.
+The data store is factored into a separate behavior (`TodoStore`).
+It only receives and dispatches events and encapsulates all of the data logic.
 
 Listening to and dispatching events is slightly verbose with standard APIs and
 certainly justifies introducing helpers.
@@ -424,35 +408,34 @@ amount of dynamic components efficiently. Here's a commented example
 from the implementation outlining the reconciliation algorithm:
 
 ```js
-/* global VT */
-window.VT = window.VT || {};
-
-VT.TodoList = function (el) {
-  var state = {
+export function TodoList(el) {
+  const state = {
     items: [],
   };
 
-  el.innerHTML = '<div class="items"></div>';
+  el.innerHTML = `<div class="items"></div>`;
+
+  el.addEventListener('updateTodoList', (e) => update(e.detail));
 
   function update(next) {
     Object.assign(state, next);
 
-    var container = el.querySelector('.items');
+    const container = el.querySelector('.items');
 
     // mark current children for removal
-    var obsolete = new Set(container.children);
+    const obsolete = new Set(container.children);
 
     // map current children by data-key
-    var childrenByKey = new Map();
+    const childrenByKey = new Map();
 
-    obsolete.forEach(function (child) {
-      childrenByKey.set(child.getAttribute('data-key'), child);
-    });
+    obsolete.forEach((child) =>
+      childrenByKey.set(child.getAttribute('data-key'), child)
+    );
 
     // build new list of child elements from data
-    var children = state.items.map(function (item) {
+    const children = state.items.map((item) => {
       // find existing child by data-key
-      var child = childrenByKey.get(item.id);
+      let child = childrenByKey.get(item.id);
 
       if (child) {
         // if child exists, keep it
@@ -466,32 +449,28 @@ VT.TodoList = function (el) {
         child.setAttribute('data-key', item.id);
 
         // mount component
-        VT.TodoItem(child);
+        TodoItem(child);
       }
 
       // update child
-      child.todoItem.update({ item: item });
+      child.dispatchEvent(
+        new CustomEvent('updateTodoItem', { detail: { item: item } })
+      );
 
       return child;
     });
 
     // remove obsolete children
-    obsolete.forEach(function (child) {
-      container.removeChild(child);
-    });
+    obsolete.forEach((child) => container.removeChild(child));
 
     // (re-)insert new list of children
-    children.forEach(function (child, index) {
+    children.forEach((child, index) => {
       if (child !== container.children[index]) {
         container.insertBefore(child, container.children[index]);
       }
     });
   }
-
-  el.todoList = {
-    update: update,
-  };
-};
+}
 ```
 
 It's very verbose and has lots of opportunity to introduce bugs.
@@ -570,7 +549,7 @@ In particular, dragging and dropping gives proper visual feedback
 when elements are reordered.
 
 _The latter was an improvement over the original application when I started
-working on the case study some weeks ago. In the meantime, the TeuxDeux
+working on the case study in 2019. In the meantime, the TeuxDeux
 team released an update with a much better drag & drop experience. Great job!_
 
 One notable missing feature is Markdown support. It would be insensible
@@ -632,7 +611,7 @@ and some opinionated statements based on my experience in the industry.
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
 
-All source files (HTML, CSS and JS) combine to **under 2500 lines of code**,
+All source files (HTML, CSS and JS) combine to **under 2400 lines of code**,
 including comments and empty lines.
 
 For comparison, prettifying the original TeuxDeux's minified JS application
@@ -645,11 +624,6 @@ I suspect a fully equivalent clone to be well below 10000 LOC, though._
 
 - Stylesheets are a bit verbose. SCSS would help here.
 - Simple components require quite some boilerplate code.
-- Writing HTML templates as an array of lines is ugly (and sub-optimal).
-- ES5 is generally a lot more verbose than ES6.
-  - Especially arrow functions, template literals,
-    and async/await would make the code more readable.
-  - ES6 modules would eliminate the need for a global namespace.
 - `el.querySelectorAll(':scope ...')` is somewhat default/expected and
   would justify a helper.
 - Listening to and dispatching events is slightly verbose.
@@ -661,6 +635,10 @@ would reduce the comparably low code size (see above) even further.
 
 #### 5.2.3. The Bad
 
+- Class names share a global namespace.
+- Event names share a global namespace.
+  - Especially problematic for events that bubble up.
+- No code completion in HTML strings.
 - The separation between base HTML and dynamic rendering is not ideal
   when compared to JSX, for example.
 - JSX/virtual DOM techniques provide much better development ergonomics.
@@ -672,10 +650,10 @@ would reduce the comparably low code size (see above) even further.
   e.g. watch elements of selector X (at all times) and ensure the desired
   behaviors are mounted once on them.
 - No type safety. I've always been a proponent of dynamic languages
-  but since TypeScripts' type system provides the best of both worlds,
+  but since TypeScript's type system provides the best of both worlds,
   I cannot recommend using it enough.
 - We're effectively locked out of using NPM dependencies that don't provide
-  browser builds as we cannot use CommonJS or ES6 modules.
+  browser-ready builds (ES modules or UMD).
 - Most frameworks handle a lot of browser inconsistencies **for free** and
   continuously monitor regressions with extensive test suites.
   The cost of browser testing is surely a lot higher
@@ -702,6 +680,17 @@ after all:
 - State is separated from the DOM (React, Angular, Vue).
 - Rendering is idempotent and complete (React's pure `render` function).
 - One-way data flow (React)
+
+An open question is if these patterns hold for library authors.
+Although not considered during the study, some observations can be made:
+
+- The JavaScript itself would be fine to share as ES modules.
+- However, event naming needs great care, as dispatching (bubbling) events
+  from imported behaviors can trigger parent listeners in consumer code.
+  - Can be mitigated by providing options to prefix or map event names.
+- CSS names share a global namespace and need to be managed as well.
+  - Could be mitigated by prefixing as well, however making the JavaScript
+    a bit more complex.
 
 ## 6. Conclusion
 
@@ -809,9 +798,16 @@ Thanks!
 
 ## 9. Changelog
 
+### 05/2022
+
+- Refactored for ES2020
+- Refactored for event-driven communication exclusively
+- Moved original ES5-based version of the study to [/es5](./es5)
+- Added assessment regarding library authoring
+
 ### 01/2021
 
-- Add [response section](#82-response)
+- Added [response section](#82-response)
 
 ### 10/2020
 
