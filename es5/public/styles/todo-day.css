@@ -1,0 +1,34 @@
+.todo-day {
+  padding: 0 0.5em;
+}
+
+.todo-day > .header {
+  text-align: center;
+  padding: 2em 0;
+}
+
+.todo-day > .header > .dayofweek {
+  text-transform: uppercase;
+  margin: 0 0 0.25em 0;
+  font-size: 1.5em;
+}
+
+.todo-day > .header > .date {
+  text-transform: uppercase;
+  font-weight: normal;
+  margin: 0.25em 0 0 0;
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.todo-day.-past {
+  color: #ccc;
+}
+
+.todo-day.-today > .header > .dayofweek {
+  color: #85144b;
+}
+
+.todo-day.-today > .header > .date {
+  color: #000;
+}

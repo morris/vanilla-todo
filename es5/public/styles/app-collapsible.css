@@ -1,0 +1,16 @@
+.app-collapsible > .bar {
+  height: 40px;
+  line-height: 37px;
+  margin: 0;
+  padding: 0 0.75em;
+  background: #eee;
+}
+
+.app-collapsible > .bar > .app-button:active {
+  background: #fff;
+}
+
+.app-collapsible > .body {
+  transition: height 0.2s ease-out;
+  overflow: hidden;
+}

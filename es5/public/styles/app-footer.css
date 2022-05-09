@@ -1,0 +1,14 @@
+.app-footer {
+  border-top: solid 1px #ccc;
+  padding: 2em;
+  font-size: 0.8em;
+  color: #999;
+}
+
+.app-footer a {
+  color: #999;
+}
+
+.app-footer > p {
+  margin: 0;
+}

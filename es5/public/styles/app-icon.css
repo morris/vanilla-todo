@@ -1,0 +1,21 @@
+.app-icon {
+  display: inline-block;
+  vertical-align: text-top;
+}
+
+.app-icon > svg {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: bottom;
+  fill: currentColor;
+  transition: transform 0.1s ease-out;
+}
+
+.app-icon.-r180 > svg {
+  transform: rotate(180deg);
+}
+
+.app-icon.-double > svg:nth-child(2) {
+  margin-left: -0.5em;
+}

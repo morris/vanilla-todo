@@ -1,0 +1,64 @@
+.todo-custom-list {
+  padding: 0 0.5em;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+
+.todo-custom-list > .header {
+  text-align: center;
+  padding: 2em 0;
+}
+
+.todo-custom-list > .header > .title {
+  margin: 0 0 10px 0;
+  font-size: 1.5em;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.todo-custom-list > .header > .form {
+  display: none;
+  margin: 0 0 10px 0;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+.todo-custom-list > .header > .form > .input {
+  width: 70%;
+  font-size: 1.5em;
+  line-height: normal;
+  font-family: inherit;
+  font-weight: bold;
+  text-align: center;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
+
+.todo-custom-list > .header > .form > .delete {
+  position: absolute;
+  right: 0.5em;
+  top: 2em;
+}
+
+.todo-custom-list.-editing > .header > .title {
+  display: none;
+}
+
+.todo-custom-list.-editing > .header > .form {
+  display: block;
+}
+
+.todo-custom-list.-dragging {
+  box-shadow: 10px 0 12px -14px rgba(0, 0, 0, 0.3),
+    -10px 0 12px -14px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  opacity: 0.8;
+}
+
+.todo-custom-list.-placeholder {
+  transition: none !important;
+  visibility: hidden;
+}

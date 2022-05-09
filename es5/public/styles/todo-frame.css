@@ -1,0 +1,87 @@
+.todo-frame {
+  position: relative;
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.todo-frame > .leftcontrols,
+.todo-frame > .rightcontrols {
+  position: absolute;
+  top: 0;
+  width: 52px;
+  padding: 1.5em 0;
+  text-align: center;
+}
+
+.todo-frame > .leftcontrols {
+  left: 0;
+}
+
+.todo-frame > .rightcontrols {
+  right: 0;
+}
+
+.todo-frame > .leftcontrols > p,
+.todo-frame > .rightcontrols > p {
+  margin: 0 0 0.5em 0;
+}
+
+.todo-frame > .container {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 52px;
+  bottom: 0;
+  left: 52px;
+}
+
+.todo-frame > .container > .card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.todo-frame.-animated {
+  transition: height 0.2s ease-out;
+}
+
+@media (min-width: 600px) {
+  .todo-frame > .container {
+    right: 70px;
+    left: 70px;
+  }
+
+  .todo-frame > .leftcontrols,
+  .todo-frame > .rightcontrols {
+    width: 70px;
+  }
+
+  .todo-frame > .container > .card {
+    width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .todo-frame > .container > .card {
+    width: 33.333%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .todo-frame > .container > .card {
+    width: 25%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .todo-frame > .container > .card {
+    width: 20%;
+  }
+}

@@ -1,0 +1,85 @@
+.todo-item {
+  position: relative;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0.25em 0;
+  background: #fff;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.todo-item > .checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 2em;
+  line-height: 2em;
+}
+
+.todo-item > .checkbox > input {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.todo-item > .label {
+  margin: 0 0 0 30px;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-item > .form {
+  display: none;
+  margin: 0 0 0 30px;
+  padding-right: 24px;
+  border-bottom: 1px solid #999;
+}
+
+.todo-item > .form > .input {
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  padding: 0 0 0.25em 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.5em;
+  background: transparent;
+}
+
+.todo-item > .form > .save {
+  position: absolute;
+  top: 0.15em;
+  right: 0;
+}
+
+.todo-item.-done > .label {
+  color: #ccc;
+  text-decoration: line-through;
+}
+
+.todo-item.-editing > .label {
+  display: none;
+}
+
+.todo-item.-editing > .form {
+  display: block;
+}
+
+.todo-item.-dragging {
+  opacity: 0.7;
+}
+
+.todo-item.-placeholder {
+  transition: none !important;
+  visibility: hidden;
+}
