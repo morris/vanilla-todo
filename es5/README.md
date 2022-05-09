@@ -1,7 +1,7 @@
 # VANILLA TODO (ES5)
 
 _You are reading the ES5-based version of this document, originally published
-in 2019. The [current version](https://github.com/morris/vanilla-todo) is
+in 2020. The [current version](https://github.com/morris/vanilla-todo) is
 based on modern JavaScript._
 
 A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and JavaScript

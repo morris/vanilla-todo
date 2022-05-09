@@ -2,7 +2,7 @@
 
 A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and JavaScript
 (no build steps). It's fully animated and runs smoothly at 60 FPS
-with a total transfer size of **44KB** (unminified).
+with a total transfer size of **50KB** (unminified).
 
 **[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
@@ -561,12 +561,12 @@ and Safari on iOS.
 
 _TODO Test more browsers and devices._
 
-A fresh load of the original TeuxDeux application transfers around **435 KB** and
-finishes loading at around **1000 ms**, sometimes up to 2000ms
-(measured on 10/21 2020).
+A fresh load of the original TeuxDeux application transfers around **500 KB** and
+finishes loading at over **1000 ms**, sometimes up to 2000ms
+(measured in 05/2022).
 Reloads finish at around **500ms**.
 
-With a transferred size of around **44 KB**, the vanilla application consistently
+With a transferred size of around **50 KB**, the vanilla application consistently
 loads in **300-500 ms**&mdash;not minified and with each script, stylesheet and icon
 served as an individual file. Reloads finish at **100-200ms**; again, not
 optimized at all (with e.g. asset hashing/indefinite caching).
@@ -615,7 +615,7 @@ All source files (HTML, CSS and JS) combine to **under 2400 lines of code**,
 including comments and empty lines.
 
 For comparison, prettifying the original TeuxDeux's minified JS application
-bundle yields **48787 LOC** (10/21 2020).
+bundle yields **52678 LOC** (05/2022).
 
 _To be fair, my implementation misses quite a few features from the original.
 I suspect a fully equivalent clone to be well below 10000 LOC, though._
@@ -803,7 +803,7 @@ Thanks!
 - Refactored for ES2020
 - Refactored for event-driven communication exclusively
 - Moved original ES5-based version of the study to [/es5](./es5)
-- Added assessment regarding library authoring
+- Added assessment regarding library development
 
 ### 01/2021
 
