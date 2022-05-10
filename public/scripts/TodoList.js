@@ -17,7 +17,7 @@ export function TodoList(el) {
 
   el.addEventListener('sortableDrop', (e) =>
     el.dispatchEvent(
-      new CustomEvent('moveItem', {
+      new CustomEvent('moveTodoItem', {
         detail: {
           item: e.detail.data.item,
           index: e.detail.index,

@@ -38,6 +38,15 @@
   font-size: 1.5em;
 }
 
+.app-button.-highlight {
+  background: #111;
+  color: #fff;
+}
+
+.app-button.-highlight:hover {
+  color: #eee;
+}
+
 @media (min-width: 600px) {
   .app-button.-xl {
     font-size: 2em;

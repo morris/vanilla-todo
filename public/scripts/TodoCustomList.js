@@ -76,7 +76,7 @@ export function TodoCustomList(el) {
     }
 
     el.dispatchEvent(
-      new CustomEvent('deleteList', {
+      new CustomEvent('deleteTodoList', {
         detail: state.list,
         bubbles: true,
       })
@@ -100,11 +100,11 @@ export function TodoCustomList(el) {
     });
   });
 
-  el.addEventListener('addItem', (e) => {
+  el.addEventListener('addTodoItem', (e) => {
     e.detail.listId = state.list.id;
   });
 
-  el.addEventListener('moveItem', (e) => {
+  el.addEventListener('moveTodoItem', (e) => {
     e.detail.listId = state.list.id;
     e.detail.index = e.detail.index ?? 0;
   });
@@ -113,7 +113,7 @@ export function TodoCustomList(el) {
 
   function save() {
     el.dispatchEvent(
-      new CustomEvent('saveList', {
+      new CustomEvent('saveTodoList', {
         detail: { list: state.list, title: inputEl.value.trim() },
         bubbles: true,
       })

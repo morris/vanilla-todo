@@ -804,6 +804,7 @@ Thanks!
 - Refactored for event-driven communication exclusively
 - Moved original ES5-based version of the study to [/es5](./es5)
 - Added assessment regarding library development
+- Added date picker
 
 ### 01/2021
 

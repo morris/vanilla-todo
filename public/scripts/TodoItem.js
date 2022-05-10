@@ -44,7 +44,7 @@ export function TodoItem(el) {
     if (state.editing) save();
 
     el.dispatchEvent(
-      new CustomEvent('checkItem', {
+      new CustomEvent('checkTodoItem', {
         detail: {
           item: state.item,
           done: !state.item.done,
@@ -102,7 +102,7 @@ export function TodoItem(el) {
       //   event handler?
       requestAnimationFrame(() => {
         el.dispatchEvent(
-          new CustomEvent('deleteItem', {
+          new CustomEvent('deleteTodoItem', {
             detail: state.item,
             bubbles: true,
           })
@@ -113,7 +113,7 @@ export function TodoItem(el) {
     }
 
     el.dispatchEvent(
-      new CustomEvent('saveItem', {
+      new CustomEvent('saveTodoItem', {
         detail: {
           item: state.item,
           label,

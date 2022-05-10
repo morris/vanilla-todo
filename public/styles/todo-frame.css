@@ -1,6 +1,5 @@
 .todo-frame {
   position: relative;
-  overflow: hidden;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -29,6 +28,11 @@
 .todo-frame > .leftcontrols > p,
 .todo-frame > .rightcontrols > p {
   margin: 0 0 0.5em 0;
+}
+
+.todo-frame > .rightcontrols > .datepicker {
+  position: absolute;
+  right: 10px;
 }
 
 .todo-frame > .container {

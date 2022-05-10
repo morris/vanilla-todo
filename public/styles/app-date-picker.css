@@ -1,0 +1,51 @@
+.app-date-picker {
+  width: 260px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 10%) 0 4px 12px;
+  padding: 8px;
+  transform: translate(110%, 0);
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+.app-date-picker.-show {
+  transform: translate(0, 0);
+}
+
+.app-date-picker > .header {
+  display: flex;
+  font-size: 1em;
+  margin: 0 0 1em 0;
+  line-height: 1.5em;
+}
+
+.app-date-picker > .header > .month {
+  flex-grow: 1;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.app-date-picker > .dates {
+  width: 100%;
+}
+
+.app-date-picker > .dates > thead > tr > th {
+  font-weight: normal;
+  padding: 0;
+}
+
+.app-date-picker > .dates > tbody > tr > td {
+  padding: 0;
+}
+
+.app-date-picker > .dates > tbody > tr > td > button {
+  width: 100%;
+  height: 1.9em;
+}
+
+@media (min-width: 320px) {
+  .app-date-picker {
+    width: 300px;
+  }
+}

@@ -17,11 +17,11 @@ export function TodoDay(el) {
 
   TodoList(el.querySelector('.todo-list'));
 
-  el.addEventListener('addItem', (e) => {
+  el.addEventListener('addTodoItem', (e) => {
     e.detail.listId = state.dateId;
   });
 
-  el.addEventListener('moveItem', (e) => {
+  el.addEventListener('moveTodoItem', (e) => {
     e.detail.listId = state.dateId;
     e.detail.index = e.detail.index ?? 0;
   });

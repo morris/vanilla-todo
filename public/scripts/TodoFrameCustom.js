@@ -31,13 +31,13 @@ export function TodoFrameCustom(el) {
 
   el.querySelector('.back').addEventListener('click', () => {
     el.dispatchEvent(
-      new CustomEvent('customSeek', { detail: -1, bubbles: true })
+      new CustomEvent('seekCustomTodoLists', { detail: -1, bubbles: true })
     );
   });
 
   el.querySelector('.forward').addEventListener('click', () => {
     el.dispatchEvent(
-      new CustomEvent('customSeek', { detail: 1, bubbles: true })
+      new CustomEvent('seekCustomTodoLists', { detail: 1, bubbles: true })
     );
   });
 
@@ -50,7 +50,7 @@ export function TodoFrameCustom(el) {
     if (!e.detail.data.list) return;
 
     el.dispatchEvent(
-      new CustomEvent('moveList', {
+      new CustomEvent('moveTodoList', {
         detail: {
           list: e.detail.data.list,
           index: e.detail.index,

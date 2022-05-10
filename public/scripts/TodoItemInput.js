@@ -48,7 +48,7 @@ export function TodoItemInput(el) {
     inputEl.value = '';
 
     el.dispatchEvent(
-      new CustomEvent('addItem', {
+      new CustomEvent('addTodoItem', {
         detail: { label },
         bubbles: true,
       })

@@ -23,7 +23,9 @@ export function TodoApp(el) {
     <div class="todo-frame -days"></div>
     <div class="app-collapsible">
       <p class="bar">
-        <button class="app-button -circle toggle"><i class="app-icon" data-id="chevron-up-24"></i></button>
+        <button class="app-button -circle toggle">
+          <i class="app-icon" data-id="chevron-up-24"></i>
+        </button>
       </p>
       <div class="body">
         <div class="todo-frame -custom"></div>
@@ -101,7 +103,7 @@ export function TodoApp(el) {
   el.addEventListener('draggableCancel', flip);
   el.addEventListener('draggableDrop', flip);
 
-  el.dispatchEvent(new CustomEvent('loadStore'));
+  el.dispatchEvent(new CustomEvent('loadTodoStore'));
 
   function update(next) {
     Object.assign(state, next);
