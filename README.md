@@ -243,7 +243,7 @@ export function HelloWorld(el) {
   `;
 
   // mount sub-components
-  el.querySelectorAll('.my-counter').forEach(MYAPP.MyCounter);
+  el.querySelectorAll('.my-counter').forEach(MyCounter);
 
   // attach event listeners
   el.addEventListener('modifyCounter', (e) =>
@@ -290,7 +290,7 @@ export function MyCounter(el) {
   `;
 
   // attach event listeners
-  el.querySelector('.increment').addEventListener('click', function () {
+  el.querySelector('.increment').addEventListener('click', () => {
     // dispatch an action
     // use .detail to transport data
     el.dispatchEvent(
@@ -301,7 +301,7 @@ export function MyCounter(el) {
     );
   });
 
-  el.querySelector('.decrement').addEventListener('click', function () {
+  el.querySelector('.decrement').addEventListener('click', () => {
     // dispatch an action
     // use .detail to transport data
     el.dispatchEvent(

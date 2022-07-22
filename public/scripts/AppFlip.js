@@ -6,7 +6,7 @@ export function AppFlip(el, options) {
   // enable animations only after an initial delay
   setTimeout(() => {
     enabled = true;
-  }, options.initialDelay || 100);
+  }, options.initialDelay ?? 100);
 
   // take a snapshot before any HTML changes
   // do this only for the first beforeFlip event in the current cycle

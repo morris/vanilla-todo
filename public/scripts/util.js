@@ -2,6 +2,7 @@ export function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0,
       v = c == 'x' ? r : (r & 0x3) | 0x8;
+
     return v.toString(16);
   });
 }
@@ -21,6 +22,7 @@ export function formatDate(date) {
   const m = formatMonth(date);
   const d = formatDayOfMonth(date);
   const y = date.getFullYear().toString().padStart(4, '0');
+
   return `${m} ${d} ${y}`;
 }
 

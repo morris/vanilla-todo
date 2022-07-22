@@ -65,9 +65,9 @@ export function TodoStore(el) {
     dispatch({ items: state.items });
   });
 
-  el.addEventListener('deleteTodoItem', (e) => {
-    dispatch({ items: state.items.filter((item) => item.id !== e.detail.id) });
-  });
+  el.addEventListener('deleteTodoItem', (e) =>
+    dispatch({ items: state.items.filter((item) => item.id !== e.detail.id) })
+  );
 
   el.addEventListener('addTodoList', (e) => {
     let index = 0;
@@ -112,13 +112,13 @@ export function TodoStore(el) {
     dispatch({ customLists: state.customLists });
   });
 
-  el.addEventListener('deleteTodoList', (e) => {
+  el.addEventListener('deleteTodoList', (e) =>
     dispatch({
       customLists: state.customLists.filter(
         (customList) => customList.id !== e.detail.id
       ),
-    });
-  });
+    })
+  );
 
   el.addEventListener('seekDays', (e) => {
     const t = new Date(`${state.at} 00:00:00`);
@@ -135,14 +135,14 @@ export function TodoStore(el) {
     dispatch({ at: formatDateId(e.detail) })
   );
 
-  el.addEventListener('seekCustomTodoLists', (e) => {
+  el.addEventListener('seekCustomTodoLists', (e) =>
     dispatch({
       customAt: Math.max(
         0,
         Math.min(state.customLists.length - 1, state.customAt + e.detail)
       ),
-    });
-  });
+    })
+  );
 
   function dispatch(next) {
     Object.assign(state, next);

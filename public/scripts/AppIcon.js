@@ -1,5 +1,4 @@
-export const BASE_URL =
-  'https://rawcdn.githack.com/primer/octicons/ff7f6eee63fa2f2d24d02e3aa76a87db48e4b6f6/icons/';
+export const BASE_URL = 'https://unpkg.com/@primer/octicons@17.3.0/build/svg/';
 
 const cache = {};
 

@@ -42,9 +42,8 @@ VT.TodoDay = function (el) {
     el.classList.toggle('-past', date < today);
     el.classList.toggle('-today', date >= today && date < tomorrow);
 
-    el.querySelector('.header > .dayofweek').innerText = VT.formatDayOfWeek(
-      date
-    );
+    el.querySelector('.header > .dayofweek').innerText =
+      VT.formatDayOfWeek(date);
     el.querySelector('.header > .date').innerText = VT.formatDate(date);
     el.querySelector('.todo-list').todoList.update({ items: state.items });
   }

@@ -1,6 +1,3 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-rscss/config"
-  ]
+  "extends": ["stylelint-config-standard", "stylelint-rscss/config"]
 }

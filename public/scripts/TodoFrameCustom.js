@@ -23,26 +23,26 @@ export function TodoFrameCustom(el) {
 
   AppSortable(el.querySelector('.container'), { direction: 'horizontal' });
 
-  setTimeout(() => {
-    el.classList.add('-animated');
-  }, 200);
+  setTimeout(() => el.classList.add('-animated'), 200);
 
   el.querySelectorAll('.app-icon').forEach(AppIcon);
 
-  el.querySelector('.back').addEventListener('click', () => {
+  el.querySelector('.back').addEventListener('click', () =>
     el.dispatchEvent(
       new CustomEvent('seekCustomTodoLists', { detail: -1, bubbles: true })
-    );
-  });
+    )
+  );
 
-  el.querySelector('.forward').addEventListener('click', () => {
+  el.querySelector('.forward').addEventListener('click', () =>
     el.dispatchEvent(
       new CustomEvent('seekCustomTodoLists', { detail: 1, bubbles: true })
-    );
-  });
+    )
+  );
 
   el.querySelector('.add').addEventListener('click', () => {
-    el.dispatchEvent(new CustomEvent('addList', { detail: {}, bubbles: true }));
+    el.dispatchEvent(
+      new CustomEvent('addTodoList', { detail: {}, bubbles: true })
+    );
     // TODO seek if not at end
   });
 

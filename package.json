@@ -1,10 +1,10 @@
 {
   "name": "vanilla-todo",
   "version": "0.1.0",
-  "description": "A TeuxDeux clone built only with vanilla web technology",
+  "description": "A TeuxDeux clone built with vanilla web technology only",
   "scripts": {
-    "format": "prettier --write *.js 'public/scripts/*.js' 'public/styles/**/*.css'",
-    "format-check": "prettier --check *.js 'public/scripts/**/*.js' 'public/styles/**/*.css'",
+    "format": "prettier --write .",
+    "format-check": "prettier --check .",
     "lint": "eslint public",
     "lint-styles": "stylelint public/styles/*",
     "serve": "http-server public"
@@ -26,12 +26,12 @@
   },
   "homepage": "https://github.com/morris/vanilla-todo#readme",
   "devDependencies": {
-    "eslint": "^8.15.0",
+    "eslint": "^8.20.0",
     "eslint-plugin-compat": "^4.0.2",
-    "http-server": "^14.1.0",
-    "prettier": "^2.6.2",
-    "stylelint": "^14.8.2",
-    "stylelint-config-standard": "^25.0.0",
+    "http-server": "^14.1.1",
+    "prettier": "^2.7.1",
+    "stylelint": "^14.9.1",
+    "stylelint-config-standard": "^26.0.0",
     "stylelint-rscss": "^0.4.0"
   }
 }

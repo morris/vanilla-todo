@@ -15,7 +15,7 @@ export function TodoCustomList(el) {
       <h3 class="title"></h3>
       <p class="form">
         <input type="text" class="input use-focus-other">
-        <button class="app-button delete"><i class="app-icon" data-id="trashcan-16"></i></button>
+        <button class="app-button delete"><i class="app-icon" data-id="trash-16"></i></button>
       </p>
     </div>
     <div class="todo-list"></div>
