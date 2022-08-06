@@ -20,7 +20,7 @@ considerable duplication.
 If anything, the case study validates the value of build steps and frameworks,
 but also demonstrates that standard web technologies can be used effectively and
 there are only a few [critical areas](#523-the-bad) where a vanilla approach is
-clearly inferior (especially in browser testing).
+clearly inferior.
 
 _Intermediate understanding of the web platform is required to follow through._
 
@@ -375,9 +375,14 @@ Reference:
 #### 3.2.3. Rendering
 
 Naively re-rendering a whole component using `.innerHTML` should be avoided
-as this may hurt performance and will likely break important functionality such
-as input state, focus, text selection etc. which browsers have already been
-optimizing for decades.
+as this may hurt performance and will likely break important functionality
+which browsers have already been optimizing for decades:
+
+- `<a>`, `<button>`, `<input>`, etc. may lose focus.
+- Form inputs may lose data on re-render.
+- Text selection may be reset on re-render.
+- CSS transitions won't work if you re-render a large chunk of HTML instead of toggling a class.
+- Event listeners may need to be reattached.
 
 As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
 some rigid base HTML and an idempotent, complete update function which only
