@@ -379,9 +379,9 @@ as this may hurt performance and will likely break important functionality
 which browsers have already been optimizing for decades:
 
 - `<a>`, `<button>`, `<input>`, etc. may lose focus.
-- Form inputs may lose data on re-render.
-- Text selection may be reset on re-render.
-- CSS transitions won't work if you re-render a large chunk of HTML instead of toggling a class.
+- Form inputs may lose data.
+- Text selection may be reset.
+- CSS transitions may not work correctly.
 - Event listeners may need to be reattached.
 
 As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
