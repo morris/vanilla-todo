@@ -7,7 +7,7 @@
     "format-check": "prettier --check .",
     "lint": "eslint public",
     "lint-styles": "stylelint public/styles/*",
-    "serve": "http-server public"
+    "serve": "http-server -c-1 public"
   },
   "repository": {
     "type": "git",

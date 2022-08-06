@@ -121,7 +121,7 @@ export function TodoStore(el) {
   );
 
   el.addEventListener('seekDays', (e) => {
-    const t = new Date(`${state.at} 00:00:00`);
+    const t = new Date(`${state.at}T00:00:00`);
     t.setDate(t.getDate() + e.detail);
 
     dispatch({ at: formatDateId(t) });
