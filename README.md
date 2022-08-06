@@ -803,6 +803,11 @@ Thanks!
 
 ## 9. Changelog
 
+### 08/2022
+
+- Small improvements
+- Fix date seeking bug on Safari
+
 ### 05/2022
 
 - Refactored for ES2020
