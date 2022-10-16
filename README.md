@@ -158,7 +158,7 @@ and problems found during the process. You're encouraged to inspect the
 
 Since build steps are ruled out, the codebase is organized around
 plain HTML, CSS and JS files. The HTML and CSS mostly follows
-[rscss](https://rscss.io) (devised by [Rico Sta. Cruz](https://ricostacruz.com))
+[rscss](https://ricostacruz.com/rscss/) (devised by [Rico Sta. Cruz](https://ricostacruz.com))
 which yields an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
