@@ -7,7 +7,8 @@
     "format-check": "prettier --check .",
     "lint": "eslint public",
     "lint-styles": "stylelint public/styles/*",
-    "serve": "http-server -c-1 public"
+    "serve": "http-server -c-1 public",
+    "test": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/morris/vanilla-todo#readme",
   "devDependencies": {
+    "@playwright/test": "^1.33.0",
     "eslint": "^8.20.0",
     "eslint-plugin-compat": "^4.0.2",
     "http-server": "^14.1.1",

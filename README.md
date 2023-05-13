@@ -532,7 +532,25 @@ Reference:
 
 ## 4. Testing
 
-_TODO_
+I've implemented one end-to-end test and one unit test
+using [Playwright](https://playwright.dev/).
+This was straightforward besides small details like the `*.mjs` extension
+and the fact that you cannot use named imports when importing from
+`public/scripts`.
+
+There's a lot more to explore here, but it's not much different from
+testing other frontend stacks. It's actually simpler as there was zero
+configuration and just one dependency.
+
+However, it's currently lacking code coverage. Playwright provides some
+[code coverage facilities](https://playwright.dev/docs/api/class-coverage)
+but it's not straight-forward to produce a standard LCOV report from that,
+and it would probably be difficult to unify end-to-end and unit test coverage.
+
+Reference:
+
+- [addItem.test.mjs](./test/e2e/addItem.test.mjs)
+- [util.test.mjs](./test/unit/util.test.mjs)
 
 ## 5. Assessment
 
@@ -615,6 +633,7 @@ and some opinionated statements based on my experience in the industry.
 - Little indirection
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
+- Straight-forward, zero-config testing with Playwright
 
 All source files (HTML, CSS and JS) combine to **under 2400 lines of code**,
 including comments and empty lines.
@@ -663,6 +682,7 @@ would reduce the comparably low code size (see above) even further.
   continuously monitor regressions with extensive test suites.
   The cost of browser testing is surely a lot higher
   when using a vanilla approach.
+- No code coverage from tests
 
 ---
 
@@ -805,6 +825,7 @@ Thanks!
 
 ### 05/2023
 
+- Add basic testing
 - Fix stylelint errors
 - Update dependencies
 
