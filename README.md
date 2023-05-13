@@ -172,7 +172,7 @@ All JavaScript files are ES modules (`import`/`export`).
 Basic code quality (code style, linting) is guided by
 [Prettier](https://prettier.io), [stylelint](https://stylelint.io) and
 [ESLint](https://eslint.org).
-I've set the ESLint parser to ES5 to ensure only ES5 code is allowed.
+I've set the ESLint parser to ES2020 to ensure only ES2020 code is allowed.
 
 Note that I've opted out of web components completely.
 I can't clearly articulate what I dislike about them
@@ -802,6 +802,11 @@ Projects I've inspected for drag & drop architecture:
 Thanks!
 
 ## 9. Changelog
+
+### 05/2023
+
+- Fix stylelint errors
+- Update dependencies
 
 ### 08/2022
 

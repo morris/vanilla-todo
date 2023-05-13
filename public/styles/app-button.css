@@ -47,7 +47,7 @@
   color: #eee;
 }
 
-@media (min-width: 600px) {
+@media (width >= 600px) {
   .app-button.-xl {
     font-size: 2em;
   }

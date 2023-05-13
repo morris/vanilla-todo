@@ -27,7 +27,7 @@
 
 .todo-frame > .leftcontrols > p,
 .todo-frame > .rightcontrols > p {
-  margin: 0 0 0.5em 0;
+  margin: 0 0 0.5em;
 }
 
 .todo-frame > .rightcontrols > .datepicker {
@@ -38,10 +38,7 @@
 .todo-frame > .container {
   position: absolute;
   overflow: hidden;
-  top: 0;
-  right: 52px;
-  bottom: 0;
-  left: 52px;
+  inset: 0 52px;
 }
 
 .todo-frame > .container > .card {
@@ -56,7 +53,7 @@
   transition: height 0.2s ease-out;
 }
 
-@media (min-width: 600px) {
+@media (width >= 600px) {
   .todo-frame > .container {
     right: 70px;
     left: 70px;
@@ -72,19 +69,19 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .todo-frame > .container > .card {
     width: 33.333%;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .todo-frame > .container > .card {
     width: 25%;
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .todo-frame > .container > .card {
     width: 20%;
   }
