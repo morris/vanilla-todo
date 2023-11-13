@@ -12,7 +12,7 @@ VT.TodoApp = function (el) {
   el.innerHTML = [
     '<header class="app-header">',
     '  <h1 class="title">VANILLA TODO</h1>',
-    '  <p class="app-fps"></p>',
+    '  <p class="app-fps fps"></p>',
     '</header>',
     '<div class="todo-frame -days"></div>',
     '<div class="app-collapsible">',

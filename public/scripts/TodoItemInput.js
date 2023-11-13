@@ -51,7 +51,7 @@ export function TodoItemInput(el) {
       new CustomEvent('addTodoItem', {
         detail: { label },
         bubbles: true,
-      })
+      }),
     );
   }
 

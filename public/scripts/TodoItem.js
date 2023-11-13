@@ -50,7 +50,7 @@ export function TodoItem(el) {
           done: !state.item.done,
         },
         bubbles: true,
-      })
+      }),
     );
   });
 
@@ -105,7 +105,7 @@ export function TodoItem(el) {
           new CustomEvent('deleteTodoItem', {
             detail: state.item,
             bubbles: true,
-          })
+          }),
         );
       });
 
@@ -119,7 +119,7 @@ export function TodoItem(el) {
           label,
         },
         bubbles: true,
-      })
+      }),
     );
 
     update({ editing: false });

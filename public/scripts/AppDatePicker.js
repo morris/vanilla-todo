@@ -60,7 +60,7 @@ export function AppDatePicker(el) {
   el.querySelectorAll('.app-icon').forEach(AppIcon);
 
   el.addEventListener('toggleDatePicker', (e) =>
-    update({ show: e.detail ?? !state.show })
+    update({ show: e.detail ?? !state.show }),
   );
 
   el.addEventListener('setMonth', (e) => update(e.detail));
@@ -78,10 +78,10 @@ export function AppDatePicker(el) {
         detail: new Date(
           e.target.dataset.year,
           e.target.dataset.month - 1,
-          e.target.dataset.day
+          e.target.dataset.day,
         ),
         bubbles: true,
-      })
+      }),
     );
   });
 
@@ -95,7 +95,7 @@ export function AppDatePicker(el) {
         : {
             year: state.year - 1,
             month: 12,
-          }
+          },
     );
   }
 
@@ -109,7 +109,7 @@ export function AppDatePicker(el) {
         : {
             year: state.year + 1,
             month: 1,
-          }
+          },
     );
   }
 
@@ -122,7 +122,7 @@ export function AppDatePicker(el) {
     const first = new Date(state.year, state.month - 1, 1);
 
     el.querySelector('.month').innerHTML = `${formatMonth(
-      first
+      first,
     )} ${first.getFullYear()}`;
 
     let current = new Date(first);
@@ -147,7 +147,7 @@ export function AppDatePicker(el) {
         '-highlight',
         current.getFullYear() === now.getFullYear() &&
           current.getMonth() === now.getMonth() &&
-          current.getDate() === now.getDate()
+          current.getDate() === now.getDate(),
       );
 
       current.setDate(current.getDate() + 1);

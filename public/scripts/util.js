@@ -33,12 +33,12 @@ export function formatDayOfMonth(date) {
   return d === 11 || d === 12 || d === 13
     ? `${d}th`
     : t === 1
-    ? `${d}st`
-    : t === 2
-    ? `${d}nd`
-    : t === 3
-    ? `${d}rd`
-    : `${d}th`;
+      ? `${d}st`
+      : t === 2
+        ? `${d}nd`
+        : t === 3
+          ? `${d}rd`
+          : `${d}th`;
 }
 
 export const DAY_NAMES = [

@@ -247,7 +247,7 @@ export function HelloWorld(el) {
 
   // attach event listeners
   el.addEventListener('modifyCounter', (e) =>
-    update({ counter: state.counter + e.detail })
+    update({ counter: state.counter + e.detail }),
   );
 
   // initial update
@@ -267,7 +267,7 @@ export function HelloWorld(el) {
     el.querySelector('.my-counter').dispatchEvent(
       new CustomEvent('updateMyCounter', {
         detail: { value: state.counter },
-      })
+      }),
     );
   }
 }
@@ -297,7 +297,7 @@ export function MyCounter(el) {
       new CustomEvent('modifyCounter', {
         detail: 1,
         bubbles: true,
-      })
+      }),
     );
   });
 
@@ -308,7 +308,7 @@ export function MyCounter(el) {
       new CustomEvent('modifyCounter', {
         detail: -1,
         bubbles: true,
-      })
+      }),
     );
   });
 
@@ -434,7 +434,7 @@ export function TodoList(el) {
     const childrenByKey = new Map();
 
     obsolete.forEach((child) =>
-      childrenByKey.set(child.getAttribute('data-key'), child)
+      childrenByKey.set(child.getAttribute('data-key'), child),
     );
 
     // build new list of child elements from data
@@ -459,7 +459,7 @@ export function TodoList(el) {
 
       // update child
       child.dispatchEvent(
-        new CustomEvent('updateTodoItem', { detail: { item: item } })
+        new CustomEvent('updateTodoItem', { detail: { item: item } }),
       );
 
       return child;
@@ -822,6 +822,10 @@ Projects I've inspected for drag & drop architecture:
 Thanks!
 
 ## 9. Changelog
+
+### 11/2023
+
+- Update dependencies
 
 ### 05/2023
 

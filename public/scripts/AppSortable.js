@@ -5,11 +5,11 @@ export function AppSortable(el, options) {
   let currentIndex = -1;
 
   el.addEventListener('draggableStart', (e) =>
-    e.detail.image.addEventListener('draggableCancel', cleanUp)
+    e.detail.image.addEventListener('draggableCancel', cleanUp),
   );
 
   el.addEventListener('draggableOver', (e) =>
-    maybeDispatchUpdate(calculateIndex(e.detail.image), e)
+    maybeDispatchUpdate(calculateIndex(e.detail.image), e),
   );
 
   el.addEventListener('draggableLeave', (e) => maybeDispatchUpdate(-1, e));
@@ -19,8 +19,8 @@ export function AppSortable(el, options) {
       new CustomEvent('sortableDrop', {
         detail: buildDetail(e),
         bubbles: true,
-      })
-    )
+      }),
+    ),
   );
 
   el.addEventListener('sortableUpdate', (e) => {
@@ -47,7 +47,7 @@ export function AppSortable(el, options) {
         new CustomEvent('sortableUpdate', {
           detail: buildDetail(originalEvent),
           bubbles: true,
-        })
+        }),
       );
     }
   }

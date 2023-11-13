@@ -6,7 +6,7 @@ export function AppCollapsible(el) {
   el.addEventListener('collapse', (e) => update({ show: !e.detail }));
 
   el.querySelector('.bar > .toggle').addEventListener('click', () =>
-    update({ show: !state.show })
+    update({ show: !state.show }),
   );
 
   update();
@@ -16,7 +16,7 @@ export function AppCollapsible(el) {
 
     el.querySelector('.bar > .toggle > .app-icon').classList.toggle(
       '-r180',
-      state.show
+      state.show,
     );
 
     el.querySelectorAll('.body').forEach((el) => {

@@ -9,7 +9,7 @@ test("Add item to today's todo list (Enter)", async ({ page }) => {
   await page.keyboard.press('Enter');
 
   await expect(page.locator('.-today .todo-item > .label')).toHaveText(
-    'Hello, world!'
+    'Hello, world!',
   );
 });
 
@@ -22,6 +22,6 @@ test("Add item to today's todo list (click)", async ({ page }) => {
   await page.locator('.-today .todo-item-input > .save').click();
 
   await expect(page.locator('.-today .todo-item > .label')).toHaveText(
-    'Hello, world!'
+    'Hello, world!',
   );
 });

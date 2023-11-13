@@ -68,7 +68,7 @@ export function TodoCustomList(el) {
     if (state.list.items.length > 0) {
       if (
         !confirm(
-          'Deleting this list will delete its items as well. Are you sure?'
+          'Deleting this list will delete its items as well. Are you sure?',
         )
       ) {
         return;
@@ -79,7 +79,7 @@ export function TodoCustomList(el) {
       new CustomEvent('deleteTodoList', {
         detail: state.list,
         bubbles: true,
-      })
+      }),
     );
   });
 
@@ -116,7 +116,7 @@ export function TodoCustomList(el) {
       new CustomEvent('saveTodoList', {
         detail: { list: state.list, title: inputEl.value.trim() },
         bubbles: true,
-      })
+      }),
     );
     update({ editing: false });
   }
@@ -132,12 +132,11 @@ export function TodoCustomList(el) {
     titleEl.innerText = state.list.title || '...';
 
     el.querySelector('.todo-list').dispatchEvent(
-      new CustomEvent('todoItems', { detail: state.list.items })
+      new CustomEvent('todoItems', { detail: state.list.items }),
     );
 
-    el.querySelector(
-      '.todo-list > .todo-item-input'
-    ).dataset.key = `todo-item-input${state.list.id}`;
+    el.querySelector('.todo-list > .todo-item-input').dataset.key =
+      `todo-item-input${state.list.id}`;
 
     el.classList.toggle('-editing', state.editing);
 

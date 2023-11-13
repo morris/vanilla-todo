@@ -23,8 +23,8 @@ export function TodoList(el) {
           index: e.detail.index,
         },
         bubbles: true,
-      })
-    )
+      }),
+    ),
   );
 
   el.addEventListener('todoItems', (e) => update({ items: e.detail }));

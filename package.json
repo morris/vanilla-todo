@@ -1,7 +1,26 @@
 {
   "name": "vanilla-todo",
   "version": "0.1.0",
-  "description": "A TeuxDeux clone built with vanilla web technology only",
+  "description": "A TeuxDeux clone in plain HTML, CSS and JavaScript (no build steps)",
+  "keywords": [
+    "vanilla",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "Morris Brodersen <mb@morrisbrodersen.de>",
+  "license": "ISC",
+  "homepage": "https://github.com/morris/vanilla-todo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morris/vanilla-todo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/morris/vanilla-todo/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "format": "prettier --write .",
     "format-check": "prettier --check .",
@@ -10,30 +29,14 @@
     "serve": "http-server -c-1 public",
     "test": "playwright test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/morris/vanilla-todo.git"
-  },
-  "keywords": [
-    "vanilla",
-    "html",
-    "javascript",
-    "css"
-  ],
-  "author": "Morris Brodersen <mb@morrisbrodersen.de>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/morris/vanilla-todo/issues"
-  },
-  "homepage": "https://github.com/morris/vanilla-todo#readme",
   "devDependencies": {
     "@playwright/test": "^1.33.0",
     "eslint": "^8.20.0",
     "eslint-plugin-compat": "^4.0.2",
     "http-server": "^14.1.1",
-    "prettier": "^2.7.1",
+    "prettier": "^3.1.0",
     "stylelint": "^15.6.1",
-    "stylelint-config-standard": "^33.0.0",
+    "stylelint-config-standard": "^34.0.0",
     "stylelint-rscss": "^0.4.0"
   }
 }

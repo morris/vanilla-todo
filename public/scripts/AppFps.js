@@ -25,7 +25,7 @@ export function AppFps(el) {
     const fps = (sampleSize / sum) * 1000;
 
     el.innerText = `${fps.toFixed(0)} fps (${min.toFixed(0)} ms - ${max.toFixed(
-      0
+      0,
     )} ms)`;
 
     times = [];

@@ -55,35 +55,39 @@ export function TodoFrameDays(el) {
   el.querySelectorAll('.app-date-picker').forEach(AppDatePicker);
 
   el.querySelector('.backward').addEventListener('click', () =>
-    el.dispatchEvent(new CustomEvent('seekDays', { detail: -1, bubbles: true }))
+    el.dispatchEvent(
+      new CustomEvent('seekDays', { detail: -1, bubbles: true }),
+    ),
   );
 
   el.querySelector('.forward').addEventListener('click', () =>
-    el.dispatchEvent(new CustomEvent('seekDays', { detail: 1, bubbles: true }))
+    el.dispatchEvent(new CustomEvent('seekDays', { detail: 1, bubbles: true })),
   );
 
   el.querySelector('.fastbackward').addEventListener('click', () =>
-    el.dispatchEvent(new CustomEvent('seekDays', { detail: -5, bubbles: true }))
+    el.dispatchEvent(
+      new CustomEvent('seekDays', { detail: -5, bubbles: true }),
+    ),
   );
 
   el.querySelector('.fastforward').addEventListener('click', () =>
-    el.dispatchEvent(new CustomEvent('seekDays', { detail: 5, bubbles: true }))
+    el.dispatchEvent(new CustomEvent('seekDays', { detail: 5, bubbles: true })),
   );
 
   el.querySelector('.home').addEventListener('click', () =>
-    el.dispatchEvent(new CustomEvent('seekToToday', { bubbles: true }))
+    el.dispatchEvent(new CustomEvent('seekToToday', { bubbles: true })),
   );
 
   el.querySelector('.pickdate').addEventListener('click', () =>
     el
       .querySelector('.datepicker')
-      .dispatchEvent(new CustomEvent('toggleDatePicker'))
+      .dispatchEvent(new CustomEvent('toggleDatePicker')),
   );
 
   el.querySelector('.datepicker').addEventListener('pickDate', (e) =>
     el.dispatchEvent(
-      new CustomEvent('seekToDate', { detail: e.detail, bubbles: true })
-    )
+      new CustomEvent('seekToDate', { detail: e.detail, bubbles: true }),
+    ),
   );
 
   el.addEventListener('todoData', (e) => update(e.detail));

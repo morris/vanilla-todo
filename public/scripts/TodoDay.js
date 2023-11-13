@@ -43,7 +43,7 @@ export function TodoDay(el) {
     el.querySelector('.header > .dayofweek').innerText = formatDayOfWeek(date);
     el.querySelector('.header > .date').innerText = formatDate(date);
     el.querySelector('.todo-list').dispatchEvent(
-      new CustomEvent('todoItems', { detail: state.items })
+      new CustomEvent('todoItems', { detail: state.items }),
     );
   }
 }

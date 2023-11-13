@@ -5,7 +5,9 @@
   margin: 0;
   padding: 0.25em 0;
   background: #fff;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out;
   cursor: pointer;
   -webkit-touch-callout: none;
   -webkit-user-select: none;

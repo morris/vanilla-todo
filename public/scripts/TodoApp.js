@@ -109,11 +109,11 @@ export function TodoApp(el) {
     Object.assign(state, next);
 
     el.querySelectorAll('.todo-frame').forEach((el) =>
-      el.dispatchEvent(new CustomEvent('todoData', { detail: state }))
+      el.dispatchEvent(new CustomEvent('todoData', { detail: state })),
     );
 
     el.querySelectorAll('.app-collapsible').forEach((el) =>
-      el.dispatchEvent(new CustomEvent('collapse'))
+      el.dispatchEvent(new CustomEvent('collapse')),
     );
   }
 

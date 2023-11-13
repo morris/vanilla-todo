@@ -1,6 +1,8 @@
 .todo-custom-list {
   padding: 0 0.5em;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out,
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out,
     box-shadow 0.2s ease-out;
 }
 
@@ -52,7 +54,8 @@
 }
 
 .todo-custom-list.-dragging {
-  box-shadow: 10px 0 12px -14px rgb(0 0 0 / 30%),
+  box-shadow:
+    10px 0 12px -14px rgb(0 0 0 / 30%),
     -10px 0 12px -14px rgb(0 0 0 / 30%);
   background: #fff;
   opacity: 0.8;

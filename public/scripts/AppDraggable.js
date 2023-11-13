@@ -26,7 +26,7 @@ export function AppDraggable(el, options) {
         e.stopImmediatePropagation();
       }
     },
-    true
+    true,
   );
 
   function start(e) {
@@ -122,7 +122,7 @@ export function AppDraggable(el, options) {
       new CustomEvent('draggableStart', {
         detail: buildDetail(),
         bubbles: true,
-      })
+      }),
     );
   }
 
@@ -131,7 +131,7 @@ export function AppDraggable(el, options) {
       new CustomEvent('draggableDrag', {
         detail: buildDetail(),
         bubbles: true,
-      })
+      }),
     );
   }
 
@@ -148,7 +148,7 @@ export function AppDraggable(el, options) {
         new CustomEvent('draggableLeave', {
           detail: buildDetail(),
           bubbles: true,
-        })
+        }),
       );
     }
 
@@ -158,7 +158,7 @@ export function AppDraggable(el, options) {
         new CustomEvent('draggableEnter', {
           detail: buildDetail(),
           bubbles: true,
-        })
+        }),
       );
     }
 
@@ -178,7 +178,7 @@ export function AppDraggable(el, options) {
         new CustomEvent('draggableOver', {
           detail: buildDetail(),
           bubbles: true,
-        })
+        }),
       );
     }
 
@@ -192,14 +192,14 @@ export function AppDraggable(el, options) {
         new CustomEvent('draggableDrop', {
           detail: buildDetail(),
           bubbles: true,
-        })
+        }),
       );
     } else {
       image.dispatchEvent(
         new CustomEvent('draggableCancel', {
           detail: buildDetail(),
           bubbles: true,
-        })
+        }),
       );
     }
   }
@@ -297,7 +297,7 @@ export function AppDraggable(el, options) {
       const distanceSquared = pointDistanceToRectSquared(
         clientX,
         clientY,
-        rect
+        rect,
       );
 
       if (distanceSquared > dropRangeSquared) return;

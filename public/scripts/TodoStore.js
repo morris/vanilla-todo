@@ -50,7 +50,7 @@ export function TodoStore(el) {
     const movedItem = state.items.find((item) => item.id === e.detail.item.id);
 
     const listItems = state.items.filter(
-      (item) => item.listId === e.detail.listId && item !== movedItem
+      (item) => item.listId === e.detail.listId && item !== movedItem,
     );
 
     listItems.sort((a, b) => a.index - b.index);
@@ -66,7 +66,7 @@ export function TodoStore(el) {
   });
 
   el.addEventListener('deleteTodoItem', (e) =>
-    dispatch({ items: state.items.filter((item) => item.id !== e.detail.id) })
+    dispatch({ items: state.items.filter((item) => item.id !== e.detail.id) }),
   );
 
   el.addEventListener('addTodoList', (e) => {
@@ -97,7 +97,7 @@ export function TodoStore(el) {
 
   el.addEventListener('moveTodoList', (e) => {
     const movedListIndex = state.customLists.findIndex(
-      (list) => list.id === e.detail.list.id
+      (list) => list.id === e.detail.list.id,
     );
     const movedList = state.customLists[movedListIndex];
 
@@ -115,9 +115,9 @@ export function TodoStore(el) {
   el.addEventListener('deleteTodoList', (e) =>
     dispatch({
       customLists: state.customLists.filter(
-        (customList) => customList.id !== e.detail.id
+        (customList) => customList.id !== e.detail.id,
       ),
-    })
+    }),
   );
 
   el.addEventListener('seekDays', (e) => {
@@ -128,20 +128,20 @@ export function TodoStore(el) {
   });
 
   el.addEventListener('seekToToday', () =>
-    dispatch({ at: formatDateId(new Date()) })
+    dispatch({ at: formatDateId(new Date()) }),
   );
 
   el.addEventListener('seekToDate', (e) =>
-    dispatch({ at: formatDateId(e.detail) })
+    dispatch({ at: formatDateId(e.detail) }),
   );
 
   el.addEventListener('seekCustomTodoLists', (e) =>
     dispatch({
       customAt: Math.max(
         0,
-        Math.min(state.customLists.length - 1, state.customAt + e.detail)
+        Math.min(state.customLists.length - 1, state.customAt + e.detail),
       ),
-    })
+    }),
   );
 
   function dispatch(next) {
@@ -152,7 +152,7 @@ export function TodoStore(el) {
       new CustomEvent('todoData', {
         detail: state,
         bubbles: false,
-      })
+      }),
     );
   }
 
