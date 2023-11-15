@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://unpkg.com/@primer/octicons@17.3.0/build/svg/';
+export const BASE_URL = 'https://unpkg.com/@primer/octicons@19.8.0/build/svg/';
 
 const cache = {};
 
