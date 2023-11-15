@@ -113,7 +113,7 @@ export function TodoApp(el) {
     );
 
     el.querySelectorAll('.app-collapsible').forEach((el) =>
-      el.dispatchEvent(new CustomEvent('collapse')),
+      el.dispatchEvent(new CustomEvent('collapse', { detail: false })),
     );
   }
 
