@@ -857,20 +857,20 @@ Feedback is highly appreciated.
 
 ### 11/2023
 
-- Add development server with hot reloading
-- Fix some visual issues
-- Update dependencies
+- Added [local development server](#83-local-development-server) with hot reloading
+- Fixed some visual issues
+- Updated dependencies
 
 ### 05/2023
 
-- Add basic testing
-- Fix stylelint errors
-- Update dependencies
+- Added basic testing
+- Fixed stylelint errors
+- Updated dependencies
 
 ### 08/2022
 
 - Small improvements
-- Fix date seeking bug on Safari
+- Fixed date seeking bug on Safari
 
 ### 05/2022
 
@@ -895,4 +895,4 @@ Feedback is highly appreciated.
   [@n0nick](https://github.com/n0nick)
 - Fixed [#1](https://github.com/morris/vanilla-todo/issues/4) (bad links) &mdash;
   [@roryokane](https://github.com/roryokane)
-- Initial version.
+- Initial version
