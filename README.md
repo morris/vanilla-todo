@@ -56,6 +56,7 @@ _Intermediate understanding of the web platform is required to follow through._
 - [8. Appendix](#8-appendix)
   - [8.1. Links](#81-links)
   - [8.2. Response](#82-response)
+  - [8.3. Local Development Server](#83-local-development-server)
 - [9. Changelog](#9-changelog)
 
 ## 1. Motivation
@@ -225,45 +226,45 @@ provide behavior and rendering for the target element.
 Here's a "Hello, World!" example of mount functions:
 
 ```js
-// define mount function
-// loosely mapped to ".hello-world"
+// Define mount function
+// Loosely mapped to ".hello-world"
 export function HelloWorld(el) {
-  // define initial state
+  // Define initial state
   const state = {
     title: 'Hello, World!',
     description: 'An example vanilla component',
     counter: 0,
   };
 
-  // set rigid base HTML
+  // Set rigid base HTML
   el.innerHTML = `
     <h1 class="title"></h1>
     <p class="description"></p>
     <div class="my-counter"></div>
   `;
 
-  // mount sub-components
+  // Mount sub-components
   el.querySelectorAll('.my-counter').forEach(MyCounter);
 
-  // attach event listeners
+  // Attach event listeners
   el.addEventListener('modifyCounter', (e) =>
     update({ counter: state.counter + e.detail }),
   );
 
-  // initial update
+  // Initial update
   update();
 
-  // define idempotent update function
+  // Define idempotent update function
   function update(next) {
-    // update state
-    // optionally optimize, e.g. bail out if state hasn't changed
+    // Update state
+    // Optionally optimize, e.g. bail out if state hasn't changed
     Object.assign(state, next);
 
-    // update own HTML
+    // Update own HTML
     el.querySelector('.title').innerText = state.title;
     el.querySelector('.description').innerText = state.description;
 
-    // pass data to sub-scomponents
+    // Pass data to sub-scomponents
     el.querySelector('.my-counter').dispatchEvent(
       new CustomEvent('updateMyCounter', {
         detail: { value: state.counter },
@@ -272,15 +273,15 @@ export function HelloWorld(el) {
   }
 }
 
-// define another component
-// loosely mapped to ".my-counter"
+// Define another component
+// Loosely mapped to ".my-counter"
 export function MyCounter(el) {
-  // define initial state
+  // Define initial state
   const state = {
     value: 0,
   };
 
-  // set rigid base HTML
+  // Set rigid base HTML
   el.innerHTML = `
     <p>
       <span class="value"></span>
@@ -289,10 +290,10 @@ export function MyCounter(el) {
     </p>
   `;
 
-  // attach event listeners
+  // Attach event listeners
   el.querySelector('.increment').addEventListener('click', () => {
-    // dispatch an action
-    // use .detail to transport data
+    // Dispatch an action
+    // Use .detail to transport data
     el.dispatchEvent(
       new CustomEvent('modifyCounter', {
         detail: 1,
@@ -302,8 +303,8 @@ export function MyCounter(el) {
   });
 
   el.querySelector('.decrement').addEventListener('click', () => {
-    // dispatch an action
-    // use .detail to transport data
+    // Dispatch an action
+    // Use .detail to transport data
     el.dispatchEvent(
       new CustomEvent('modifyCounter', {
         detail: -1,
@@ -314,7 +315,7 @@ export function MyCounter(el) {
 
   el.addEventListener('updateMyCounter', (e) => update(e.detail));
 
-  // define idempotent update function
+  // Define idempotent update function
   function update(next) {
     Object.assign(state, next);
 
@@ -322,8 +323,8 @@ export function MyCounter(el) {
   }
 }
 
-// mount HelloWorld component(s)
-// any <div class="hello-world"></div> in the document will be mounted
+// Mount HelloWorld component(s)
+// Any <div class="hello-world"></div> in the document will be mounted
 document.querySelectorAll('.hello-world').forEach(HelloWorld);
 ```
 
@@ -427,37 +428,37 @@ export function TodoList(el) {
 
     const container = el.querySelector('.items');
 
-    // mark current children for removal
+    // Mark current children for removal
     const obsolete = new Set(container.children);
 
-    // map current children by data-key
+    // Map current children by data-key
     const childrenByKey = new Map();
 
     obsolete.forEach((child) =>
       childrenByKey.set(child.getAttribute('data-key'), child),
     );
 
-    // build new list of child elements from data
+    // Build new list of child elements from data
     const children = state.items.map((item) => {
-      // find existing child by data-key
+      // Find existing child by data-key
       let child = childrenByKey.get(item.id);
 
       if (child) {
-        // if child exists, keep it
+        // If child exists, keep it
         obsolete.delete(child);
       } else {
-        // otherwise, create new child
+        // Otherwise, create new child
         child = document.createElement('div');
         child.classList.add('todo-item');
 
-        // set data-key
+        // Set data-key
         child.setAttribute('data-key', item.id);
 
-        // mount component
+        // Mount component
         TodoItem(child);
       }
 
-      // update child
+      // Update child
       child.dispatchEvent(
         new CustomEvent('updateTodoItem', { detail: { item: item } }),
       );
@@ -465,10 +466,10 @@ export function TodoList(el) {
       return child;
     });
 
-    // remove obsolete children
+    // Remove obsolete children
     obsolete.forEach((child) => container.removeChild(child));
 
-    // (re-)insert new list of children
+    // (Re-)insert new list of children
     children.forEach((child, index) => {
       if (child !== container.children[index]) {
         container.insertBefore(child, container.children[index]);
@@ -478,7 +479,7 @@ export function TodoList(el) {
 }
 ```
 
-It's very verbose and has lots of opportunity to introduce bugs.
+It's very verbose, with lots of opportunity to introduce bugs.
 Compared to a simple loop in JSX, this seems insane.
 It is quite performant as it does minimal work but is otherwise messy;
 definitely a candidate for a utility function or library.
@@ -652,7 +653,7 @@ I suspect a fully equivalent clone to be well below 10000 LOC, though._
   would justify a helper.
 - Listening to and dispatching events is slightly verbose.
 - Although not used in this study,
-  event delegation is not trivial to implement without code duplication.
+  event delegation seems not trivial to implement without code duplication.
 
 Eliminating verbosities through build steps and a minimal set of helpers
 would reduce the comparably low code size (see above) even further.
@@ -821,10 +822,43 @@ Projects I've inspected for drag & drop architecture:
 
 Thanks!
 
+#### 8.3. Local Development Server
+
+_The local development server was added in 2023 and was not used during the initial study in 2020._
+
+One thing I came to cherish in my professional work is
+_hot reloading_ when changing source files.
+Hot reloading provides fast feedback during development,
+especially useful when fine-tuning visuals.
+
+I've implemented a minimal local development server (~200 LOC) with support for hot reloading:
+
+- Changes to stylesheets or images will hot replace the changed resources.
+- Other changes (e.g. JavaScript or HTML) will cause a full page reload.
+
+While it's not proper [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/)
+(which requires immense infrastructure),
+it required zero changes to the application source
+and provides a similar experience
+(in particular because page reloads are fast).
+
+You can try it out by
+
+- installing Node.js (>= 20),
+- checking out the repository,
+- running `npm install`,
+- and running `npm run dev`.
+
+Note that the local development server is highly experimental and is likely lacking
+some features to be generally usable. See [/dev](./dev) for the implementation.
+Feedback is highly appreciated.
+
 ## 9. Changelog
 
 ### 11/2023
 
+- Add development server with hot reloading
+- Fix some visual issues
 - Update dependencies
 
 ### 05/2023
