@@ -118,14 +118,18 @@ export function TodoFrameCustom(el) {
     const container = el.querySelector('.container');
 
     for (let i = 0, l = container.children.length; i < l; ++i) {
+      container.children[i].style.height = `auto`;
       height = Math.max(container.children[i].offsetHeight, height);
     }
 
-    el.style.height = `${height + 50}px`;
+    el.style.height = `${height + 80}px`;
 
     for (let i = 0, l = container.children.length; i < l; ++i) {
-      container.children[i].style.height = `${height}px`;
+      container.children[i].style.height = `${height + 30}px`;
     }
+
+    // update collapsible on changing heights
+    el.dispatchEvent(new CustomEvent('collapse', { bubbles: true }));
   }
 
   function getLists() {

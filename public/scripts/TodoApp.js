@@ -33,7 +33,7 @@ export function TodoApp(el) {
     </div>
     <footer class="app-footer">
       <p>
-        VANILLA TODO &copy 2020-2022 <a href="https://morrisbrodersen.de">Morris Brodersen</a>
+        VANILLA TODO &copy; 2020&ndash;2023 <a href="https://morrisbrodersen.de">Morris Brodersen</a>
         &mdash; A case study on viable techniques for vanilla web development.
         <a href="https://github.com/morris/vanilla-todo">About →</a>
       </p>
@@ -113,7 +113,7 @@ export function TodoApp(el) {
     );
 
     el.querySelectorAll('.app-collapsible').forEach((el) =>
-      el.dispatchEvent(new CustomEvent('collapse', { detail: false })),
+      el.dispatchEvent(new CustomEvent('collapse')),
     );
   }
 

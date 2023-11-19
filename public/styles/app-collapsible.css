@@ -10,7 +10,7 @@
   background: #fff;
 }
 
-.app-collapsible > .body {
+.app-collapsible.-animated > .body {
   transition: height 0.2s ease-out;
   overflow: hidden;
 }

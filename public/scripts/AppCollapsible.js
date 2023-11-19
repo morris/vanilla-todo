@@ -3,11 +3,15 @@ export function AppCollapsible(el) {
     show: true,
   };
 
-  el.addEventListener('collapse', (e) => update({ show: !e.detail }));
+  setTimeout(() => el.classList.add('-animated'), 200);
 
-  el.querySelector('.bar > .toggle').addEventListener('click', () =>
-    update({ show: !state.show }),
-  );
+  el.addEventListener('collapse', (e) => {
+    update({ show: typeof e.detail === 'boolean' ? !e.detail : state.show });
+  });
+
+  el.querySelector('.bar > .toggle').addEventListener('click', () => {
+    update({ show: !state.show });
+  });
 
   update();
 
