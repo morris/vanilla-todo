@@ -1,3 +1,9 @@
+/**
+ * @param {HTMLElement} el
+ * @param {{
+ *  direction?: 'horizontal' | 'vertical';
+ * }} options
+ */
 export function AppSortable(el, options) {
   let placeholder;
   let placeholderSource;

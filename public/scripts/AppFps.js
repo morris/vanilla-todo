@@ -1,3 +1,6 @@
+/**
+ * @param {HTMLElement} el
+ */
 export function AppFps(el) {
   const sampleSize = 20;
   let times = [];

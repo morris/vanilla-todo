@@ -1,6 +1,9 @@
 import { TodoList } from './TodoList.js';
 import { formatDate, formatDayOfWeek } from './util.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoDay(el) {
   const state = {
     dateId: el.dataset.key,

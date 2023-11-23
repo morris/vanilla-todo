@@ -1,5 +1,8 @@
 import { formatDateId, uuid } from './util.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoStore(el) {
   const state = {
     items: [],

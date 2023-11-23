@@ -17,6 +17,9 @@ const datesRow = `
   </tr>
 `;
 
+/**
+ * @param {HTMLElement} el
+ */
 export function AppDatePicker(el) {
   const now = new Date();
   const state = {

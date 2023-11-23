@@ -1,3 +1,11 @@
+/**
+ * @param {HTMLElement} el
+ * @param {{
+ *  dropSelector: string;
+ *  dragThreshold?: number;
+ *  dropRange?: number;
+ * }} options
+ */
 export function AppDraggable(el, options) {
   const dragThreshold = options.dragThreshold ?? 5;
   const dropRange = options.dropRange ?? 50;

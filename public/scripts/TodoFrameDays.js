@@ -3,6 +3,9 @@ import { AppIcon } from './AppIcon.js';
 import { TodoDay } from './TodoDay.js';
 import { formatDateId } from './util.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoFrameDays(el) {
   const RANGE = 14;
   const state = {

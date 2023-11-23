@@ -2,6 +2,9 @@ import { AppIcon } from './AppIcon.js';
 import { AppSortable } from './AppSortable.js';
 import { TodoCustomList } from './TodoCustomList.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoFrameCustom(el) {
   const state = {
     customLists: [],

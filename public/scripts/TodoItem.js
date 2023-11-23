@@ -1,6 +1,9 @@
 import { AppDraggable } from './AppDraggable.js';
 import { AppIcon } from './AppIcon.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoItem(el) {
   const state = {
     item: null,

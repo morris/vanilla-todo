@@ -1,5 +1,8 @@
 import { AppIcon } from './AppIcon.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoItemInput(el) {
   let saveOnBlur = true;
 

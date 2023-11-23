@@ -7,6 +7,10 @@ export function uuid() {
   });
 }
 
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
 export function formatDateId(date) {
   const y = date.getFullYear();
   const m = date.getMonth() + 1;
@@ -18,6 +22,10 @@ export function formatDateId(date) {
   return `${ys}-${ms}-${ds}`;
 }
 
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
 export function formatDate(date) {
   const m = formatMonth(date);
   const d = formatDayOfMonth(date);
@@ -26,6 +34,10 @@ export function formatDate(date) {
   return `${m} ${d} ${y}`;
 }
 
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
 export function formatDayOfMonth(date) {
   const d = date.getDate();
   const t = d % 10;
@@ -51,6 +63,10 @@ export const DAY_NAMES = [
   'Saturday',
 ];
 
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
 export function formatDayOfWeek(date) {
   return DAY_NAMES[date.getDay()];
 }
@@ -70,6 +86,10 @@ export const MONTH_NAMES = [
   'December',
 ];
 
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
 export function formatMonth(date) {
   return MONTH_NAMES[date.getMonth()];
 }

@@ -2,6 +2,9 @@ import { AppDraggable } from './AppDraggable.js';
 import { AppIcon } from './AppIcon.js';
 import { TodoList } from './TodoList.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoCustomList(el) {
   const state = {
     list: null,

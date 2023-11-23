@@ -2,6 +2,9 @@ import { AppSortable } from './AppSortable.js';
 import { TodoItem } from './TodoItem.js';
 import { TodoItemInput } from './TodoItemInput.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoList(el) {
   const state = {
     items: [],

@@ -1,3 +1,11 @@
+/**
+ * @param {HTMLElement} el
+ * @param {{
+ *  initialDelay?: number;
+ *  removeTimeout: number;
+ *  selector: string;
+ * }} options
+ */
 export function AppFlip(el, options) {
   let enabled = options.initialDelay === 0;
   let first;

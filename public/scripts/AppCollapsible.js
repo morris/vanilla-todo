@@ -1,3 +1,6 @@
+/**
+ * @param {HTMLElement} el
+ */
 export function AppCollapsible(el) {
   const state = {
     show: true,

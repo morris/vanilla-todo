@@ -7,6 +7,9 @@ import { TodoFrameDays } from './TodoFrameDays.js';
 import { TodoStore } from './TodoStore.js';
 import { formatDateId } from './util.js';
 
+/**
+ * @param {HTMLElement} el
+ */
 export function TodoApp(el) {
   const state = {
     items: [],
