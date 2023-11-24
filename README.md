@@ -548,6 +548,20 @@ However, it's currently lacking code coverage. Playwright provides some
 but it's not straight-forward to produce a standard LCOV report from that,
 and it would probably be difficult to unify end-to-end and unit test coverage.
 
+To run the tests, you'll need a running web server, e.g. through
+
+- installing Node.js (>= 20),
+- checking out the repository,
+- running `npm install`,
+- and running `npm run dev`.
+
+Then, to run the tests:
+
+- `npm test` for headless tests
+- `npm run test-ui` for interactive mode
+
+The commands might ask you to install Playwright; just the follow instructions.
+
 Reference:
 
 - [addItem.test.mjs](./test/e2e/addItem.test.mjs)
