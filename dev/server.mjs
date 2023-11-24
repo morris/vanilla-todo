@@ -128,8 +128,8 @@ server.listen(port);
 const webSocketServer = new WebSocketServer({ server });
 const webSockets = new Set();
 
-webSocketServer.on('connection', (client) => {
-  webSockets.add(client);
+webSocketServer.on('connection', (webSocket) => {
+  webSockets.add(webSocket);
 });
 
 function broadcast(message) {
