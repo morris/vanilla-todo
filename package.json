@@ -22,11 +22,11 @@
     "node": ">=20"
   },
   "scripts": {
+    "dev": "node ./dev/server.mjs public",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint public",
     "lint-styles": "stylelint public/styles/*",
-    "dev": "node ./dev/server.mjs public",
     "test": "playwright test"
   },
   "devDependencies": {
