@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const socket = new WebSocket(
   `${(location.protocol === 'http:' ? 'ws://' : 'wss://') + location.host}/`,
 );
@@ -27,4 +28,8 @@ socket.addEventListener('message', (message) => {
 
   // otherwise, reload page
   if (reload) location.reload();
+});
+
+socket.addEventListener('close', () => {
+  console.warn('Development server disconnected');
 });

@@ -125,20 +125,20 @@ server.listen(port);
 
 // WebSocket server
 
-const wsClients = new Set();
-const wsServer = new WebSocketServer({ server });
+const webSocketServer = new WebSocketServer({ server });
+const webSockets = new Set();
 
-wsServer.on('connection', (client) => {
-  wsClients.add(client);
+webSocketServer.on('connection', (client) => {
+  webSockets.add(client);
 });
 
 function broadcast(message) {
-  for (const wsClient of wsClients) {
-    if (wsClient.readyState === WebSocket.OPEN) {
-      wsClient.send(JSON.stringify(message));
+  for (const webSocket of webSockets) {
+    if (webSocket.readyState === WebSocket.OPEN) {
+      webSocket.send(JSON.stringify(message));
     } else {
-      wsClients.delete(wsClient);
-      wsClient.terminate();
+      webSockets.delete(webSocket);
+      webSocket.terminate();
     }
   }
 }
