@@ -27,7 +27,8 @@
     "format-check": "prettier --check .",
     "lint": "eslint public",
     "lint-styles": "stylelint public/styles/*",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test-ui": "playwright test --ui"
   },
   "devDependencies": {
     "@playwright/test": "^1.33.0",
