@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import util from '../../public/scripts/util.js';
+import '../coverage.mjs';
 
 test('formatDate', () => {
   expect(util.formatDate(new Date(0))).toEqual('January 1st 1970');

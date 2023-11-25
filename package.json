@@ -25,13 +25,15 @@
     "dev": "node ./dev/server.mjs public",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
-    "lint": "eslint public",
+    "lint": "eslint public test",
     "lint-styles": "stylelint public/styles/*",
     "test": "playwright test",
-    "test-ui": "playwright test --ui"
+    "test-ui": "playwright test --ui",
+    "test-coverage": "bash scripts/test-coverage.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.33.0",
+    "c8": "^8.0.1",
     "eslint": "^8.20.0",
     "eslint-plugin-compat": "^4.0.2",
     "mime": "^3.0.0",

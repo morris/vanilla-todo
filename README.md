@@ -44,6 +44,7 @@ _Intermediate understanding of the web platform is required to follow through._
   - [3.3. Drag & Drop](#33-drag--drop)
   - [3.4. Animations](#34-animations)
 - [4. Testing](#4-testing)
+  - [4.1. Code Coverage](#41-code-coverage)
 - [5. Assessment](#5-assessment)
   - [5.1. User Experience](#51-user-experience)
   - [5.2. Code Quality](#52-code-quality)
@@ -533,7 +534,7 @@ Reference:
 
 ## 4. Testing
 
-I've implemented one end-to-end test and one unit test
+I've implemented some end-to-end and unit tests
 using [Playwright](https://playwright.dev/).
 This was straightforward besides small details like the `*.mjs` extension
 and the fact that you cannot use named imports when importing from
@@ -543,10 +544,12 @@ There's a lot more to explore here, but it's not much different from
 testing other frontend stacks. It's actually simpler as there was zero
 configuration and just one dependency.
 
-However, it's currently lacking code coverage. Playwright provides some
-[code coverage facilities](https://playwright.dev/docs/api/class-coverage)
-but it's not straight-forward to produce a standard LCOV report from that,
-and it would probably be difficult to unify end-to-end and unit test coverage.
+Reference:
+
+- [addItem.test.mjs](./test/e2e/addItem.test.mjs)
+- [util.test.mjs](./test/unit/util.test.mjs)
+
+---
 
 To run the tests, you'll need a running web server, e.g. through
 
@@ -557,15 +560,29 @@ To run the tests, you'll need a running web server, e.g. through
 
 Then, to run the tests:
 
-- `npm test` for headless tests
+- `npm run test` for headless tests
 - `npm run test-ui` for interactive mode
 
-The commands might ask you to install Playwright; just the follow instructions.
+The commands might ask you to install Playwright; just follow the instructions.
+
+### 4.1. Code Coverage
+
+I was able to set up code coverage (at least for end-to-end tests) via
+[Playwright's code coverage feature](https://playwright.dev/docs/api/class-coverage)
+and [c8](https://github.com/bcoe/c8).
+This introduced another dependency and was slightly more involved to get right,
+e.g. mapping localhost URLs to file URLs.
+
+Use `npm run test-coverage` to run the tests and produce an LCOV test coverage
+report in `./coverage`.
+
+Note that the implementation is specific to the project structure,
+(e.g. `/public` as web root and `8080` as port are hard-coded), but hackable.
 
 Reference:
 
-- [addItem.test.mjs](./test/e2e/addItem.test.mjs)
-- [util.test.mjs](./test/unit/util.test.mjs)
+- [test-coverage.sh](./scripts/test-coverage.sh)
+- [coverage.mjs](./test/coverage.mjs)
 
 ## 5. Assessment
 
@@ -649,6 +666,7 @@ and some opinionated statements based on my experience in the industry.
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
 - Straight-forward, zero-config testing with Playwright
+  - Including code coverage
 
 All source files (HTML, CSS and JS) combine to **under 2400 lines of code**,
 including comments and empty lines.
@@ -697,7 +715,6 @@ would reduce the comparably low code size (see above) even further.
   continuously monitor regressions with extensive test suites.
   The cost of browser testing is surely a lot higher
   when using a vanilla approach.
-- No code coverage from tests
 
 ---
 
@@ -871,6 +888,7 @@ Feedback is highly appreciated.
 
 ### 11/2023
 
+- Added support for [code coverage](#41-code-coverage)
 - Added [local development server](#83-local-development-server) with hot reloading
 - Fixed some visual issues
 - Updated dependencies
