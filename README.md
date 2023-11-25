@@ -577,7 +577,7 @@ Use `npm run test-coverage` to run the tests and produce an LCOV test coverage
 report in `./coverage`.
 
 Note that the implementation is specific to the project structure,
-(e.g. `/public` as web root and `8080` as port are hard-coded), but hackable.
+e.g. `/public` as web root and port `8080` are hard-coded.
 
 Reference:
 
