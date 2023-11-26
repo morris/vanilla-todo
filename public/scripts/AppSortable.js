@@ -7,8 +7,9 @@
 export function AppSortable(el, options) {
   let placeholder;
   let placeholderSource;
-  const horizontal = options.direction === 'horizontal';
   let currentIndex = -1;
+
+  const isBefore = options.direction === 'horizontal' ? isLeft : isAbove;
 
   el.addEventListener('draggableStart', (e) =>
     e.detail.image.addEventListener('draggableCancel', cleanUp),
@@ -115,7 +116,6 @@ export function AppSortable(el, options) {
   function calculateIndex(image) {
     if (el.children.length === 0) return 0;
 
-    const isBefore = horizontal ? isLeft : isAbove;
     const rect = image.getBoundingClientRect();
     let p = 0;
 

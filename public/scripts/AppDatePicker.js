@@ -22,11 +22,11 @@ const datesRow = `
  */
 export function AppDatePicker(el) {
   const now = new Date();
-  const state = {
+  let at = {
     year: now.getFullYear(),
     month: now.getMonth() + 1,
-    show: false,
   };
+  let show = false;
 
   el.innerHTML = `
     <h4 class="header">
@@ -62,11 +62,10 @@ export function AppDatePicker(el) {
 
   el.querySelectorAll('.app-icon').forEach(AppIcon);
 
-  el.addEventListener('toggleDatePicker', (e) =>
-    update({ show: e.detail ?? !state.show }),
-  );
-
-  el.addEventListener('setMonth', (e) => update(e.detail));
+  el.addEventListener('toggleDatePicker', (e) => {
+    show = e.detail ?? !show;
+    update();
+  });
 
   el.querySelector('.previousmonth').addEventListener('click', previousMonth);
   el.querySelector('.nextmonth').addEventListener('click', nextMonth);
@@ -74,7 +73,8 @@ export function AppDatePicker(el) {
   el.addEventListener('click', (e) => {
     if (!e.target.matches('.app-button')) return;
 
-    update({ show: false });
+    show = false;
+    update();
 
     el.dispatchEvent(
       new CustomEvent('pickDate', {
@@ -89,40 +89,42 @@ export function AppDatePicker(el) {
   });
 
   function previousMonth() {
-    update(
-      state.month > 1
-        ? {
-            year: state.year,
-            month: state.month - 1,
-          }
-        : {
-            year: state.year - 1,
-            month: 12,
-          },
-    );
+    if (at.month > 1) {
+      at = {
+        year: at.year,
+        month: at.month - 1,
+      };
+    } else {
+      at = {
+        year: at.year - 1,
+        month: 12,
+      };
+    }
+
+    update();
   }
 
   function nextMonth() {
-    update(
-      state.month < 12
-        ? {
-            year: state.year,
-            month: state.month + 1,
-          }
-        : {
-            year: state.year + 1,
-            month: 1,
-          },
-    );
+    if (at.month < 12) {
+      at = {
+        year: at.year,
+        month: at.month + 1,
+      };
+    } else {
+      at = {
+        year: at.year + 1,
+        month: 1,
+      };
+    }
+
+    update();
   }
 
-  function update(next) {
-    Object.assign(state, next);
-
-    el.classList.toggle('-show', state.show);
+  function update() {
+    el.classList.toggle('-show', show);
 
     const now = new Date();
-    const first = new Date(state.year, state.month - 1, 1);
+    const first = new Date(at.year, at.month - 1, 1);
 
     el.querySelector('.month').innerHTML = `${formatMonth(
       first,

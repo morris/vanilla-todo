@@ -11,7 +11,7 @@ import { formatDateId } from './util.js';
  * @param {HTMLElement} el
  */
 export function TodoApp(el) {
-  const state = {
+  let todoData = {
     items: [],
     customLists: [],
     at: formatDateId(new Date()),
@@ -83,7 +83,7 @@ export function TodoApp(el) {
     e.detail.placeholder.classList.add('_noflip');
   });
 
-  // dispatch "focusOther"  on .use-focus-other inputs if they are not active
+  // dispatch "focusOther" on .use-focus-other inputs if they are not active
   // ensures only one edit input is active
   el.addEventListener('focusin', (e) => {
     if (!e.target.classList.contains('use-focus-other')) return;
@@ -97,7 +97,10 @@ export function TodoApp(el) {
   // listen to the TodoStore's data
   // this is the main update
   // everything else is related to drag & drop or FLIP animations
-  el.addEventListener('todoData', (e) => update(e.detail));
+  el.addEventListener('todoData', (e) => {
+    todoData = e.detail;
+    update();
+  });
 
   // dispatch "flip" after HTML changes from these events
   // this plays the FLIP animations
@@ -108,11 +111,9 @@ export function TodoApp(el) {
 
   el.dispatchEvent(new CustomEvent('loadTodoStore'));
 
-  function update(next) {
-    Object.assign(state, next);
-
+  function update() {
     el.querySelectorAll('.todo-frame').forEach((el) =>
-      el.dispatchEvent(new CustomEvent('todoData', { detail: state })),
+      el.dispatchEvent(new CustomEvent('todoData', { detail: todoData })),
     );
 
     el.querySelectorAll('.app-collapsible').forEach((el) =>

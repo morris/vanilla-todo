@@ -8,7 +8,7 @@ import { formatDateId } from './util.js';
  */
 export function TodoFrameDays(el) {
   const RANGE = 14;
-  const state = {
+  let todoData = {
     items: [],
     at: formatDateId(new Date()),
   };
@@ -93,11 +93,12 @@ export function TodoFrameDays(el) {
     ),
   );
 
-  el.addEventListener('todoData', (e) => update(e.detail));
+  el.addEventListener('todoData', (e) => {
+    todoData = e.detail;
+    update();
+  });
 
-  function update(next) {
-    Object.assign(state, next);
-
+  function update() {
     const days = getDays();
 
     const container = el.querySelector('.container');
@@ -150,7 +151,7 @@ export function TodoFrameDays(el) {
     const days = [];
 
     for (let i = 0; i < 2 * RANGE; ++i) {
-      const t = new Date(state.at);
+      const t = new Date(todoData.at);
       t.setDate(t.getDate() - RANGE + i);
       const id = formatDateId(t);
 
@@ -165,7 +166,7 @@ export function TodoFrameDays(el) {
   }
 
   function getItemsForDay(dateId) {
-    return state.items
+    return todoData.items
       .filter((item) => item.listId === dateId)
       .sort((a, b) => a.index - b.index);
   }

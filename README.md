@@ -231,11 +231,9 @@ Here's a "Hello, World!" example of mount functions:
 // Loosely mapped to ".hello-world"
 export function HelloWorld(el) {
   // Define initial state
-  const state = {
-    title: 'Hello, World!',
-    description: 'An example vanilla component',
-    counter: 0,
-  };
+  let title = 'Hello, World!';
+  let description = 'An example vanilla component';
+  let counter = 0;
 
   // Set rigid base HTML
   el.innerHTML = `
@@ -248,27 +246,24 @@ export function HelloWorld(el) {
   el.querySelectorAll('.my-counter').forEach(MyCounter);
 
   // Attach event listeners
-  el.addEventListener('modifyCounter', (e) =>
-    update({ counter: state.counter + e.detail }),
-  );
+  el.addEventListener('modifyCounter', (e) => {
+    counter += e.detail;
+    update();
+  });
 
   // Initial update
   update();
 
   // Define idempotent update function
-  function update(next) {
-    // Update state
-    // Optionally optimize, e.g. bail out if state hasn't changed
-    Object.assign(state, next);
-
+  function update() {
     // Update own HTML
-    el.querySelector('.title').innerText = state.title;
-    el.querySelector('.description').innerText = state.description;
+    el.querySelector('.title').innerText = title;
+    el.querySelector('.description').innerText = description;
 
-    // Pass data to sub-scomponents
+    // Pass data to sub-components
     el.querySelector('.my-counter').dispatchEvent(
       new CustomEvent('updateMyCounter', {
-        detail: { value: state.counter },
+        detail: { value: counter },
       }),
     );
   }
@@ -278,9 +273,7 @@ export function HelloWorld(el) {
 // Loosely mapped to ".my-counter"
 export function MyCounter(el) {
   // Define initial state
-  const state = {
-    value: 0,
-  };
+  let value = 0;
 
   // Set rigid base HTML
   el.innerHTML = `
@@ -314,13 +307,14 @@ export function MyCounter(el) {
     );
   });
 
-  el.addEventListener('updateMyCounter', (e) => update(e.detail));
+  el.addEventListener('updateMyCounter', (e) => {
+    value = e.detail;
+    update();
+  });
 
   // Define idempotent update function
-  function update(next) {
-    Object.assign(state, next);
-
-    el.querySelector('.value').innerText = state.value;
+  function update() {
+    el.querySelector('.value').innerText = value;
   }
 }
 
@@ -416,17 +410,16 @@ from the implementation outlining the reconciliation algorithm:
 
 ```js
 export function TodoList(el) {
-  const state = {
-    items: [],
-  };
+  let items = [];
 
   el.innerHTML = `<div class="items"></div>`;
 
-  el.addEventListener('updateTodoList', (e) => update(e.detail));
+  el.addEventListener('updateTodoList', (e) => {
+    items = e.detail;
+    update();
+  });
 
-  function update(next) {
-    Object.assign(state, next);
-
+  function update() {
     const container = el.querySelector('.items');
 
     // Mark current children for removal
@@ -440,7 +433,7 @@ export function TodoList(el) {
     );
 
     // Build new list of child elements from data
-    const children = state.items.map((item) => {
+    const children = items.map((item) => {
       // Find existing child by data-key
       let child = childrenByKey.get(item.id);
 

@@ -5,10 +5,8 @@ import { formatDate, formatDayOfWeek } from './util.js';
  * @param {HTMLElement} el
  */
 export function TodoDay(el) {
-  const state = {
-    dateId: el.dataset.key,
-    items: [],
-  };
+  const dateId = el.dataset.key;
+  let items = [];
 
   el.innerHTML = `
     <div class="header">
@@ -21,20 +19,21 @@ export function TodoDay(el) {
   TodoList(el.querySelector('.todo-list'));
 
   el.addEventListener('addTodoItem', (e) => {
-    e.detail.listId = state.dateId;
+    e.detail.listId = dateId;
   });
 
   el.addEventListener('moveTodoItem', (e) => {
-    e.detail.listId = state.dateId;
+    e.detail.listId = dateId;
     e.detail.index = e.detail.index ?? 0;
   });
 
-  el.addEventListener('todoDay', (e) => update(e.detail));
+  el.addEventListener('todoDay', (e) => {
+    items = e.detail.items;
+    update();
+  });
 
-  function update(next) {
-    Object.assign(state, next);
-
-    const date = new Date(state.dateId);
+  function update() {
+    const date = new Date(dateId);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const tomorrow = new Date(today);
@@ -46,7 +45,7 @@ export function TodoDay(el) {
     el.querySelector('.header > .dayofweek').innerText = formatDayOfWeek(date);
     el.querySelector('.header > .date').innerText = formatDate(date);
     el.querySelector('.todo-list').dispatchEvent(
-      new CustomEvent('todoItems', { detail: state.items }),
+      new CustomEvent('todoItems', { detail: items }),
     );
   }
 }

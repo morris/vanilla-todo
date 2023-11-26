@@ -2,32 +2,33 @@
  * @param {HTMLElement} el
  */
 export function AppCollapsible(el) {
-  const state = {
-    show: true,
-  };
+  let show = true;
 
   setTimeout(() => el.classList.add('-animated'), 200);
 
   el.addEventListener('collapse', (e) => {
-    update({ show: typeof e.detail === 'boolean' ? !e.detail : state.show });
+    if (typeof e.detail === 'boolean') {
+      show = e.detail;
+    }
+
+    update();
   });
 
   el.querySelector('.bar > .toggle').addEventListener('click', () => {
-    update({ show: !state.show });
+    show = !show;
+    update();
   });
 
   update();
 
-  function update(next) {
-    Object.assign(state, next);
-
+  function update() {
     el.querySelector('.bar > .toggle > .app-icon').classList.toggle(
       '-r180',
-      state.show,
+      show,
     );
 
     el.querySelectorAll('.body').forEach((el) => {
-      el.style.height = state.show ? `${el.children[0].offsetHeight}px` : '0';
+      el.style.height = show ? `${el.children[0].offsetHeight}px` : '0';
     });
   }
 }

@@ -6,11 +6,10 @@ import { TodoCustomList } from './TodoCustomList.js';
  * @param {HTMLElement} el
  */
 export function TodoFrameCustom(el) {
-  const state = {
+  let todoData = {
     customLists: [],
     items: [],
     customAt: 0,
-    show: true,
   };
 
   el.innerHTML = `
@@ -69,11 +68,12 @@ export function TodoFrameCustom(el) {
     updatePositions();
   });
 
-  el.addEventListener('todoData', (e) => update(e.detail));
+  el.addEventListener('todoData', (e) => {
+    todoData = e.detail;
+    update();
+  });
 
-  function update(next) {
-    Object.assign(state, next);
-
+  function update() {
     const lists = getLists();
     const container = el.querySelector('.container');
     const obsolete = new Set(container.children);
@@ -112,7 +112,9 @@ export function TodoFrameCustom(el) {
 
   function updatePositions() {
     el.querySelectorAll('.container > *').forEach((child, index) => {
-      child.style.transform = `translateX(${(index - state.customAt) * 100}%)`;
+      child.style.transform = `translateX(${
+        (index - todoData.customAt) * 100
+      }%)`;
     });
   }
 
@@ -136,7 +138,7 @@ export function TodoFrameCustom(el) {
   }
 
   function getLists() {
-    return state.customLists
+    return todoData.customLists
       .map((list) => ({
         id: list.id,
         index: list.index,
@@ -147,7 +149,7 @@ export function TodoFrameCustom(el) {
   }
 
   function getItemsForList(listId) {
-    return state.items
+    return todoData.items
       .filter((item) => item.listId === listId)
       .sort((a, b) => a.index - b.index);
   }

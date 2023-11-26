@@ -5,11 +5,8 @@ import { AppIcon } from './AppIcon.js';
  * @param {HTMLElement} el
  */
 export function TodoItem(el) {
-  const state = {
-    item: null,
-    editing: false,
-  };
-
+  let item;
+  let editing = false;
   let startEditing = false;
   let saveOnBlur = true;
 
@@ -44,13 +41,13 @@ export function TodoItem(el) {
   });
 
   checkboxEl.addEventListener('click', () => {
-    if (state.editing) save();
+    if (editing) save();
 
     el.dispatchEvent(
       new CustomEvent('checkTodoItem', {
         detail: {
-          item: state.item,
-          done: !state.item.done,
+          item,
+          done: !item.done,
         },
         bubbles: true,
       }),
@@ -59,7 +56,8 @@ export function TodoItem(el) {
 
   labelEl.addEventListener('click', () => {
     startEditing = true;
-    update({ editing: true });
+    editing = true;
+    update();
   });
 
   inputEl.addEventListener('keyup', (e) => {
@@ -79,7 +77,7 @@ export function TodoItem(el) {
   });
 
   inputEl.addEventListener('focusOther', () => {
-    if (state.editing) save();
+    if (editing) save();
   });
 
   saveEl.addEventListener('mousedown', () => {
@@ -89,11 +87,14 @@ export function TodoItem(el) {
   saveEl.addEventListener('click', save);
 
   el.addEventListener('draggableStart', (e) => {
-    e.detail.data.item = state.item;
-    e.detail.data.key = state.item.id;
+    e.detail.data.item = item;
+    e.detail.data.key = item.id;
   });
 
-  el.addEventListener('todoItem', (e) => update({ item: e.detail }));
+  el.addEventListener('todoItem', (e) => {
+    item = e.detail;
+    update();
+  });
 
   function save() {
     const label = inputEl.value.trim();
@@ -106,7 +107,7 @@ export function TodoItem(el) {
       requestAnimationFrame(() => {
         el.dispatchEvent(
           new CustomEvent('deleteTodoItem', {
-            detail: state.item,
+            detail: item,
             bubbles: true,
           }),
         );
@@ -118,34 +119,35 @@ export function TodoItem(el) {
     el.dispatchEvent(
       new CustomEvent('saveTodoItem', {
         detail: {
-          item: state.item,
+          item,
           label,
         },
         bubbles: true,
       }),
     );
 
-    update({ editing: false });
+    editing = false;
+    update();
   }
 
   function cancelEdit() {
     saveOnBlur = false;
-    update({ editing: false });
+    editing = false;
+    update();
   }
 
-  function update(next) {
+  function update() {
     // TODO optimize
-    Object.assign(state, next);
 
-    el.classList.toggle('-done', state.item.done);
-    checkboxEl.querySelector('input').checked = state.item.done;
-    labelEl.innerText = state.item.label;
+    el.classList.toggle('-done', item.done);
+    checkboxEl.querySelector('input').checked = item.done;
+    labelEl.innerText = item.label;
 
-    el.classList.toggle('-editing', state.editing);
-    el.classList.toggle('_nodrag', state.editing);
+    el.classList.toggle('-editing', editing);
+    el.classList.toggle('_nodrag', editing);
 
-    if (state.editing && startEditing) {
-      inputEl.value = state.item.label;
+    if (editing && startEditing) {
+      inputEl.value = item.label;
       inputEl.focus();
       inputEl.select();
       startEditing = false;

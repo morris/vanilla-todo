@@ -6,9 +6,7 @@ import { TodoItemInput } from './TodoItemInput.js';
  * @param {HTMLElement} el
  */
 export function TodoList(el) {
-  const state = {
-    items: [],
-  };
+  let items = [];
 
   el.innerHTML = `
     <div class="items"></div>
@@ -30,18 +28,19 @@ export function TodoList(el) {
     ),
   );
 
-  el.addEventListener('todoItems', (e) => update({ items: e.detail }));
+  el.addEventListener('todoItems', (e) => {
+    items = e.detail;
+    update();
+  });
 
-  function update(next) {
-    Object.assign(state, next);
-
+  function update() {
     const container = el.querySelector('.items');
     const obsolete = new Set(container.children);
     const childrenByKey = new Map();
 
     obsolete.forEach((child) => childrenByKey.set(child.dataset.key, child));
 
-    const children = state.items.map((item) => {
+    const children = items.map((item) => {
       let child = childrenByKey.get(item.id);
 
       if (child) {

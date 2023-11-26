@@ -6,10 +6,8 @@ import { TodoList } from './TodoList.js';
  * @param {HTMLElement} el
  */
 export function TodoCustomList(el) {
-  const state = {
-    list: null,
-    editing: false,
-  };
+  let list;
+  let editing = false;
   let startEditing = false;
   let saveOnBlur = true;
 
@@ -36,7 +34,8 @@ export function TodoCustomList(el) {
 
   titleEl.addEventListener('click', () => {
     startEditing = true;
-    update({ editing: true });
+    editing = true;
+    update();
   });
 
   deleteEl.addEventListener('touchstart', () => {
@@ -53,7 +52,7 @@ export function TodoCustomList(el) {
   });
 
   inputEl.addEventListener('focusOther', () => {
-    if (state.editing) save();
+    if (editing) save();
   });
 
   inputEl.addEventListener('keyup', (e) => {
@@ -68,7 +67,7 @@ export function TodoCustomList(el) {
   });
 
   deleteEl.addEventListener('click', () => {
-    if (state.list.items.length > 0) {
+    if (list.items.length > 0) {
       if (
         !confirm(
           'Deleting this list will delete its items as well. Are you sure?',
@@ -80,7 +79,7 @@ export function TodoCustomList(el) {
 
     el.dispatchEvent(
       new CustomEvent('deleteTodoList', {
-        detail: state.list,
+        detail: list,
         bubbles: true,
       }),
     );
@@ -89,8 +88,8 @@ export function TodoCustomList(el) {
   el.addEventListener('draggableStart', (e) => {
     if (e.target !== titleEl) return;
 
-    e.detail.data.list = state.list;
-    e.detail.data.key = state.list.id;
+    e.detail.data.list = list;
+    e.detail.data.key = list.id;
 
     // update image (default would only be title element)
     e.detail.setImage(el);
@@ -104,47 +103,50 @@ export function TodoCustomList(el) {
   });
 
   el.addEventListener('addTodoItem', (e) => {
-    e.detail.listId = state.list.id;
+    e.detail.listId = list.id;
   });
 
   el.addEventListener('moveTodoItem', (e) => {
-    e.detail.listId = state.list.id;
+    e.detail.listId = list.id;
     e.detail.index = e.detail.index ?? 0;
   });
 
-  el.addEventListener('todoCustomList', (e) => update({ list: e.detail }));
+  el.addEventListener('todoCustomList', (e) => {
+    list = e.detail;
+    update();
+  });
 
   function save() {
     el.dispatchEvent(
       new CustomEvent('saveTodoList', {
-        detail: { list: state.list, title: inputEl.value.trim() },
+        detail: { list, title: inputEl.value.trim() },
         bubbles: true,
       }),
     );
-    update({ editing: false });
+    editing = false;
+    update();
   }
 
   function cancelEdit() {
     saveOnBlur = false;
-    update({ editing: false });
+    editing = false;
+    update();
   }
 
-  function update(next) {
-    Object.assign(state, next);
-
-    titleEl.innerText = state.list.title || '...';
+  function update() {
+    titleEl.innerText = list.title || '...';
 
     el.querySelector('.todo-list').dispatchEvent(
-      new CustomEvent('todoItems', { detail: state.list.items }),
+      new CustomEvent('todoItems', { detail: list.items }),
     );
 
     el.querySelector('.todo-list > .todo-item-input').dataset.key =
-      `todo-item-input${state.list.id}`;
+      `todo-item-input${list.id}`;
 
-    el.classList.toggle('-editing', state.editing);
+    el.classList.toggle('-editing', editing);
 
-    if (state.editing && startEditing) {
-      inputEl.value = state.list.title;
+    if (editing && startEditing) {
+      inputEl.value = list.title;
       inputEl.focus();
       inputEl.select();
       startEditing = false;
