@@ -22,10 +22,10 @@ export function AppDraggable(el, options) {
   let imageX, imageY;
   let currentTarget;
 
-  el.addEventListener('touchstart', start);
+  el.addEventListener('touchstart', start, { passive: true });
   el.addEventListener('mousedown', start);
 
-  // maybe prevent click
+  // Maybe prevent click
   el.addEventListener(
     'click',
     (e) => {

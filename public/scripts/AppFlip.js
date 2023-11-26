@@ -11,13 +11,13 @@ export function AppFlip(el, options) {
   let first;
   let level = 0;
 
-  // enable animations only after an initial delay
+  // Enable animations only after an initial delay.
   setTimeout(() => {
     enabled = true;
   }, options.initialDelay ?? 100);
 
-  // take a snapshot before any HTML changes
-  // do this only for the first beforeFlip event in the current cycle
+  // Take a snapshot before any HTML changes.
+  // Do this only for the first beforeFlip event in the current cycle.
   el.addEventListener('beforeFlip', () => {
     if (!enabled) return;
     if (++level > 1) return;
@@ -25,8 +25,8 @@ export function AppFlip(el, options) {
     first = snapshot();
   });
 
-  // take a snapshot after HTML changes, calculate and play animations
-  // do this only for the last flip event in the current cycle
+  // Take a snapshot after HTML changes, calculate and play animations.
+  // Do this only for the last flip event in the current cycle.
   el.addEventListener('flip', () => {
     if (!enabled) return;
     if (--level > 0) return;
@@ -45,16 +45,16 @@ export function AppFlip(el, options) {
     });
   });
 
-  // build a snapshot of the current HTML's client rectangles
-  // includes original transforms and hierarchy
+  // Build a snapshot of the current HTML's client rectangles,
+  // including original transforms and hierarchy.
   function snapshot() {
     const map = new Map();
 
     el.querySelectorAll(options.selector).forEach((el) => {
       const key = el.dataset.key ?? el;
 
-      // parse original transform
-      // i.e. strip inverse transform using "scale(1)" marker
+      // Parse original transform,
+      // i.e. strip inverse transform using "scale(1)" marker.
       const transform = el.style.transform
         ? el.style.transform.replace(/^.*scale\(1\)/, '')
         : '';
@@ -90,7 +90,7 @@ export function AppFlip(el, options) {
     });
   }
 
-  // reinsert removed elements at their original position
+  // Reinsert removed elements at their original position.
   function invertForRemoval(first, last) {
     const toRemove = [];
 
@@ -120,8 +120,8 @@ export function AppFlip(el, options) {
     }
   }
 
-  // set position of moved elements to their original position
-  // or set opacity to zero for new elements to appear nicely
+  // Set position of moved elements to their original position,
+  // or set opacity to zero for new elements to appear nicely.
   function invertForAnimation(first, last) {
     const toAnimate = [];
 
@@ -135,7 +135,7 @@ export function AppFlip(el, options) {
         entry.el.style.opacity = '0';
         toAnimate.push(entry);
       } else if (entry.deltaX !== 0 || entry.deltaY !== 0) {
-        // set inverted transform with "scale(1)" marker, see above
+        // Set inverted transform with "scale(1)" marker, see above.
         entry.el.style.transition = 'none';
         entry.el.style.transform = `translate(${entry.deltaX}px, ${entry.deltaY}px) scale(1) ${entry.transform}`;
         toAnimate.push(entry);
@@ -144,7 +144,7 @@ export function AppFlip(el, options) {
 
     return toAnimate;
 
-    // calculate inverse transform relative to any animated ancestors
+    // Calculate inverse transform relative to any animated ancestors.
     function calculate(entry) {
       if (entry.calculated) return;
       entry.calculated = true;
@@ -169,7 +169,7 @@ export function AppFlip(el, options) {
     }
   }
 
-  // play remove animations and remove elements after timeout
+  // Play remove animations and remove elements after timeout.
   function remove(entries) {
     entries.forEach((entry) => {
       entry.el.style.transition = '';
@@ -185,7 +185,7 @@ export function AppFlip(el, options) {
     }, options.removeTimeout);
   }
 
-  // play move/appear animations
+  // Play move/appear animations.
   function animate(entries) {
     entries.forEach((entry) => {
       entry.el.style.transition = '';

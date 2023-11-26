@@ -8,6 +8,7 @@ import { formatDateId } from './util.js';
  */
 export function TodoFrameDays(el) {
   const RANGE = 14;
+
   let todoData = {
     items: [],
     at: formatDateId(new Date()),

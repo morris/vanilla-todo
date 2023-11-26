@@ -38,9 +38,13 @@ export function TodoCustomList(el) {
     update();
   });
 
-  deleteEl.addEventListener('touchstart', () => {
-    saveOnBlur = false;
-  });
+  deleteEl.addEventListener(
+    'touchstart',
+    () => {
+      saveOnBlur = false;
+    },
+    { passive: true },
+  );
 
   deleteEl.addEventListener('mousedown', () => {
     saveOnBlur = false;
@@ -91,10 +95,10 @@ export function TodoCustomList(el) {
     e.detail.data.list = list;
     e.detail.data.key = list.id;
 
-    // update image (default would only be title element)
+    // Update image (default would only be title element).
     e.detail.setImage(el);
 
-    // override for horizontal dragging only
+    // Override for horizontal dragging only.
     e.detail.image.addEventListener('draggableDrag', (e) => {
       const x = e.detail.clientX - e.detail.imageX;
       const y = e.detail.originY - e.detail.imageY;

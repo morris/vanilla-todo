@@ -18,10 +18,10 @@ export function TodoItemInput(el) {
 
   inputEl.addEventListener('keyup', (e) => {
     switch (e.keyCode) {
-      case 13: // enter
+      case 13: // Enter
         save();
         break;
-      case 27: // escape
+      case 27: // Escape
         clear();
         break;
     }

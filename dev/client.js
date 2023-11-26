@@ -11,7 +11,7 @@ if (!navigator.webdriver) {
 
     let reload = true;
 
-    // hot reload stylesheets
+    // Hot reload stylesheets
     document.querySelectorAll('link[rel=stylesheet]').forEach((el) => {
       if (el.getAttribute('href') === data.url) {
         el.setAttribute('href', data.url);
@@ -19,7 +19,7 @@ if (!navigator.webdriver) {
       }
     });
 
-    // hot reload images
+    // Hot reload images
     document.querySelectorAll('img').forEach((el) => {
       if (el.getAttribute('src') === data.url) {
         el.setAttribute('src', data.url);
@@ -27,7 +27,7 @@ if (!navigator.webdriver) {
       }
     });
 
-    // otherwise, reload page
+    // Otherwise, reload page
     if (reload) location.reload();
   });
 

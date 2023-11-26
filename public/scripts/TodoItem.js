@@ -32,9 +32,13 @@ export function TodoItem(el) {
 
   el.querySelectorAll('.app-icon').forEach(AppIcon);
 
-  checkboxEl.addEventListener('touchstart', () => {
-    saveOnBlur = false;
-  });
+  checkboxEl.addEventListener(
+    'touchstart',
+    () => {
+      saveOnBlur = false;
+    },
+    { passive: true },
+  );
 
   checkboxEl.addEventListener('mousedown', () => {
     saveOnBlur = false;
@@ -62,10 +66,10 @@ export function TodoItem(el) {
 
   inputEl.addEventListener('keyup', (e) => {
     switch (e.keyCode) {
-      case 13: // enter
+      case 13: // Enter
         save();
         break;
-      case 27: // escape
+      case 27: // Escape
         cancelEdit();
         break;
     }
@@ -100,7 +104,7 @@ export function TodoItem(el) {
     const label = inputEl.value.trim();
 
     if (label === '') {
-      // deferred deletion prevents a bug at reconciliation in TodoList:
+      // Deferred deletion prevents a bug at reconciliation in TodoList:
       //   Failed to execute 'removeChild' on 'Node': The node to be removed is
       //   no longer a child of this node. Perhaps it was moved in a 'blur'
       //   event handler?
@@ -137,8 +141,6 @@ export function TodoItem(el) {
   }
 
   function update() {
-    // TODO optimize
-
     el.classList.toggle('-done', item.done);
     checkboxEl.querySelector('input').checked = item.done;
     labelEl.innerText = item.label;

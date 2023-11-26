@@ -133,7 +133,7 @@ export function TodoFrameCustom(el) {
       container.children[i].style.height = `${height + 30}px`;
     }
 
-    // update collapsible on changing heights
+    // Update collapsible on changing heights
     el.dispatchEvent(new CustomEvent('collapse', { bubbles: true }));
   }
 

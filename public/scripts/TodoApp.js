@@ -57,14 +57,14 @@ export function TodoApp(el) {
   TodoFrameDays(el.querySelector('.todo-frame.-days'));
   TodoFrameCustom(el.querySelector('.todo-frame.-custom'));
 
-  // each of these events make changes to the HTML to be animated using FLIP
-  // listening to them using "capture" dispatches "beforeFlip" before any changes
+  // Each of these events make changes to the HTML to be animated using FLIP.
+  // Listening to them using "capture" dispatches "beforeFlip" before any changes.
   el.addEventListener('todoData', beforeFlip, true);
   el.addEventListener('sortableUpdate', beforeFlip, true);
   el.addEventListener('draggableCancel', beforeFlip, true);
   el.addEventListener('draggableDrop', beforeFlip, true);
 
-  // some necessary work to orchestrate drag & drop with FLIP animations
+  // Some necessary work to orchestrate drag & drop with FLIP animations
   el.addEventListener('draggableStart', (e) => {
     e.detail.image.classList.add('_noflip');
     el.appendChild(e.detail.image);
@@ -83,8 +83,8 @@ export function TodoApp(el) {
     e.detail.placeholder.classList.add('_noflip');
   });
 
-  // dispatch "focusOther" on .use-focus-other inputs if they are not active
-  // ensures only one edit input is active
+  // Dispatch "focusOther" on .use-focus-other inputs if they are not active.
+  // Ensures only one edit input is active.
   el.addEventListener('focusin', (e) => {
     if (!e.target.classList.contains('use-focus-other')) return;
 
@@ -94,16 +94,16 @@ export function TodoApp(el) {
     });
   });
 
-  // listen to the TodoStore's data
-  // this is the main update
-  // everything else is related to drag & drop or FLIP animations
+  // Listen to the TodoStore's data.
+  // This is the main update.
+  // Everything else is related to drag & drop or FLIP animations.
   el.addEventListener('todoData', (e) => {
     todoData = e.detail;
     update();
   });
 
-  // dispatch "flip" after HTML changes from these events
-  // this plays the FLIP animations
+  // Dispatch "flip" after HTML changes from the following events.
+  // This plays the FLIP animations.
   el.addEventListener('todoData', flip);
   el.addEventListener('sortableUpdate', flip);
   el.addEventListener('draggableCancel', flip);
