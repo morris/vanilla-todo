@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://unpkg.com/@primer/octicons@19.8.0/build/svg/';
+export const BASE_URL =
+  'https://cdn.jsdelivr.net/npm/@primer/octicons@19.8.0/build/svg';
 
 const cache = {};
 
@@ -12,7 +13,7 @@ export function AppIcon(el) {
   let promise = cache[id];
 
   if (!promise) {
-    promise = cache[id] = fetch(`${BASE_URL}${id}.svg`).then((r) => r.text());
+    promise = cache[id] = fetch(`${BASE_URL}/${id}.svg`).then((r) => r.text());
   }
 
   promise.then((svg) => {
