@@ -43,8 +43,11 @@ _Intermediate understanding of the web platform is required to follow through._
     - [3.2.4. Reconciliation](#324-reconciliation)
   - [3.3. Drag & Drop](#33-drag--drop)
   - [3.4. Animations](#34-animations)
-- [4. Testing](#4-testing)
-  - [4.1. Code Coverage](#41-code-coverage)
+- [4. Tooling](#4-tooling)
+  - [4.1. Local Development Server](#41-local-development-server)
+  - [4.2. Formatting and Linting](#42-formatting-and-linting)
+  - [4.3. Testing](#43-testing)
+    - [4.3.1. Code Coverage](#431-code-coverage)
 - [5. Assessment](#5-assessment)
   - [5.1. User Experience](#51-user-experience)
   - [5.2. Code Quality](#52-code-quality)
@@ -57,7 +60,6 @@ _Intermediate understanding of the web platform is required to follow through._
 - [8. Appendix](#8-appendix)
   - [8.1. Links](#81-links)
   - [8.2. Response](#82-response)
-  - [8.3. Local Development Server](#83-local-development-server)
 - [9. Changelog](#9-changelog)
 
 ## 1. Motivation
@@ -92,7 +94,7 @@ This section describes the method in more detail.
 
 ### 2.1. Subject
 
-I've chosen to build a functionally equivalent clone of
+I've chosen to build a (functionally reduced) clone of
 [TeuxDeux](https://teuxdeux.com) for this study.
 The user interface has interesting challenges,
 in particular performant drag & drop when combined with animations.
@@ -170,11 +172,6 @@ Additionally, the global CSS namespace problem is unaddressed
 (see e.g. [CSS Modules](https://github.com/css-modules/css-modules)).
 
 All JavaScript files are ES modules (`import`/`export`).
-
-Basic code quality (code style, linting) is guided by
-[Prettier](https://prettier.io), [stylelint](https://stylelint.io) and
-[ESLint](https://eslint.org).
-I've set the ESLint parser to ES2020 to ensure only ES2020 code is allowed.
 
 Note that I've opted out of web components completely.
 I can't clearly articulate what I dislike about them
@@ -523,13 +520,90 @@ Reference:
 - [AppFlip.js](./public/scripts/AppFlip.js)
 - [TodoApp.js](./public/scripts/TodoApp.js)
 
-## 4. Testing
+## 4. Tooling
+
+While no runtime dependencies or build steps were allowed,
+I did introduce some local tooling to support the development experience.
+
+As a quick start, here are the steps to get a local development server up and running:
+
+- Install [git](https://git-scm.com/)
+- Install [Node.js](https://nodejs.org/) (>= 20)
+- Install an IDE (I used [VSCode](https://code.visualstudio.com/))
+- Clone this repository
+- Open a terminal in the repository's directory
+- Run `npm install`
+- Run `npm run dev`
+- Visit [http://localhost:8080](http://localhost:8080)
+
+The following sections describe the tooling in more detail.
+
+### 4.1. Local Development Server
+
+Because ES modules are not allowed under the `file://` protocol
+I needed to run a local web server for development.
+Initially, I used [serve](https://www.npmjs.com/package/serve)
+which was good enough to get going but requires manually reloading
+the application on every change.
+
+Tooling for most modern frameworks supports _hot reloading_,
+i.e. updating the application in place when changing source files.
+Hot reloading provides fast feedback during development;
+especially useful when fine-tuning visuals.
+
+Unfortunately, I could not find a local development server
+supporting some form of hot reloading
+without introducing a framework or build system,
+but I was able to implement a minimal local development server (~200 LOC)
+with the following behavior:
+
+- Changes to stylesheets or images will hot replace the changed resources.
+- Other changes (e.g. JavaScript or HTML) will cause a full page reload.
+
+While it's not proper [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/)
+(which requires immense infrastructure),
+it requires zero changes to the application source
+and provides a similar experience because page reloads are fast.
+
+Note that the local development server is highly experimental and is likely lacking
+some features to be generally usable. See [/dev](./dev) for the implementation.
+Feedback is highly appreciated.
+
+### 4.2. Formatting and Linting
+
+Basic code quality is provided by
+
+- [Prettier](https://prettier.io),
+- [ESLint](https://eslint.org), and
+- [stylelint](https://stylelint.io).
+
+I've set the ESLint parser to ES2020 to ensure only ES2020 code is allowed.
+I've also added stylelint rules to check for rscss-compatible CSS.
+
+Run these commands to try it out:
+
+- `npm run format-check` to check formatting
+- `npm run format` to apply formatting
+- `npm run lint` to lint JavaScript
+- `npm run lint-styles` to lint CSS
+
+These tools only required minimal configuration to be effective. They also
+integrate well with VSCode so I've barely had to run these manually.
+
+### 4.3. Testing
 
 I've implemented some end-to-end and unit tests
 using [Playwright](https://playwright.dev/).
 This was straightforward besides small details like the `*.mjs` extension
 and the fact that you cannot use named imports when importing from
 `public/scripts`.
+
+While running a local web server (see above), you can run the tests with
+
+- `npm run test` for headless tests, or
+- `npm run test-ui` for interactive mode.
+
+These might ask you to install Playwright; just follow the instructions.
 
 There's a lot more to explore here, but it's not much different from
 testing other frontend stacks. It's actually simpler as there was zero
@@ -540,23 +614,7 @@ Reference:
 - [addItem.test.mjs](./test/e2e/addItem.test.mjs)
 - [util.test.mjs](./test/unit/util.test.mjs)
 
----
-
-To run the tests, you'll need a running web server, e.g. through
-
-- installing Node.js (>= 20),
-- checking out the repository,
-- running `npm install`,
-- and running `npm run dev`.
-
-Then, to run the tests:
-
-- `npm run test` for headless tests
-- `npm run test-ui` for interactive mode
-
-The commands might ask you to install Playwright; just follow the instructions.
-
-### 4.1. Code Coverage
+#### 4.3.1. Code Coverage
 
 I was able to set up code coverage (at least for end-to-end tests) via
 [Playwright's code coverage feature](https://playwright.dev/docs/api/class-coverage)
@@ -844,44 +902,14 @@ Projects I've inspected for drag & drop architecture:
 
 Thanks!
 
-#### 8.3. Local Development Server
-
-_The local development server was added in 2023 and was not used during the initial study in 2020._
-
-One thing I came to cherish in my professional work is
-_hot reloading_ when changing source files.
-Hot reloading provides fast feedback during development,
-especially useful when fine-tuning visuals.
-
-I've implemented a minimal local development server (~200 LOC) with support for hot reloading:
-
-- Changes to stylesheets or images will hot replace the changed resources.
-- Other changes (e.g. JavaScript or HTML) will cause a full page reload.
-
-While it's not proper [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/)
-(which requires immense infrastructure),
-it required zero changes to the application source
-and provides a similar experience
-(in particular because page reloads are fast).
-
-You can try it out by
-
-- installing Node.js (>= 20),
-- checking out the repository,
-- running `npm install`,
-- and running `npm run dev`.
-
-Note that the local development server is highly experimental and is likely lacking
-some features to be generally usable. See [/dev](./dev) for the implementation.
-Feedback is highly appreciated.
-
 ## 9. Changelog
 
 ### 11/2023
 
-- Refactor business logic into pure functional module
-- Added support for [code coverage](#41-code-coverage)
-- Added [local development server](#83-local-development-server) with hot reloading
+- Introduced [tooling section](#4-tooling)
+- Refactored business logic into pure functional module
+- Added support for [code coverage](#431-code-coverage)
+- Added [local development server](#41-local-development-server) with hot reloading
 - Fixed some visual issues
 - Updated dependencies
 
