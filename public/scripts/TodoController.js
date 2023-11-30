@@ -3,11 +3,11 @@ import { TodoLogic } from './TodoLogic.js';
 /**
  * @param {HTMLElement} el
  */
-export function TodoStore(el) {
+export function TodoController(el) {
   let todoData = TodoLogic.initTodoData();
   let saveTimeout;
 
-  el.addEventListener('loadTodoStore', load);
+  el.addEventListener('loadTodoData', load);
 
   for (const action of [
     'addTodoItem',

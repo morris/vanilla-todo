@@ -2,10 +2,10 @@ import { AppCollapsible } from './AppCollapsible.js';
 import { AppFlip } from './AppFlip.js';
 import { AppFps } from './AppFps.js';
 import { AppIcon } from './AppIcon.js';
+import { TodoController } from './TodoController.js';
 import { TodoFrameCustom } from './TodoFrameCustom.js';
 import { TodoFrameDays } from './TodoFrameDays.js';
 import { TodoLogic } from './TodoLogic.js';
-import { TodoStore } from './TodoStore.js';
 
 /**
  * @param {HTMLElement} el
@@ -43,7 +43,7 @@ export function TodoApp(el) {
     removeTimeout: 200,
   });
 
-  TodoStore(el);
+  TodoController(el);
 
   el.querySelectorAll('.app-collapsible').forEach(AppCollapsible);
   el.querySelectorAll('.app-icon').forEach(AppIcon);
@@ -89,7 +89,7 @@ export function TodoApp(el) {
     });
   });
 
-  // Listen to the TodoStore's data.
+  // Listen to the TodoController's data.
   // This is the main update.
   // Everything else is related to drag & drop or FLIP animations.
   el.addEventListener('todoData', (e) => {
@@ -104,7 +104,7 @@ export function TodoApp(el) {
   el.addEventListener('draggableCancel', flip);
   el.addEventListener('draggableDrop', flip);
 
-  el.dispatchEvent(new CustomEvent('loadTodoStore'));
+  el.dispatchEvent(new CustomEvent('loadTodoData'));
 
   function update() {
     el.querySelectorAll('.todo-frame').forEach((el) =>

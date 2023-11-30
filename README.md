@@ -351,8 +351,16 @@ however exclusively using custom DOM events.
   usually resulting in some parent component state change which is in turn
   propagated downwards through data events.
 
-The data store is factored into a separate behavior (`TodoStore`).
-It only receives and dispatches events and encapsulates all of the data logic.
+The business logic is factored into a pure functional core
+([TodoLogic.js](./public/scripts/TodoLogic.js)).
+This is a good idea in many UI architectures as it encapsulates
+state transitions in a portable, testable unit.
+
+The controller is factored into a separate behavior
+([TodoController.js](./public/scripts/TodoController.js)).
+It only receives and dispatches events,
+calling the business logic to apply changes and emit state.
+It also handles persistence in Local Storage.
 
 Listening to and dispatching events is slightly verbose with standard APIs and
 certainly justifies introducing helpers.
@@ -363,7 +371,8 @@ concisely with standard APIs.
 Reference:
 
 - [TodoDay.js](./public/scripts/TodoDay.js)
-- [TodoStore.js](./public/scripts/TodoStore.js)
+- [TodoController.js](./public/scripts/TodoController.js)
+- [TodoLogic.js](./public/scripts/TodoLogic.js)
 
 #### 3.2.3. Rendering
 
