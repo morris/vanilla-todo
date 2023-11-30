@@ -200,7 +200,7 @@ albeit with some trade-offs as we will see later.
 
 Conceptually, the proposed architecture loosely maps
 CSS selectors to JS functions which are _mounted_ (i.e. called) once
-per matching element. This yields a simple mental model and synergizes
+per matching element. This simple mental model also works well
 with the DOM and styles:
 
 ```
@@ -220,7 +220,7 @@ implementation process.
 
 #### 3.2.1. Mount Functions
 
-_Mount functions_ take a DOM element as their (only) argument.
+_Mount functions_ take a DOM element as their first argument.
 Their responsibility is to set up initial state, event listeners, and
 provide behavior and rendering for the target element.
 
@@ -384,7 +384,7 @@ As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
 some rigid base HTML and an idempotent, complete update function which only
 makes necessary changes.
 
-- **Idempotency** is key here, i.e. update functions may be called at any time
+- **Idempotence** is key here, i.e. update functions may be called at any time
   and should always render the component correctly.
 - **Completeness** is equally important, i.e. update functions should render
   the whole component, regardless of what triggered an update.
@@ -414,7 +414,7 @@ export function TodoList(el) {
 
   el.innerHTML = `<div class="items"></div>`;
 
-  el.addEventListener('updateTodoList', (e) => {
+  el.addEventListener('todoItems', (e) => {
     items = e.detail;
     update();
   });
@@ -453,9 +453,7 @@ export function TodoList(el) {
       }
 
       // Update child
-      child.dispatchEvent(
-        new CustomEvent('updateTodoItem', { detail: { item: item } }),
-      );
+      child.dispatchEvent(new CustomEvent('todoItem', { detail: item }));
 
       return child;
     });
@@ -680,7 +678,7 @@ I suspect a fully equivalent clone to be well below 10000 LOC, though._
 - Although not used in this study,
   event delegation seems not trivial to implement without code duplication.
 
-Eliminating verbosities through build steps and a minimal set of helpers
+Eliminating verbosity through build steps and a minimal set of helpers
 would reduce the comparably low code size (see above) even further.
 
 #### 5.2.3. The Bad
@@ -881,6 +879,7 @@ Feedback is highly appreciated.
 
 ### 11/2023
 
+- Refactor business logic into pure functional module
 - Added support for [code coverage](#41-code-coverage)
 - Added [local development server](#83-local-development-server) with hot reloading
 - Fixed some visual issues
