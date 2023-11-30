@@ -20,7 +20,7 @@ export function TodoList(el) {
     el.dispatchEvent(
       new CustomEvent('moveTodoItem', {
         detail: {
-          item: e.detail.data.item,
+          ...e.detail.data.item,
           index: e.detail.index,
         },
         bubbles: true,

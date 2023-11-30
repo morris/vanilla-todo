@@ -4,19 +4,14 @@ import { AppFps } from './AppFps.js';
 import { AppIcon } from './AppIcon.js';
 import { TodoFrameCustom } from './TodoFrameCustom.js';
 import { TodoFrameDays } from './TodoFrameDays.js';
+import { TodoLogic } from './TodoLogic.js';
 import { TodoStore } from './TodoStore.js';
-import { formatDateId } from './util.js';
 
 /**
  * @param {HTMLElement} el
  */
 export function TodoApp(el) {
-  let todoData = {
-    items: [],
-    customLists: [],
-    at: formatDateId(new Date()),
-    customAt: 0,
-  };
+  let todoData = TodoLogic.initTodoData();
 
   el.innerHTML = `
     <header class="app-header">

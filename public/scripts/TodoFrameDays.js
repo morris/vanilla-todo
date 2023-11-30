@@ -1,18 +1,14 @@
 import { AppDatePicker } from './AppDatePicker.js';
 import { AppIcon } from './AppIcon.js';
 import { TodoDay } from './TodoDay.js';
-import { formatDateId } from './util.js';
+import { TodoLogic } from './TodoLogic.js';
 
 /**
  * @param {HTMLElement} el
  */
 export function TodoFrameDays(el) {
   const RANGE = 14;
-
-  let todoData = {
-    items: [],
-    at: formatDateId(new Date()),
-  };
+  let todoData = TodoLogic.initTodoData();
 
   el.innerHTML = `
     <nav class="leftcontrols">
@@ -100,7 +96,7 @@ export function TodoFrameDays(el) {
   });
 
   function update() {
-    const days = getDays();
+    const listsByDay = TodoLogic.getTodoListsByDay(todoData, RANGE);
 
     const container = el.querySelector('.container');
     const obsolete = new Set(container.children);
@@ -108,7 +104,7 @@ export function TodoFrameDays(el) {
 
     obsolete.forEach((child) => childrenByKey.set(child.dataset.key, child));
 
-    const children = days.map((day) => {
+    const children = listsByDay.map((day) => {
       let child = childrenByKey.get(day.id);
 
       if (child) {
@@ -146,29 +142,5 @@ export function TodoFrameDays(el) {
     }
 
     el.style.height = `${height + 50}px`;
-  }
-
-  function getDays() {
-    const days = [];
-
-    for (let i = 0; i < 2 * RANGE; ++i) {
-      const t = new Date(todoData.at);
-      t.setDate(t.getDate() - RANGE + i);
-      const id = formatDateId(t);
-
-      days.push({
-        id,
-        items: getItemsForDay(id),
-        position: -RANGE + i,
-      });
-    }
-
-    return days;
-  }
-
-  function getItemsForDay(dateId) {
-    return todoData.items
-      .filter((item) => item.listId === dateId)
-      .sort((a, b) => a.index - b.index);
   }
 }

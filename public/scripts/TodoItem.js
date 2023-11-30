@@ -50,7 +50,7 @@ export function TodoItem(el) {
     el.dispatchEvent(
       new CustomEvent('checkTodoItem', {
         detail: {
-          item,
+          ...item,
           done: !item.done,
         },
         bubbles: true,
@@ -121,9 +121,9 @@ export function TodoItem(el) {
     }
 
     el.dispatchEvent(
-      new CustomEvent('saveTodoItem', {
+      new CustomEvent('editTodoItem', {
         detail: {
-          item,
+          ...item,
           label,
         },
         bubbles: true,

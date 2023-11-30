@@ -1,16 +1,13 @@
 import { AppIcon } from './AppIcon.js';
 import { AppSortable } from './AppSortable.js';
 import { TodoCustomList } from './TodoCustomList.js';
+import { TodoLogic } from './TodoLogic.js';
 
 /**
  * @param {HTMLElement} el
  */
 export function TodoFrameCustom(el) {
-  let todoData = {
-    customLists: [],
-    items: [],
-    customAt: 0,
-  };
+  let todoData = TodoLogic.initTodoData();
 
   el.innerHTML = `
     <div class="leftcontrols">
@@ -42,9 +39,7 @@ export function TodoFrameCustom(el) {
   );
 
   el.querySelector('.add').addEventListener('click', () => {
-    el.dispatchEvent(
-      new CustomEvent('addTodoList', { detail: {}, bubbles: true }),
-    );
+    el.dispatchEvent(new CustomEvent('addCustomTodoList', { bubbles: true }));
     // TODO seek if not at end
   });
 
@@ -52,9 +47,9 @@ export function TodoFrameCustom(el) {
     if (!e.detail.data.list) return;
 
     el.dispatchEvent(
-      new CustomEvent('moveTodoList', {
+      new CustomEvent('moveCustomTodoList', {
         detail: {
-          list: e.detail.data.list,
+          ...e.detail.data.list,
           index: e.detail.index,
         },
         bubbles: true,
@@ -63,9 +58,7 @@ export function TodoFrameCustom(el) {
   });
 
   el.addEventListener('draggableOver', (e) => {
-    if (!e.detail.data.list) return;
-
-    updatePositions();
+    if (e.detail.data.list) updatePositions();
   });
 
   el.addEventListener('todoData', (e) => {
@@ -74,14 +67,15 @@ export function TodoFrameCustom(el) {
   });
 
   function update() {
-    const lists = getLists();
+    const customLists = TodoLogic.getCustomTodoLists(todoData);
+
     const container = el.querySelector('.container');
     const obsolete = new Set(container.children);
     const childrenByKey = new Map();
 
     obsolete.forEach((child) => childrenByKey.set(child.dataset.key, child));
 
-    const children = lists.map((list) => {
+    const children = customLists.map((list) => {
       let child = childrenByKey.get(list.id);
 
       if (child) {
@@ -93,7 +87,7 @@ export function TodoFrameCustom(el) {
         TodoCustomList(child);
       }
 
-      child.dispatchEvent(new CustomEvent('todoCustomList', { detail: list }));
+      child.dispatchEvent(new CustomEvent('customTodoList', { detail: list }));
 
       return child;
     });
@@ -135,22 +129,5 @@ export function TodoFrameCustom(el) {
 
     // Update collapsible on changing heights
     el.dispatchEvent(new CustomEvent('collapse', { bubbles: true }));
-  }
-
-  function getLists() {
-    return todoData.customLists
-      .map((list) => ({
-        id: list.id,
-        index: list.index,
-        title: list.title,
-        items: getItemsForList(list.id),
-      }))
-      .sort((a, b) => a.index - b.index);
-  }
-
-  function getItemsForList(listId) {
-    return todoData.items
-      .filter((item) => item.listId === listId)
-      .sort((a, b) => a.index - b.index);
   }
 }

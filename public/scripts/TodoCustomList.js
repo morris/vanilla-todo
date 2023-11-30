@@ -82,7 +82,7 @@ export function TodoCustomList(el) {
     }
 
     el.dispatchEvent(
-      new CustomEvent('deleteTodoList', {
+      new CustomEvent('deleteCustomTodoList', {
         detail: list,
         bubbles: true,
       }),
@@ -115,15 +115,15 @@ export function TodoCustomList(el) {
     e.detail.index = e.detail.index ?? 0;
   });
 
-  el.addEventListener('todoCustomList', (e) => {
+  el.addEventListener('customTodoList', (e) => {
     list = e.detail;
     update();
   });
 
   function save() {
     el.dispatchEvent(
-      new CustomEvent('saveTodoList', {
-        detail: { list, title: inputEl.value.trim() },
+      new CustomEvent('editCustomTodoList', {
+        detail: { ...list, title: inputEl.value.trim() },
         bubbles: true,
       }),
     );
