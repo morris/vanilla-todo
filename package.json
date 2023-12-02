@@ -25,7 +25,7 @@
     "dev": "node ./dev/server.mjs public",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
-    "lint": "eslint public test",
+    "lint": "eslint .",
     "lint-styles": "stylelint public/styles/*",
     "test": "playwright test",
     "test-ui": "playwright test --ui",
