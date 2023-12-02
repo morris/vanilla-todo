@@ -1,0 +1,22 @@
+name: Checks
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run format-check
+      - run: npm run lint
+      - run: npm run lint-styles
+      - run: npm run dev &
+      - run: npx playwright install --with-deps
+      - run: npm run test-coverage
+        env:
+          CI: true
