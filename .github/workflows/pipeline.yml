@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - pull_request
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   checks:
@@ -23,6 +25,7 @@ jobs:
       - run: npm run test-coverage
         env:
           CI: true
+
   deploy:
     needs: checks
     permissions:
