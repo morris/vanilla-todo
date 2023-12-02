@@ -1,0 +1,42 @@
+name: Pipeline
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run format-check
+      - run: npm run lint
+      - run: npm run lint-styles
+      - run: npm run dev &
+      - run: npx playwright install --with-deps
+      - run: npm run test-coverage
+        env:
+          CI: true
+  deploy:
+    needs: checks
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/configure-pages@v3
+      - uses: actions/upload-pages-artifact@v2
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v2

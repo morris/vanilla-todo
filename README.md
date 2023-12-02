@@ -910,6 +910,7 @@ Thanks!
 
 ### 12/2023
 
+- Added GitHub action for running checks and deployment
 - Edited closing section
 - Updated numbers
 
