@@ -170,8 +170,8 @@ which yields an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
 [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
-did help but I missed [SCSS](https://sass-lang.com/) here
-and I think one of these is a must-have for bigger projects.
+did help but I missed [SCSS](https://sass-lang.com/) here;
+I think it's a must-have for bigger projects.
 Additionally, the global CSS namespace problem is unaddressed
 (see e.g. [CSS Modules](https://github.com/css-modules/css-modules)).
 
