@@ -18,17 +18,21 @@
   font-weight: normal;
   margin: 0.25em 0 0;
   font-size: 0.8em;
-  color: #aaa;
+  color: var(--aside-text);
 }
 
 .todo-day.-past {
-  color: #ccc;
+  color: var(--disabled-text);
+}
+
+.todo-day.-past > .header > .date {
+  color: var(--disabled-text);
 }
 
 .todo-day.-today > .header > .dayofweek {
-  color: #85144b;
+  color: var(--highlight-text);
 }
 
 .todo-day.-today > .header > .date {
-  color: #000;
+  color: var(--highlight-text);
 }

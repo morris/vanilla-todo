@@ -1,6 +1,6 @@
 .app-date-picker {
   width: 260px;
-  background: #fff;
+  background: var(--main-bg);
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 10%) 0 4px 12px;
   padding: 8px;
@@ -33,7 +33,8 @@
 /* stylelint-disable-next-line rscss/class-format */
 .app-date-picker > .dates > thead > tr > th {
   font-weight: normal;
-  padding: 0;
+  text-transform: uppercase;
+  padding-bottom: 0.4em;
 }
 
 /* stylelint-disable-next-line rscss/class-format */

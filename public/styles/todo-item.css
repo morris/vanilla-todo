@@ -4,7 +4,7 @@
   line-height: 1.5em;
   margin: 0;
   padding: 0.25em 0;
-  background: #fff;
+  background: var(--main-bg);
   transition:
     transform 0.2s ease-out,
     opacity 0.2s ease-out;
@@ -34,7 +34,7 @@
 .todo-item > .label {
   margin: 0 0 0 30px;
   padding-bottom: 0.25em;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--main-border-light);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -43,7 +43,7 @@
   display: none;
   margin: 0 0 0 30px;
   padding-right: 24px;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid var(--main-border);
 }
 
 .todo-item > .form > .input {
@@ -65,7 +65,7 @@
 }
 
 .todo-item.-done > .label {
-  color: #ccc;
+  color: var(--disabled-text);
   text-decoration: line-through;
 }
 

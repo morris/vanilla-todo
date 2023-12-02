@@ -169,7 +169,8 @@ plain HTML, CSS and JS files. The HTML and CSS mostly follows
 which yields an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
-I missed [SCSS](https://sass-lang.com/) here
+[CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+did help but I missed [SCSS](https://sass-lang.com/) here
 and I think one of these is a must-have for bigger projects.
 Additionally, the global CSS namespace problem is unaddressed
 (see e.g. [CSS Modules](https://github.com/css-modules/css-modules)).
@@ -177,8 +178,8 @@ Additionally, the global CSS namespace problem is unaddressed
 All JavaScript files are ES modules (`import`/`export`).
 
 Note that I've opted out of web components completely.
-I can't clearly articulate what I dislike about them
-but I never missed them throughout this study.
+I can't clearly articulate what I find problematic about them
+but I never missed them throughout the study.
 
 ---
 
@@ -921,6 +922,7 @@ Thanks!
 
 ### 12/2023
 
+- Redesign with CSS variables
 - Added GitHub action for running checks and deployment
 - Edited closing section
 - Updated numbers

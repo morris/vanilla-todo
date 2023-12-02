@@ -11,21 +11,21 @@
   vertical-align: middle;
   border-radius: 4px;
   transition: all 0.1s ease-out;
-  color: #999;
+  color: var(--button-text);
 }
 
 .app-button:hover {
-  color: #000;
+  color: var(--button-active-text);
 }
 
 .app-button:active {
   transform: translate(0, 1px);
-  color: #000;
-  background: #f3f3f3;
+  color: var(--button-active-text);
+  background: var(--button-active-bg);
 }
 
 .app-button:focus {
-  color: #000;
+  color: var(--button-active-text);
 }
 
 .app-button.-circle {
@@ -39,12 +39,12 @@
 }
 
 .app-button.-highlight {
-  background: #111;
-  color: #fff;
+  color: var(--button-highlight-text);
+  font-weight: bold;
 }
 
 .app-button.-highlight:hover {
-  color: #eee;
+  color: var(--button-active-text);
 }
 
 @media (width >= 600px) {

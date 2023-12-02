@@ -1,0 +1,26 @@
+:root {
+  /* Named color scheme */
+  --white: #fefefe;
+  --black: #0a0a0b;
+  --grey1: #545e75;
+  --grey2: #b0b0b8;
+  --grey3: #d2d2d6;
+  --grey4: #e4ecf0;
+  --red: #ce2d4f;
+
+  /* UI color mapping */
+  --main-text: var(--black);
+  --main-bg: var(--white);
+  --main-border: var(--grey2);
+  --main-border-light: var(--grey3);
+  --header-text: var(--grey1);
+  --header-bg: var(--white);
+  --highlight-text: var(--red);
+  --disabled-text: var(--grey3);
+  --aside-text: var(--grey1);
+  --button-text: var(--grey1);
+  --button-bg: transparent;
+  --button-active-text: var(--black);
+  --button-active-bg: var(--grey4);
+  --button-highlight-text: var(--red);
+}

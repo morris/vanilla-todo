@@ -13,6 +13,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: var(--main-bg);
+  color: var(--main-text);
 }
 
 body {
