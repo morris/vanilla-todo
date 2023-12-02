@@ -2,14 +2,14 @@
 
 A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and JavaScript
 (no build steps). It's fully animated and runs smoothly at 60 FPS
-with a total transfer size of **50KB** (unminified).
+with a total transfer size of **55 KB** (unminified).
 
 **[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
 
 More importantly, it's a case study showing that **vanilla web development** is
 viable in terms of [maintainability](#521-the-good),
 and worthwhile in terms of [user experience](#51-user-experience)
-(**50%** less time to load and **90%** less bandwidth in this case).
+(**50%** less time to load and **95%** less bandwidth in this case).
 
 **There's no custom framework invented here.**
 Instead, the case study was [designed](#22-rules) to discover
@@ -21,6 +21,8 @@ If anything, the case study validates the value of build steps and frameworks,
 but also demonstrates that standard web technologies can be used effectively and
 there are only a few [critical areas](#523-the-bad) where a vanilla approach is
 clearly inferior.
+
+_While the first version of the case study has been published in 2020, it has received significant [updates](#9-changelog) over time._
 
 _Intermediate understanding of the web platform is required to follow through._
 
@@ -56,7 +58,7 @@ _Intermediate understanding of the web platform is required to follow through._
     - [5.2.3. The Bad](#523-the-bad)
   - [5.3. Generality of Patterns](#53-generality-of-patterns)
 - [6. Conclusion](#6-conclusion)
-- [7. What's Next?](#7-whats-next)
+- [7. Beyond Vanilla](#7-beyond-vanilla)
 - [8. Appendix](#8-appendix)
   - [8.1. Links](#81-links)
   - [8.2. Response](#82-response)
@@ -597,7 +599,7 @@ Run these commands to try it out:
 - `npm run lint-styles` to lint CSS
 
 These tools only required minimal configuration to be effective. They also
-integrate well with VSCode so I've barely had to run these manually.
+integrate well with VSCode so I've rarely had to run these manually.
 
 ### 4.3. Testing
 
@@ -674,18 +676,17 @@ and Safari on iOS.
 
 _TODO Test more browsers and devices._
 
-A fresh load of the original TeuxDeux application transfers around **500 KB** and
-finishes loading at over **1000 ms**, sometimes up to 2000ms
-(measured in 05/2022).
-Reloads finish at around **500ms**.
+A fresh load of the original TeuxDeux application transfers around **1.2 MB**
+and finishes loading at over **1000 ms**, sometimes up to 2000ms
+(measured in 12/2023).
+Reloads finish at around **700 ms**.
 
-With a transferred size of around **50 KB**, the vanilla application consistently
+With a transferred size of around **55 KB**, the vanilla application consistently
 loads in **300-500 ms**&mdash;not minified and with each script, stylesheet and icon
-served as an individual file. Reloads finish at **100-200ms**; again, not
+served as an individual file. Reloads finish at **100-200 ms**; again, not
 optimized at all (with e.g. asset hashing/indefinite caching).
 
-_To be fair, my implementation misses quite a few features from the original.
-I suspect a fully equivalent clone to be well below 100 KB transfer, though._
+_To be fair, my implementation misses quite a few features from the original. I suspect a fully equivalent clone to be well below 100 KB transfer, though._
 
 _TODO Run more formal performance tests and add figures for the results._
 
@@ -724,16 +725,15 @@ and some opinionated statements based on my experience in the industry.
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
 - Straight-forward, zero-config testing with Playwright
-  - Including code coverage
+  - Includes code coverage
 
-All source files (HTML, CSS and JS) combine to **under 2400 lines of code**,
+All source files (HTML, CSS and JS) combine to **under 3000 lines of code**,
 including comments and empty lines.
 
-For comparison, prettifying the original TeuxDeux's minified JS application
-bundle yields **52678 LOC** (05/2022).
+For comparison, prettifying the original TeuxDeux's minified JS assets
+yields **81602 LOC** (12/2023).
 
-_To be fair, my implementation misses quite a few features from the original.
-I suspect a fully equivalent clone to be well below 10000 LOC, though._
+_To be fair, my implementation misses quite a few features from the original. I suspect a fully equivalent clone to be well below 10000 LOC, though._
 
 #### 5.2.2. The Verbose
 
@@ -800,16 +800,16 @@ An open question is if these patterns hold for library authors.
 Although not considered during the study, some observations can be made:
 
 - The JavaScript itself would be fine to share as ES modules.
-- However, event naming needs great care, as dispatching (bubbling) events
+- Event naming needs great care, as dispatching (bubbling) events
   from imported behaviors can trigger parent listeners in consumer code.
   - Can be mitigated by providing options to prefix or map event names.
 - CSS names share a global namespace and need to be managed as well.
-  - Could be mitigated by prefixing as well, however making the JavaScript
+  - Can also be mitigated by prefixing, however making the JavaScript
     a bit more complex.
 
 ## 6. Conclusion
 
-The result of this study is a working todo application with decent UI/UX and
+The result of this study is a working to-do application with decent UI/UX and
 most of the functionality of the original TeuxDeux app,
 built using only standard web technologies.
 It comes with better overall performance
@@ -846,30 +846,25 @@ my assumptions and preconceptions about vanilla web development.
 It was quite liberating to avoid general-purpose utilities and
 get things done with what's readily available.
 
-As detailed in the assessment,
-the study would likely be more convincing if build steps were allowed.
-Modern JavaScript and SCSS could reduce most of
-the unnecessarily verbose parts to a minimum.
+While I think the study is relatively complete, there's always more to explore.
+[Ideas, questions, bug reports](https://github.com/morris/vanilla-todo/issues) and
+pull requests are more than welcome!
 
-Finally, this case study does not question using dependencies or frameworks
-in general&mdash;they do provide lots of value in many areas.
+Finally, this case study does not question using dependencies, libraries or frameworks
+in general&mdash;code sharing is an essential part of software engineering.
 It was a constrained experiment designed to discover novel methods
 for vanilla web development and, hopefully,
 inspire innovation and further research in the area.
 
-## 7. What's Next?
+## 7. Beyond Vanilla
 
-I'd love to hear feedback and ideas on any aspect of the case study.
-It's still lacking in some important areas, e.g. testing techniques.
-
-Pull requests, questions, and bug reports are more than welcome!
-
----
-
-Here are a few ideas I'd like to see explored in the future:
+As detailed in the assessment, the result of the case study
+could be significantly improved if build steps and helpers were allowed.
+Beyond the strict rules I've used in this experiment,
+here are a few ideas I'd like to see explored in the future:
 
 - Run another case study with TypeScript, SCSS, and build steps (seems promising).
-- Research validation rules for utility functions and external dependencies.
+- Extrapolate deep utility functions (e.g. `reconcile()`) to mitigate some of the discovered downsides.
 - Experiment with architectures based on virtual DOM rendering and standard DOM events.
 - Compile discovered rules, patterns and techniques into a comprehensive guide.
 
@@ -912,6 +907,11 @@ Projects I've inspected for drag & drop architecture:
 Thanks!
 
 ## 9. Changelog
+
+### 12/2023
+
+- Edited closing section
+- Updated numbers
 
 ### 11/2023
 
