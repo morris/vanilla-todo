@@ -4,7 +4,7 @@ A [TeuxDeux](https://teuxdeux.com) clone in plain HTML, CSS and JavaScript
 (no build steps). It's fully animated and runs smoothly at 60 FPS
 with a total transfer size of **55 KB** (unminified).
 
-**[Try it online →](https://raw.githack.com/morris/vanilla-todo/main/public/index.html)**
+**[Try it online →](https://morris.github.io/vanilla-todo/)**
 
 More importantly, it's a case study showing that **vanilla web development** is
 viable in terms of [maintainability](#521-the-good),
@@ -50,6 +50,7 @@ _Intermediate understanding of the web platform is required to follow through._
   - [4.2. Formatting and Linting](#42-formatting-and-linting)
   - [4.3. Testing](#43-testing)
     - [4.3.1. Code Coverage](#431-code-coverage)
+  - [4.4. Pipeline](#44-pipeline)
 - [5. Assessment](#5-assessment)
   - [5.1. User Experience](#51-user-experience)
   - [5.2. Code Quality](#52-code-quality)
@@ -643,6 +644,16 @@ Reference:
 
 - [test-coverage.sh](./scripts/test-coverage.sh)
 - [coverage.mjs](./test/coverage.mjs)
+
+### 4.4. Pipeline
+
+I've added a simple CI/CD pipeline via GitHub Actions.
+It runs linters and tests, and deploys to GitHub pages on success.
+This was straight-forward and is orthogonal to the application code and other tooling.
+
+Reference:
+
+- [pipeline.yml](./.github/workflows/pipeline.yml)
 
 ## 5. Assessment
 
