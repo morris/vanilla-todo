@@ -1,7 +1,38 @@
 import { formatDateId } from './util.js';
 import { uuid } from './uuid.js';
 
+/**
+ * @typedef {{
+ *  id: string;
+ *  listId: string;
+ *  index: number;
+ *  label: string;
+ *  done: boolean;
+ * }} TodoDataItem
+ */
+
+/**
+ * @typedef {{
+ *  id: string;
+ *  index: number;
+ *  title: string;
+ * }} TodoDataCustomList
+ */
+
+/**
+ * @typedef {{
+ *  items: TodoDataItem[];
+ *  customLists: TodoDataCustomList[];
+ *  at: string;
+ *  customAt: number;
+ * }} TodoData
+ */
+
 export class TodoLogic {
+  /**
+   * @param {Date} now
+   * @returns {TodoData}
+   */
   static initTodoData(now = new Date()) {
     return {
       items: [],
@@ -35,6 +66,11 @@ export class TodoLogic {
       .sort((a, b) => a.index - b.index);
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{listId: string, label: string}} input
+   * @returns {TodoData}
+   */
   static addTodoItem(data, input) {
     let index = 0;
 
@@ -58,6 +94,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string, done: boolean}} input
+   * @returns {TodoData}
+   */
   static checkTodoItem(data, input) {
     return {
       ...data,
@@ -67,6 +108,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string, label: string}} input
+   * @returns {TodoData}
+   */
   static editTodoItem(data, input) {
     return {
       ...data,
@@ -76,6 +122,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string, listId: string, index: number}} input
+   * @returns {TodoData}
+   */
   static moveTodoItem(data, input) {
     const itemToMove = data.items.find((item) => item.id === input.id);
 
@@ -98,6 +149,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string}} input
+   * @returns {TodoData}
+   */
   static deleteTodoItem(data, input) {
     return {
       ...data,
@@ -118,6 +174,10 @@ export class TodoLogic {
       .sort((a, b) => a.index - b.index);
   }
 
+  /**
+   * @param {TodoData} data
+   * @returns {TodoData}
+   */
   static addCustomTodoList(data) {
     let index = 0;
 
@@ -138,6 +198,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string, title: string}} input
+   * @returns {TodoData}
+   */
   static editCustomTodoList(data, input) {
     return {
       ...data,
@@ -149,6 +214,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string, index: number}} input
+   * @returns {TodoData}
+   */
   static moveCustomTodoList(data, input) {
     const customListToMove = data.customLists.find(
       (customList) => customList.id === input.id,
@@ -166,6 +236,11 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {{id: string}} input
+   * @returns {TodoData}
+   */
   static deleteCustomTodoList(data, input) {
     return {
       ...data,
@@ -177,6 +252,11 @@ export class TodoLogic {
 
   //
 
+  /**
+   * @param {TodoData} data
+   * @param {number} delta
+   * @returns {TodoData}
+   */
   static seekDays(data, delta) {
     const t = new Date(`${data.at}T00:00:00`);
     t.setDate(t.getDate() + delta);
@@ -184,14 +264,28 @@ export class TodoLogic {
     return { ...data, at: formatDateId(t) };
   }
 
+  /**
+   * @param {TodoData} data
+   * @returns {TodoData}
+   */
   static seekToToday(data) {
     return { ...data, at: formatDateId(new Date()) };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {Date} date
+   * @returns {TodoData}
+   */
   static seekToDate(data, date) {
     return { ...data, at: formatDateId(date) };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {number} delta
+   * @returns {TodoData}
+   */
   static seekCustomTodoLists(data, delta) {
     return {
       ...data,
@@ -204,6 +298,11 @@ export class TodoLogic {
 
   //
 
+  /**
+   * @template {{index?: number}} T
+   * @param {T[]} array
+   * @returns {T[]}
+   */
   static setIndexes(array) {
     return array.map((item, index) =>
       item.index === index ? item : { ...item, index },

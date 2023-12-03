@@ -176,6 +176,10 @@ Additionally, the global CSS namespace problem is unaddressed
 (see e.g. [CSS Modules](https://github.com/css-modules/css-modules)).
 
 All JavaScript files are ES modules (`import`/`export`).
+I added a few
+[JSDoc](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html)
+comments to functions to get additional code completion in VSCode.
+This helps, but using TypeScript would be much safer and less verbose.
 
 Note that I've opted out of web components completely.
 I can't clearly articulate what I find problematic about them
