@@ -205,15 +205,15 @@ albeit with some trade-offs as we will see later.
 
 Conceptually, the proposed architecture loosely maps
 CSS selectors to JS functions which are _mounted_ (i.e. called) once
-per matching element. This simple mental model also works well
+per matching element. This simple mental model aligns well
 with the DOM and styles:
 
 ```
-.todo-list -> TodoList
+TodoList -> .todo-list
   scripts/TodoList.js
   styles/todo-list.css
 
-.app-collapsible -> AppCollapsible
+AppCollapsible -> .app-collapsible
   scripts/AppCollapsible.js
   styles/app-collapsible.css
 
@@ -229,90 +229,47 @@ _Mount functions_ take a DOM element as their first argument.
 Their responsibility is to set up initial state, event listeners, and
 provide behavior and rendering for the target element.
 
-Here's a "Hello, World!" example of mount functions:
+Here's a "Hello, World!" example (implementing a simple counter) of mount functions:
 
 ```js
-// Define mount function
-// Loosely mapped to ".hello-world"
-export function HelloWorld(el) {
-  // Define initial state
-  let title = 'Hello, World!';
-  let description = 'An example vanilla component';
-  let counter = 0;
-
-  // Set rigid base HTML
-  el.innerHTML = `
-    <h1 class="title"></h1>
-    <p class="description"></p>
-    <div class="my-counter"></div>
-  `;
-
-  // Mount sub-components
-  el.querySelectorAll('.my-counter').forEach(MyCounter);
-
-  // Attach event listeners
-  el.addEventListener('modifyCounter', (e) => {
-    counter += e.detail;
-    update();
-  });
-
-  // Initial update
-  update();
-
-  // Define idempotent update function
-  function update() {
-    // Update own HTML
-    el.querySelector('.title').innerText = title;
-    el.querySelector('.description').innerText = description;
-
-    // Pass data to sub-components
-    el.querySelector('.my-counter').dispatchEvent(
-      new CustomEvent('updateMyCounter', {
-        detail: { value: counter },
-      }),
-    );
-  }
-}
-
-// Define another component
-// Loosely mapped to ".my-counter"
+// Define mount function.
+// Loosely mapped to ".my-counter".
 export function MyCounter(el) {
-  // Define initial state
+  // Define initial state.
   let value = 0;
 
-  // Set rigid base HTML
+  // Set rigid base HTML.
   el.innerHTML = `
-    <p>
-      <span class="value"></span>
-      <button class="increment">Increment</button>
-      <button class="decrement">Decrement</button>
-    </p>
+    <span class="value"></span>
+    <button class="increment">Increment</button>
+    <button class="decrement">Decrement</button>
   `;
 
-  // Attach event listeners
+  // Attach event listeners.
   el.querySelector('.increment').addEventListener('click', () => {
-    // Dispatch an action
-    // Use .detail to transport data
+    // Dispatch a custom event, using .detail to transport data.
+    // Parent components can listen to this event to receive the counter's value.
     el.dispatchEvent(
-      new CustomEvent('modifyCounter', {
-        detail: 1,
+      new CustomEvent('counter', {
+        detail: value + 1,
         bubbles: true,
       }),
     );
   });
 
   el.querySelector('.decrement').addEventListener('click', () => {
-    // Dispatch an action
-    // Use .detail to transport data
     el.dispatchEvent(
-      new CustomEvent('modifyCounter', {
-        detail: -1,
+      new CustomEvent('counter', {
+        detail: value - 1,
         bubbles: true,
       }),
     );
   });
 
-  el.addEventListener('updateMyCounter', (e) => {
+  // This event handler supports the increment/decrement actions above,
+  // as well as resetting the counter from the outside.
+  el.addEventListener('counter', (e) => {
+    // Update state and re-render
     value = e.detail;
     update();
   });
@@ -321,11 +278,14 @@ export function MyCounter(el) {
   function update() {
     el.querySelector('.value').innerText = value;
   }
+
+  // Initial update
+  update();
 }
 
-// Mount HelloWorld component(s)
-// Any <div class="hello-world"></div> in the document will be mounted
-document.querySelectorAll('.hello-world').forEach(HelloWorld);
+// Mount MyCounter component(s)
+// Any <div class="my-counter"></div> in the document will be mounted
+document.querySelectorAll('.my-counter').forEach(MyCounter);
 ```
 
 This comes with quite some boilerplate but has useful properties,
@@ -361,7 +321,7 @@ however exclusively using custom DOM events.
 
 The business logic is factored into a pure functional core
 ([TodoLogic.js](./public/scripts/TodoLogic.js)).
-This is a good idea in many UI architectures as it encapsulates
+This is a sensible approach in most UI architectures as it encapsulates
 state transitions in a portable, testable unit.
 
 The controller is factored into a separate behavior
@@ -441,10 +401,7 @@ export function TodoList(el) {
 
     // Map current children by data-key
     const childrenByKey = new Map();
-
-    obsolete.forEach((child) =>
-      childrenByKey.set(child.getAttribute('data-key'), child),
-    );
+    obsolete.forEach((child) => childrenByKey.set(child.dataset.key, child));
 
     // Build new list of child elements from data
     const children = items.map((item) => {
@@ -460,7 +417,7 @@ export function TodoList(el) {
         child.classList.add('todo-item');
 
         // Set data-key
-        child.setAttribute('data-key', item.id);
+        child.dataset.key = item.id;
 
         // Mount component
         TodoItem(child);
@@ -485,9 +442,9 @@ export function TodoList(el) {
 }
 ```
 
-It's very verbose, with lots of opportunity to introduce bugs.
-Compared to a simple loop in JSX, this seems insane.
-It is quite performant as it does minimal work but is otherwise messy;
+It's very verbose, with lots of opportunities to introduce bugs.
+Compared to a simple loop in JSX, this appears highly complex.
+It is quite efficient as it does minimal work but is otherwise messy;
 definitely a candidate for a utility function or library.
 
 ### 3.3. Drag & Drop
