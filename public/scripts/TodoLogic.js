@@ -46,7 +46,7 @@ export class TodoLogic {
     const listsByDay = [];
 
     for (let i = 0; i < 2 * range; ++i) {
-      const t = new Date(data.at);
+      const t = new Date(`${data.at}T00:00:00`);
       t.setDate(t.getDate() - range + i);
       const id = formatDateId(t);
 

@@ -33,7 +33,7 @@ export function TodoDay(el) {
   });
 
   function update() {
-    const date = new Date(dateId);
+    const date = new Date(`${dateId}T00:00:00`);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const tomorrow = new Date(today);
@@ -41,6 +41,7 @@ export function TodoDay(el) {
 
     el.classList.toggle('-past', date < today);
     el.classList.toggle('-today', date >= today && date < tomorrow);
+    el.classList.toggle('-future', date >= tomorrow);
 
     el.querySelector('.header > .dayofweek').innerText = formatDayOfWeek(date);
     el.querySelector('.header > .date').innerText = formatDate(date);
