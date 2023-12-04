@@ -8,7 +8,7 @@ export function TodoDay(el) {
   const dateId = el.dataset.key;
   let items = [];
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <div class="header">
       <h3 class="dayofweek"></h3>
       <h6 class="date"></h6>

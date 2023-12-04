@@ -10,7 +10,7 @@ export function TodoFrameDays(el) {
   const RANGE = 14;
   let todoData = TodoLogic.initTodoData();
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <nav class="leftcontrols">
       <p>
         <button class="app-button -circle -xl backward">

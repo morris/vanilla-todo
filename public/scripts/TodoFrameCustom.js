@@ -9,7 +9,7 @@ import { TodoLogic } from './TodoLogic.js';
 export function TodoFrameCustom(el) {
   let todoData = TodoLogic.initTodoData();
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <div class="leftcontrols">
       <p><button class="app-button -circle -xl back"><i class="app-icon" data-id="chevron-left-24"></i></button></p>
     </div>

@@ -11,7 +11,7 @@ export function TodoCustomList(el) {
   let startEditing = false;
   let saveOnBlur = true;
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <div class="header">
       <h3 class="title"></h3>
       <p class="form">

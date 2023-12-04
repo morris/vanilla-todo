@@ -10,7 +10,7 @@ export function TodoItem(el) {
   let startEditing = false;
   let saveOnBlur = true;
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <div class="checkbox">
       <input type="checkbox">
     </div>

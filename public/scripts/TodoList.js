@@ -8,7 +8,7 @@ import { TodoItemInput } from './TodoItemInput.js';
 export function TodoList(el) {
   let items = [];
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <div class="items"></div>
     <div class="todo-item-input"></div>
   `;

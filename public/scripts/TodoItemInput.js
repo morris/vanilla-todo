@@ -6,7 +6,7 @@ import { AppIcon } from './AppIcon.js';
 export function TodoItemInput(el) {
   let saveOnBlur = true;
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <input type="text" class="input use-focus-other">
     <button class="app-button save"><i class="app-icon" data-id="plus-24"></i></button>
   `;

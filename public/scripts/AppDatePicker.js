@@ -1,11 +1,11 @@
 import { AppIcon } from './AppIcon.js';
 import { formatMonth } from './util.js';
 
-const datesCell = `
+const datesCell = /* html */ `
   <td><button class="app-button"></button></td>
 `;
 
-const datesRow = `
+const datesRow = /* html */ `
   <tr>
     ${datesCell}
     ${datesCell}
@@ -28,7 +28,7 @@ export function AppDatePicker(el) {
   };
   let show = false;
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <h4 class="header">
       <button class="app-button -circle previousmonth">
         <i class="app-icon" data-id="chevron-left-16"></i>

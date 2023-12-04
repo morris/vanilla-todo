@@ -13,7 +13,7 @@ import { TodoLogic } from './TodoLogic.js';
 export function TodoApp(el) {
   let todoData = TodoLogic.initTodoData();
 
-  el.innerHTML = `
+  el.innerHTML = /* html */ `
     <header class="app-header">
       <h1 class="title">VANILLA TODO</h1>
       <p class="app-fps fps"></p>
