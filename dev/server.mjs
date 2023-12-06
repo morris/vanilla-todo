@@ -67,6 +67,7 @@ async function readFile(file) {
 
 function invalidateFile(file) {
   fileCache.delete(file);
+  fileCache.delete(file.replace(/index.html$/, ''));
 }
 
 // HTTP server
