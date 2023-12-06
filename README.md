@@ -705,9 +705,8 @@ and some opinionated statements based on my experience in the industry.
 - Little indirection
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
-- Straight-forward, zero-config testing with Playwright
+- Straight-forward testing with Playwright
   - Includes code coverage
-- Great debugging experience via browser developer tools
 
 All source files (HTML, CSS and JS) combine to **under 3000 lines of code**,
 including comments and empty lines.
