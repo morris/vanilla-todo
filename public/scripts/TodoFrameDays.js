@@ -13,17 +13,17 @@ export function TodoFrameDays(el) {
   el.innerHTML = /* html */ `
     <nav class="leftcontrols">
       <p>
-        <button class="app-button -circle -xl backward">
+        <button class="app-button -circle -xl backward" title="Previous day">
           <i class="app-icon" data-id="chevron-left-24"></i>
         </button>
       </p>
       <p>
-        <button class="app-button fastbackward">
+        <button class="app-button fastbackward" title="Previous week">
           <i class="app-icon -double" data-id="chevron-left-16"></i>
         </button>
       </p>
       <p>
-        <button class="app-button home">
+        <button class="app-button home" title="Today">
           <i class="app-icon" data-id="home-16"></i>
         </button>
       </p>
@@ -31,17 +31,17 @@ export function TodoFrameDays(el) {
     <div class="container"></div>
     <nav class="rightcontrols">
       <p>
-        <button class="app-button -circle -xl forward">
+        <button class="app-button -circle -xl forward" title="Next day">
           <i class="app-icon" data-id="chevron-right-24"></i>
         </button>
       </p>
       <p>
-        <button class="app-button fastforward">
+        <button class="app-button fastforward" title="Next week">
           <i class="app-icon -double" data-id="chevron-right-16"></i>
         </button>
       </p>
       <p>
-        <button class="app-button pickdate">
+        <button class="app-button pickdate" title="Open calendar">
           <i class="app-icon" data-id="calendar-16"></i>
         </button>
       </p>

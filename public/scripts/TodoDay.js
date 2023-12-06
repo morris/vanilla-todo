@@ -10,8 +10,8 @@ export function TodoDay(el) {
 
   el.innerHTML = /* html */ `
     <div class="header">
-      <h3 class="dayofweek"></h3>
-      <h6 class="date"></h6>
+      <h2 class="dayofweek"></h3>
+      <h3 class="date"></h4>
     </div>
     <div class="todo-list"></div>
   `;

@@ -7,8 +7,10 @@ export function TodoItemInput(el) {
   let saveOnBlur = true;
 
   el.innerHTML = /* html */ `
-    <input type="text" class="input use-focus-other">
-    <button class="app-button save"><i class="app-icon" data-id="plus-24"></i></button>
+    <input type="text" class="input use-focus-other" aria-label="Label">
+    <button class="app-button save" title="Save">
+      <i class="app-icon" data-id="plus-24"></i>
+    </button>
   `;
 
   const inputEl = el.querySelector('.input');

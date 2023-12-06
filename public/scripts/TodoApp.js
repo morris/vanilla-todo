@@ -21,7 +21,7 @@ export function TodoApp(el) {
     <div class="todo-frame -days"></div>
     <div class="app-collapsible">
       <p class="bar">
-        <button class="app-button -circle toggle">
+        <button class="app-button -circle toggle" title="Show/hide custom todo-lists">
           <i class="app-icon" data-id="chevron-up-24"></i>
         </button>
       </p>

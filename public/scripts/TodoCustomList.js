@@ -13,10 +13,12 @@ export function TodoCustomList(el) {
 
   el.innerHTML = /* html */ `
     <div class="header">
-      <h3 class="title"></h3>
+      <h2 class="title"></h2>
       <p class="form">
-        <input type="text" class="input use-focus-other">
-        <button class="app-button delete"><i class="app-icon" data-id="trash-16"></i></button>
+        <input type="text" class="input use-focus-other" aria-label="Title">
+        <button class="app-button delete" title="Delete">
+          <i class="app-icon" data-id="trash-16"></i>
+        </button>
       </p>
     </div>
     <div class="todo-list"></div>

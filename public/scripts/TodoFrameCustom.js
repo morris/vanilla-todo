@@ -11,12 +11,12 @@ export function TodoFrameCustom(el) {
 
   el.innerHTML = /* html */ `
     <div class="leftcontrols">
-      <p><button class="app-button -circle -xl back"><i class="app-icon" data-id="chevron-left-24"></i></button></p>
+      <p><button class="app-button -circle -xl back" title="Previous"><i class="app-icon" data-id="chevron-left-24"></i></button></p>
     </div>
     <div class="container"></div>
     <div class="rightcontrols">
-      <p><button class="app-button -circle -xl forward"><i class="app-icon" data-id="chevron-right-24"></i></button></p>
-      <p><button class="app-button -circle -xl add"><i class="app-icon" data-id="plus-circle-24"></i></button></p>
+      <p><button class="app-button -circle -xl forward" title="Next"><i class="app-icon" data-id="chevron-right-24"></i></button></p>
+      <p><button class="app-button -circle -xl add" title="Add custom list"><i class="app-icon" data-id="plus-circle-24"></i></button></p>
     </div>
   `;
 

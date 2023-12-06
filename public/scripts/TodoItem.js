@@ -12,12 +12,14 @@ export function TodoItem(el) {
 
   el.innerHTML = /* html */ `
     <div class="checkbox">
-      <input type="checkbox">
+      <input type="checkbox" aria-label="Done">
     </div>
     <p class="label"></p>
     <p class="form">
-      <input type="text" class="input use-focus-other">
-      <button class="app-button save"><i class="app-icon" data-id="check-16"></i></button>
+      <input type="text" class="input use-focus-other" aria-label="Label">
+      <button class="app-button save" title="Save">
+        <i class="app-icon" data-id="check-16"></i>
+      </button>
     </p>
   `;
 

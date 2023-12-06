@@ -30,11 +30,11 @@ export function AppDatePicker(el) {
 
   el.innerHTML = /* html */ `
     <h4 class="header">
-      <button class="app-button -circle previousmonth">
+      <button class="app-button -circle previousmonth" title="Previous month">
         <i class="app-icon" data-id="chevron-left-16"></i>
       </button>
       <span class="month"></span>
-      <button class="app-button -circle nextmonth">
+      <button class="app-button -circle nextmonth" title="Next month">
         <i class="app-icon" data-id="chevron-right-16"></i>
       </button>
     </h4>
