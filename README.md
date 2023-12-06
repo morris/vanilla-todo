@@ -51,6 +51,7 @@ _Intermediate understanding of the web platform is required to follow through._
   - [4.3. Testing](#43-testing)
     - [4.3.1. Code Coverage](#431-code-coverage)
   - [4.4. Pipeline](#44-pipeline)
+  - [4.5. Debugging](#45-debugging)
 - [5. Assessment](#5-assessment)
   - [5.1. User Experience](#51-user-experience)
   - [5.2. Code Quality](#52-code-quality)
@@ -617,6 +618,13 @@ Reference:
 
 - [pipeline.yml](./.github/workflows/pipeline.yml)
 
+### 4.5. Debugging
+
+I've mostly used [Chrome DevTools](https://developer.chrome.com/docs/devtools)
+for debugging and the experience was fantastic.
+It feels incredibly _immediate_ inspecting an application
+without third-party code or any kind of cruft (e.g. source maps).
+
 ## 5. Assessment
 
 ### 5.1. User Experience
@@ -699,6 +707,7 @@ and some opinionated statements based on my experience in the industry.
 - The result is literally just a bunch of HTML, CSS, and JS files.
 - Straight-forward, zero-config testing with Playwright
   - Includes code coverage
+- Great debugging experience via browser developer tools
 
 All source files (HTML, CSS and JS) combine to **under 3000 lines of code**,
 including comments and empty lines.
@@ -883,14 +892,15 @@ Thanks!
 
 ### 12/2023
 
-- Redesign with CSS variables
+- Added [debugging section](#45-debugging)
+- Redesigned with CSS variables
 - Added GitHub action for running checks and deployment
 - Edited closing section
 - Updated numbers
 
 ### 11/2023
 
-- Introduced [tooling section](#4-tooling)
+- Added [tooling section](#4-tooling)
 - Refactored business logic into pure functional module
 - Added support for [code coverage](#431-code-coverage)
 - Added [local development server](#41-local-development-server) with hot reloading
