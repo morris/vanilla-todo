@@ -114,6 +114,7 @@ However, it is lacking in some key areas:
 
 - Routing
 - Asynchronous resource requests
+- Complex forms
 - Server-side rendering
 
 ### 2.2. Rules
@@ -139,15 +140,15 @@ The results are going to be assessed by three major concerns:
 
 #### 2.3.1. User Experience
 
-The resulting product should be comparable to or better
+The product should be comparable to or better
 than the original regarding functionality, performance and design.
 
 This includes testing major browsers and devices.
 
 #### 2.3.2. Code Quality
 
-The resulting implementation should adhere to
-established code quality standards in the industry.
+The implementation should be _maintainable_ and
+follow established code quality standards.
 
 This will be difficult to assess objectively, as we will see later.
 
@@ -158,16 +159,16 @@ range of scenarios.
 
 ## 3. Implementation
 
-This section walks through the resulting implementation, highlighting techniques
+This section walks through the implementation, highlighting techniques
 and problems found during the process. You're encouraged to inspect the
 [source code](./public) alongside this section.
 
 ### 3.1. Basic Structure
 
-Since build steps are ruled out, the codebase is organized around
-plain HTML, CSS and JS files. The HTML and CSS mostly follows
+Since build steps are ruled out, the codebase consists of
+plain HTML, CSS and JS files. The HTML and CSS follows
 [rscss](https://ricostacruz.com/rscss/) (devised by [Rico Sta. Cruz](https://ricostacruz.com))
-which yields an intuitive, component-oriented structure.
+resulting in an intuitive, component-oriented structure.
 
 The stylesheets are slightly verbose.
 [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
@@ -183,8 +184,9 @@ comments to functions to get additional code completion in VSCode.
 This helps, but using TypeScript would be much safer and less verbose.
 
 Note that I've opted out of web components completely.
-I can't clearly articulate what I find problematic about them
-but I never missed them throughout the study.
+My attempts to refactor the implementation using web components
+either added more complexity, or did not show significant value
+over the initial, more basic approach.
 
 ---
 
@@ -192,8 +194,7 @@ The basic structure comes with some boilerplate,
 e.g. referencing all the individual stylesheets and scripts from the HTML;
 probably enough to justify a simple build step.
 
-It is otherwise straight-forward and trivial to understand
-(literally just a bunch of HTML, CSS and JS files).
+It is otherwise straight-forward&mdash;literally a bunch of HTML, CSS and JS files.
 
 ### 3.2. JavaScript Architecture
 
@@ -230,7 +231,7 @@ _Mount functions_ take a DOM element as their first argument.
 Their responsibility is to set up initial state, event listeners, and
 provide behavior and rendering for the target element.
 
-Here's a "Hello, World!" example (implementing a simple counter) of mount functions:
+For example, this mount function implements a simple counter:
 
 ```js
 // Define mount function.
@@ -270,32 +271,30 @@ export function MyCounter(el) {
   // This event handler supports the increment/decrement actions above,
   // as well as resetting the counter from the outside.
   el.addEventListener('counter', (e) => {
-    // Update state and re-render
+    // Update state and re-render.
     value = e.detail;
     update();
   });
 
-  // Define idempotent update function
+  // Define idempotent update function.
   function update() {
     el.querySelector('.value').innerText = value;
   }
 
-  // Initial update
+  // Initial update.
   update();
 }
 
-// Mount MyCounter component(s)
-// Any <div class="my-counter"></div> in the document will be mounted
+// Mount MyCounter component(s).
+// Any <div class="my-counter"></div> in the document will be mounted.
 document.querySelectorAll('.my-counter').forEach(MyCounter);
 ```
 
 This comes with quite some boilerplate but has useful properties,
 as we will see in the following sections.
 
-Note that any part of a mount function is entirely optional.
-For example, a mount function does not have to set any base HTML,
+Note that a mount function does not have to set any base HTML,
 and may instead only set event listeners to enable some behavior.
-
 Also note that an element can be mounted with multiple mount functions.
 For example, to-do items are mounted with `TodoItem` and `AppDraggable`.
 
@@ -315,15 +314,15 @@ I found it effective to implement one-way data flow similar to React's approach,
 however exclusively using custom DOM events.
 
 - **Data flows downwards** from parent components to child components
-  through custom DOM events.
+  through custom DOM events. Data events are in noun-form.
 - **Actions flow upwards** through custom DOM events (bubbling up),
   usually resulting in some parent component state change which is in turn
-  propagated downwards through data events.
+  propagated downwards through data events. Action events are in verb-form.
 
 The business logic is factored into a pure functional core
 ([TodoLogic.js](./public/scripts/TodoLogic.js)).
 This is a sensible approach in most UI architectures as it encapsulates
-state transitions in a portable, testable unit.
+state transitions in portable, testable units.
 
 The controller is factored into a separate behavior
 ([TodoController.js](./public/scripts/TodoController.js)).
@@ -346,8 +345,7 @@ Reference:
 #### 3.2.3. Rendering
 
 Naively re-rendering a whole component using `.innerHTML` should be avoided
-as this may hurt performance and will likely break important functionality
-which browsers have already been optimizing for decades:
+as this may hurt performance and will likely break important functionality like:
 
 - `<a>`, `<button>`, `<input>`, etc. may lose focus.
 - Form inputs may lose data.
@@ -359,10 +357,10 @@ As seen in [3.2.1.](#321-mount-functions), rendering is therefore split into
 some rigid base HTML and an idempotent, complete update function which only
 makes necessary changes.
 
-- **Idempotence** is key here, i.e. update functions may be called at any time
+- **Idempotence:** Update functions may be called at any time
   and should always render the component correctly.
-- **Completeness** is equally important, i.e. update functions should render
-  the whole component, regardless of what triggered an update.
+- **Completeness:** Update functions should render
+  the whole component, regardless of what triggered the update.
 
 In effect, this means almost all DOM manipulation is done in update functions,
 which greatly contributes to robustness and readability of the codebase.
@@ -444,8 +442,8 @@ export function TodoList(el) {
 ```
 
 It's very verbose, with lots of opportunities to introduce bugs.
-Compared to a simple loop in JSX, this appears highly complex.
-It is quite efficient as it does minimal work but is otherwise messy;
+Compared to a simple loop in JSX, this approach seems unreasonable.
+It is quite efficient as it does minimal work, but it's
 definitely a candidate for a utility function or library.
 
 ### 3.3. Drag & Drop
@@ -521,10 +519,10 @@ Initially, I used [serve](https://www.npmjs.com/package/serve)
 which was good enough to get going but requires manually reloading
 the application on every change.
 
-Tooling for most modern frameworks supports _hot reloading_,
+Most modern frameworks support _hot reloading_,
 i.e. updating the application in place when changing source files.
-Hot reloading provides fast feedback during development;
-especially useful when fine-tuning visuals.
+Hot reloading provides fast feedback during development,
+especially useful for fine-tuning visuals.
 
 Unfortunately, I could not find a local development server
 supporting some form of hot reloading
@@ -546,7 +544,7 @@ Feedback is highly appreciated.
 
 ### 4.2. Formatting and Linting
 
-Basic code quality is provided by
+Basic code consistency is provided by
 
 - [Prettier](https://prettier.io),
 - [ESLint](https://eslint.org), and
@@ -611,7 +609,7 @@ Reference:
 ### 4.4. Pipeline
 
 I've added a simple CI/CD pipeline via GitHub Actions.
-It runs linters and tests, and deploys to GitHub pages on success.
+It runs linters and tests, and deploys to GitHub Pages on success.
 This was straight-forward and is orthogonal to the application code and other tooling.
 
 Reference:
@@ -648,7 +646,7 @@ _The latter was an improvement over the original application when I started
 working on the case study in 2019. In the meantime, the TeuxDeux
 team released an update with a much better drag & drop experience. Great job!_
 
-One notable missing feature is Markdown support. It would be insensible
+One notable missing feature is Markdown support. It would be unreasonable
 to implement Markdown from scratch; this is a valid candidate for using
 an external library as it is entirely orthogonal to the remaining codebase.
 
@@ -705,8 +703,7 @@ and some opinionated statements based on my experience in the industry.
 - Little indirection
 - Low coupling
 - The result is literally just a bunch of HTML, CSS, and JS files.
-- Straight-forward testing with Playwright
-  - Includes code coverage
+- Straight-forward testing with Playwright (including code coverage)
 
 All source files (HTML, CSS and JS) combine to **under 3000 lines of code**,
 including comments and empty lines.
@@ -724,7 +721,7 @@ _To be fair, my implementation misses quite a few features from the original. I 
   would justify a helper.
 - Listening to and dispatching events is slightly verbose.
 - Although not used in this study,
-  event delegation seems not trivial to implement without code duplication.
+  event delegation seems hard to implement without code duplication.
 
 Eliminating verbosity through build steps and a minimal set of helpers
 would reduce the comparably low code size (see above) even further.
@@ -734,7 +731,8 @@ would reduce the comparably low code size (see above) even further.
 - Class names share a global namespace.
 - Event names share a global namespace.
   - Especially problematic for events that bubble up.
-- No code completion in HTML strings.
+- No syntax highlighting or code completion in HTML strings.
+  - Can be mitigated with [es6-string-html](https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html)
 - The separation between base HTML and dynamic rendering is not ideal
   when compared to JSX, for example.
 - JSX/virtual DOM techniques provide much better development ergonomics.
@@ -750,9 +748,9 @@ would reduce the comparably low code size (see above) even further.
   I cannot recommend using it enough.
 - We're effectively locked out of using NPM dependencies that don't provide
   browser-ready builds (ES modules or UMD).
-- Most frameworks handle a lot of browser inconsistencies **for free** and
+- Most frameworks handle a lot of browser inconsistencies and
   continuously monitor regressions with extensive test suites.
-  The cost of browser testing is surely a lot higher
+  The cost of browser testing is possibly higher
   when using a vanilla approach.
 
 ---
@@ -803,7 +801,7 @@ simple build steps (e.g. SCSS and TypeScript).
 
 The study's method helped discovering patterns and techniques that
 are at least on par with a framework-based approach for the given subject,
-without diverging into building a custom framework.
+without accidentally building a custom framework.
 
 A notable exception to the latter is rendering variable numbers of elements
 in a concise way. I was unable to eliminate the verbosity involved
@@ -813,7 +811,7 @@ a valid candidate for a (possibly external) general-purpose utility.
 
 When looking at the downsides, remember that all of the individual parts are
 self-contained, highly decoupled, portable, and congruent to the web platform.
-The resulting implementation cannot "rust", by definition, as no dependencies
+The implementation cannot "rust", by definition, as no dependencies
 can become out of date.
 
 Another thought to be taken with a grain of salt: I believe frameworks
@@ -874,6 +872,13 @@ Projects I've inspected for drag & drop architecture:
 - [React DnD](https://github.com/react-dnd/react-dnd/)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [dragula](https://github.com/bevacqua/dragula)
+
+Useful VSCode extensions:
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
+- [es6-string-html](https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html)
 
 ### 8.2. Response
 
