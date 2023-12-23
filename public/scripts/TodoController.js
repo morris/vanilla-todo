@@ -1,3 +1,5 @@
+// TodoController.js
+
 import { TodoLogic } from './TodoLogic.js';
 
 /**
@@ -46,6 +48,9 @@ export function TodoController(el) {
       if (localStorage?.todo) {
         todoData = { ...todoData, ...JSON.parse(localStorage.todo) };
       }
+
+      // Assuming moveItemsToToday is part of TodoLogic
+      todoData.items = TodoLogic.moveItemsToToday(todoData.items);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn(err);
