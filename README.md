@@ -567,10 +567,6 @@ integrate well with VSCode so I've rarely had to run these manually.
 
 I've implemented some end-to-end and unit tests
 using [Playwright](https://playwright.dev/).
-This was straightforward besides small details like the `*.mjs` extension
-and the fact that you cannot use named imports when importing from
-`public/scripts`.
-
 While running a local web server (see above), you can run the tests with
 
 - `npm run test` for headless tests, or

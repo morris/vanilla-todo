@@ -1,8 +1,6 @@
 import { expect, test } from '@playwright/test';
-import TodoLogicModule from '../../public/scripts/TodoLogic.js';
-import '../coverage.mjs';
-
-const { TodoLogic } = TodoLogicModule;
+import { TodoLogic } from '../../public/scripts/TodoLogic.js';
+import '../coverage.js';
 
 test('TodoLogic.initTodoData', () => {
   const data = TodoLogic.initTodoData(new Date(0));

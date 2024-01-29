@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import '../coverage.mjs';
+import '../coverage.js';
 
 test('Edit custom to-do list title (Enter)', async ({ page }) => {
   await page.goto('http://localhost:8080');
