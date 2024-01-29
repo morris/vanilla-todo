@@ -139,3 +139,46 @@ test('TodoLogic.moveTodoItem', () => {
     },
   ]);
 });
+
+test('TodoLogic.checkTodoItem', () => {
+  let data = TodoLogic.initTodoData(new Date(0));
+
+  data = {
+    ...data,
+    items: [
+      {
+        id: 'a',
+        listId: '1970-01-01',
+        label: 'foo',
+        index: 0,
+        done: false,
+      },
+      {
+        id: 'b',
+        listId: '1970-01-01',
+        label: 'bar',
+        index: 1,
+        done: false,
+      },
+    ],
+  };
+
+  data = TodoLogic.checkTodoItem(data, { id: 'a', done: true });
+
+  expect(data.items).toEqual([
+    {
+      id: 'a',
+      listId: '1970-01-01',
+      label: 'foo',
+      index: 0,
+      done: true,
+    },
+    {
+      id: 'b',
+      listId: '1970-01-01',
+      label: 'bar',
+      index: 1,
+      done: false,
+    },
+  ]);
+});

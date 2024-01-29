@@ -570,12 +570,12 @@ just one dependency.
 
 Reference:
 
-- [addItem.test.mjs](./test/e2e/addItem.test.mjs)
-- [util.test.mjs](./test/unit/util.test.mjs)
+- [addItem.test.js](./test/e2e/addItem.test.js)
+- [util.test.js](./test/unit/util.test.js)
 
 #### 4.3.1. Code Coverage
 
-I was able to set up code coverage (at least for end-to-end tests) via
+I was able to set up code coverage for unit _and_ end-to-end tests via
 [Playwright's code coverage feature](https://playwright.dev/docs/api/class-coverage)
 and [c8](https://github.com/bcoe/c8). This introduced another dependency and was
 slightly more involved to get right, e.g. mapping localhost URLs to file URLs.
@@ -589,7 +589,7 @@ Note that the implementation is specific to the project structure, e.g.
 Reference:
 
 - [test-coverage.sh](./scripts/test-coverage.sh)
-- [coverage.mjs](./test/coverage.mjs)
+- [coverage.js](./test/coverage.js)
 
 ### 4.4. Pipeline
 
@@ -879,6 +879,11 @@ Useful VSCode extensions:
 Thanks!
 
 ## 9. Changelog
+
+### 01/2024
+
+- Correctly combine [code coverage](#431-code-coverage) from end-to-end and unit
+  tests
 
 ### 12/2023
 

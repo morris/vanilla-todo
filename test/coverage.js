@@ -5,7 +5,7 @@ import { test } from 'playwright/test';
 
 // See also https://playwright.dev/docs/api/class-coverage
 
-if (process.env.COVERAGE) {
+if (process.env.NODE_V8_COVERAGE) {
   test.beforeEach(async ({ page }) => {
     await page.coverage.startJSCoverage();
   });
@@ -20,9 +20,9 @@ if (process.env.COVERAGE) {
       })),
     };
 
-    await fs.mkdir('coverage/tmp', { recursive: true });
+    await fs.mkdir(process.env.NODE_V8_COVERAGE, { recursive: true });
     await fs.writeFile(
-      `coverage/tmp/coverage-${randomUUID()}.json`,
+      path.join(process.env.NODE_V8_COVERAGE, `coverage-${randomUUID()}.json`),
       JSON.stringify(output),
     );
   });
