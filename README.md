@@ -882,8 +882,10 @@ Thanks!
 
 ### 01/2024
 
+- Add [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
 - Correctly combine [code coverage](#431-code-coverage) from end-to-end and unit
   tests
+- Remove FPS counter
 
 ### 12/2023
 
