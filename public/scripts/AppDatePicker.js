@@ -2,7 +2,7 @@ import { AppIcon } from './AppIcon.js';
 import { formatMonth } from './util.js';
 
 const datesCell = /* html */ `
-  <td><button class="app-button"></button></td>
+  <td><button class="app-button pick"></button></td>
 `;
 
 const datesRow = /* html */ `
@@ -71,7 +71,7 @@ export function AppDatePicker(el) {
   el.querySelector('.nextmonth').addEventListener('click', nextMonth);
 
   el.addEventListener('click', (e) => {
-    if (!e.target.matches('.app-button')) return;
+    if (!e.target.matches('.pick')) return;
 
     show = false;
     update();
