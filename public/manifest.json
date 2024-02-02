@@ -1,0 +1,22 @@
+{
+  "name": "VANILLA TODO",
+  "short_name": "VANILLA TODO",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fefefe",
+  "theme_color": "#fefefe",
+  "description": "A to-do app in plain HTML, CSS and JavaScript",
+  "icons": [
+    {
+      "src": "images/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "images/icon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
