@@ -652,7 +652,10 @@ ms**; again, not optimized at all (with e.g. asset hashing/indefinite caching).
 _To be fair, my implementation misses quite a few features from the original. I
 suspect a fully equivalent clone to be well below 100 KB transfer, though._
 
-_TODO Run more formal performance tests and add figures for the results._
+While there is still optimization potential, the
+[Lighthouse](https://developer.chrome.com/docs/lighthouse) score is perfect:
+
+<img src="assets/lighthouse.png" alt="Perfect Lighthouse Score">
 
 ### 5.2. Code Quality
 
