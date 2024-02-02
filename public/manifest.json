@@ -8,6 +8,11 @@
   "description": "A to-do app in plain HTML, CSS and JavaScript",
   "icons": [
     {
+      "src": "images/icon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
       "src": "images/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
