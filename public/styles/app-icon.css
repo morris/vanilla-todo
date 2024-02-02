@@ -1,15 +1,18 @@
 .app-icon {
   display: inline-block;
-  vertical-align: text-top;
+  vertical-align: baseline;
+  height: 1em;
 }
 
 .app-icon > svg {
   display: inline-block;
   width: 1em;
   height: 1em;
-  vertical-align: bottom;
+  vertical-align: middle;
   fill: currentcolor;
   transition: transform 0.1s ease-out;
+  position: relative;
+  top: -0.1em;
 }
 
 .app-icon.-r180 > svg {

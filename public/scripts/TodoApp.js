@@ -1,6 +1,5 @@
 import { AppCollapsible } from './AppCollapsible.js';
 import { AppFlip } from './AppFlip.js';
-import { AppFps } from './AppFps.js';
 import { AppIcon } from './AppIcon.js';
 import { TodoController } from './TodoController.js';
 import { TodoFrameCustom } from './TodoFrameCustom.js';
@@ -15,8 +14,9 @@ export function TodoApp(el) {
 
   el.innerHTML = /* html */ `
     <header class="app-header">
-      <h1 class="title">VANILLA TODO</h1>
-      <p class="app-fps fps"></p>
+      <h1 class="title">
+        VANILLA TODO
+      </h1>
     </header>
     <div class="todo-frame -days"></div>
     <div class="app-collapsible">
@@ -31,7 +31,7 @@ export function TodoApp(el) {
     </div>
     <footer class="app-footer">
       <p>
-        VANILLA TODO &copy; 2020&ndash;2023 <a href="https://morrisbrodersen.de">Morris Brodersen</a>
+        VANILLA TODO &copy; 2020&ndash;2024 <a href="https://morrisbrodersen.de">Morris Brodersen</a>
         &mdash; A case study on viable techniques for vanilla web development.
         <a href="https://github.com/morris/vanilla-todo">About →</a>
       </p>
@@ -47,7 +47,6 @@ export function TodoApp(el) {
 
   el.querySelectorAll('.app-collapsible').forEach(AppCollapsible);
   el.querySelectorAll('.app-icon').forEach(AppIcon);
-  el.querySelectorAll('.app-fps').forEach(AppFps);
 
   TodoFrameDays(el.querySelector('.todo-frame.-days'));
   TodoFrameCustom(el.querySelector('.todo-frame.-custom'));
