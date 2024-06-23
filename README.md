@@ -516,21 +516,17 @@ development, especially useful for fine-tuning visuals.
 
 Unfortunately, I could not find a local development server supporting some form
 of hot reloading without introducing a framework or build system, but I was able
-to implement a minimal local development server (~200 LOC) with the following
-behavior:
+to implement a [minimal local development server](https://github.com/morris/s4d)
+with the following behavior:
 
 - Changes to stylesheets or images will hot replace the changed resources.
 - Other changes (e.g. JavaScript or HTML) will cause a full page reload.
 
 While it's not proper
 [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/)
-(which requires immense infrastructure), it requires zero changes to the
+(which needs immense infrastructure), it requires zero changes to the
 application source and provides a similar experience because page reloads are
 fast.
-
-Note that the local development server is highly experimental and is likely
-lacking some features to be generally usable. See [/dev](./dev) for the
-implementation. Feedback is highly appreciated.
 
 ### 4.2. Formatting and Linting
 
@@ -882,6 +878,10 @@ Useful VSCode extensions:
 Thanks!
 
 ## 9. Changelog
+
+### 06/2024
+
+- Use [s4d](https://github.com/morris/s4d) as local development server
 
 ### 01/2024
 
