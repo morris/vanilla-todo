@@ -882,6 +882,7 @@ Thanks!
 ### 06/2024
 
 - Use [s4d](https://github.com/morris/s4d) as local development server
+- Update dependencies
 
 ### 01/2024
 
