@@ -882,6 +882,8 @@ Thanks!
 ### 06/2024
 
 - Use [s4d](https://github.com/morris/s4d) as local development server
+- Run pipeline checks for pull requests (#13)
+- Move past items to today when not done (#14)
 - Update dependencies
 
 ### 01/2024
