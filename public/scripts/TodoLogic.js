@@ -8,6 +8,7 @@ import { uuid } from './uuid.js';
  *  index: number;
  *  label: string;
  *  done: boolean;
+ *  fixed: boolean;
  * }} TodoDataItem
  */
 
@@ -71,7 +72,7 @@ export class TodoLogic {
    * @param {{listId: string, label: string}} input
    * @returns {TodoData}
    */
-  static addTodoItem(data, input) {
+  static addTodoItem(data, input, now = new Date()) {
     let index = 0;
 
     for (const item of data.items) {
@@ -89,6 +90,7 @@ export class TodoLogic {
           id: uuid(),
           index,
           done: false,
+          fixed: this.isListInThePast(input.listId, now),
         },
       ],
     };
@@ -127,14 +129,20 @@ export class TodoLogic {
    * @param {{id: string, listId: string, index: number}} input
    * @returns {TodoData}
    */
-  static moveTodoItem(data, input) {
+  static moveTodoItem(data, input, now = new Date()) {
     const itemToMove = data.items.find((item) => item.id === input.id);
+
+    if (!itemToMove) return data;
 
     // Reinsert item at target list and index
     let list = data.items.filter(
       (item) => item.listId === input.listId && item.id !== input.id,
     );
-    list.splice(input.index, 0, { ...itemToMove, listId: input.listId });
+    list.splice(input.index, 0, {
+      ...itemToMove,
+      listId: input.listId,
+      fixed: this.isListInThePast(input.listId, now),
+    });
     list = TodoLogic.setIndexes(list);
 
     // Reinsert updated list
@@ -159,6 +167,44 @@ export class TodoLogic {
       ...data,
       items: data.items.filter((item) => item.id !== input.id),
     };
+  }
+
+  /**
+   * @param {TodoData} data
+   * @param {Date} now
+   * @returns {TodoData}
+   */
+  static movePastTodoItems(data, now = new Date()) {
+    const todayListId = formatDateId(now);
+
+    let targetIndex = 0;
+
+    for (const item of data.items) {
+      if (item.listId === todayListId && item.index > targetIndex) {
+        targetIndex = item.index;
+      }
+    }
+
+    return {
+      ...data,
+      items: data.items.map((item) => {
+        if (
+          !item.done &&
+          !item.fixed &&
+          this.isListInThePast(item.listId, now)
+        ) {
+          return { ...item, listId: todayListId, index: targetIndex++ };
+        }
+
+        return item;
+      }),
+    };
+  }
+
+  static isListInThePast(listId, now = new Date()) {
+    const todayListId = formatDateId(now);
+
+    return listId.match(/\d\d\d\d-\d\d-\d\d/) && listId < todayListId;
   }
 
   //

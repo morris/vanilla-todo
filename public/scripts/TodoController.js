@@ -44,7 +44,10 @@ export function TodoController(el) {
   function load() {
     try {
       if (localStorage?.todo) {
-        todoData = { ...todoData, ...JSON.parse(localStorage.todo) };
+        todoData = TodoLogic.movePastTodoItems({
+          ...todoData,
+          ...JSON.parse(localStorage.todo),
+        });
       }
     } catch (err) {
       // eslint-disable-next-line no-console

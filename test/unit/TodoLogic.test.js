@@ -29,6 +29,7 @@ test('TodoLogic.addTodoItem', () => {
         label: 'foo',
         index: 0,
         done: false,
+        fixed: true,
       },
     ],
   });
@@ -42,6 +43,7 @@ test('TodoLogic.addTodoItem', () => {
       label: 'foo',
       index: 0,
       done: false,
+      fixed: true,
     },
     {
       id: expect.stringMatching(/./),
@@ -49,6 +51,7 @@ test('TodoLogic.addTodoItem', () => {
       label: 'bar',
       index: 1,
       done: false,
+      fixed: true,
     },
   ]);
 
@@ -61,6 +64,7 @@ test('TodoLogic.addTodoItem', () => {
       label: 'foo',
       index: 0,
       done: false,
+      fixed: true,
     },
     {
       id: expect.stringMatching(/./),
@@ -68,6 +72,7 @@ test('TodoLogic.addTodoItem', () => {
       label: 'bar',
       index: 1,
       done: false,
+      fixed: true,
     },
     {
       id: expect.stringMatching(/./),
@@ -75,6 +80,7 @@ test('TodoLogic.addTodoItem', () => {
       label: 'baz',
       index: 0,
       done: false,
+      fixed: true,
     },
   ]);
 });
@@ -134,6 +140,42 @@ test('TodoLogic.moveTodoItem', () => {
       id: 'a',
       listId: '1970-01-01',
       label: 'foo',
+      index: 1,
+      done: false,
+      fixed: true,
+    },
+  ]);
+
+  data = TodoLogic.moveTodoItem(
+    data,
+    {
+      id: 'a',
+      listId: '1970-01-02',
+      index: 0,
+    },
+    new Date('1970-01-01'),
+  );
+
+  expect(data.items).toEqual([
+    {
+      id: 'b',
+      listId: '1970-01-01',
+      label: 'bar',
+      index: 0,
+      done: false,
+    },
+    {
+      id: 'a',
+      listId: '1970-01-02',
+      label: 'foo',
+      index: 0,
+      done: false,
+      fixed: false,
+    },
+    {
+      id: 'c',
+      listId: '1970-01-02',
+      label: 'baz',
       index: 1,
       done: false,
     },
