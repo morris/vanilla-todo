@@ -1,12 +1,9 @@
 name: Pipeline
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
-  checks:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +20,8 @@ jobs:
         env:
           CI: true
   deploy:
-    needs: checks
+    if: github.ref == 'refs/heads/main'
+    needs: check
     permissions:
       pages: write
       id-token: write
