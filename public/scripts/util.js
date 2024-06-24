@@ -84,3 +84,16 @@ export const MONTH_NAMES = [
 export function formatMonth(date) {
   return MONTH_NAMES[date.getMonth()];
 }
+
+/**
+ * https://developer.mozilla.org/en-US/docs/Glossary/Base64
+ * @param {BlobPart} input
+ */
+export async function toDataURL(input, type) {
+  return await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => resolve(reader.result));
+    reader.addEventListener('error', () => reject(reader.error));
+    reader.readAsDataURL(new File([input], '', { type }));
+  });
+}

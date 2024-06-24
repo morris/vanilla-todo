@@ -1,4 +1,5 @@
 import { TodoLogic } from './TodoLogic.js';
+import { toDataURL } from './util.js';
 
 /**
  * @param {HTMLElement} el
@@ -8,6 +9,8 @@ export function TodoController(el) {
   let saveTimeout;
 
   el.addEventListener('loadTodoData', load);
+  el.addEventListener('importTodoData', (e) => importTodoData(e.detail));
+  el.addEventListener('exportTodoData', exportTodoData);
 
   for (const action of [
     'addTodoItem',
@@ -68,5 +71,23 @@ export function TodoController(el) {
         console.warn(err);
       }
     }, 100);
+  }
+
+  function importTodoData(input) {
+    // TODO validate?
+    todoData = input;
+
+    update();
+  }
+
+  async function exportTodoData() {
+    const json = JSON.stringify(todoData, null, 2);
+    const href = await toDataURL(json);
+    const link = document.createElement('a');
+    link.setAttribute('download', 'todo.json');
+    link.setAttribute('href', href);
+    document.querySelector('body').appendChild(link);
+    link.click();
+    link.remove();
   }
 }

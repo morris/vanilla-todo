@@ -17,6 +17,15 @@ export function TodoApp(el) {
       <h1 class="title">
         VANILLA TODO
       </h1>
+      <p class="actions">
+        <label class="app-button import" title="Import data">
+          <i class="app-icon" data-id="upload-16"></i>
+          <input type="file" name="importFile" hidden>
+        </label>
+        <button class="app-button export" title="Export data">
+          <i class="app-icon" data-id="download-16"></i>
+        </button>
+      </p>
     </header>
     <div class="todo-frame -days"></div>
     <div class="app-collapsible">
@@ -50,6 +59,37 @@ export function TodoApp(el) {
 
   TodoFrameDays(el.querySelector('.todo-frame.-days'));
   TodoFrameCustom(el.querySelector('.todo-frame.-custom'));
+
+  el.querySelector('[name=importFile]').addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (e) => {
+      try {
+        const todoData = JSON.parse(e.target.result);
+
+        el.dispatchEvent(
+          new CustomEvent('importTodoData', {
+            detail: todoData,
+            bubbles: true,
+          }),
+        );
+      } catch (err) {
+        alert(`Could not import data (${err.message})`);
+      }
+    });
+
+    reader.readAsText(f);
+  });
+
+  el.querySelector('.app-header > .actions > .export').addEventListener(
+    'click',
+    () => {
+      el.dispatchEvent(new CustomEvent('exportTodoData', { bubbles: true }));
+    },
+  );
 
   // Each of these events make changes to the HTML to be animated using FLIP.
   // Listening to them using "capture" dispatches "beforeFlip" before any changes.

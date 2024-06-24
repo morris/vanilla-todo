@@ -1,6 +1,7 @@
 .app-header {
   background: var(--header-bg);
   padding: 10px 20px;
+  position: relative;
 }
 
 .app-header > .title {
@@ -9,4 +10,11 @@
   line-height: 1.25em;
   margin: 0;
   text-align: center;
+}
+
+.app-header > .actions {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  margin: 0;
 }
