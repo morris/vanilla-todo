@@ -7,6 +7,7 @@
   transform: translate(110%, 0);
   transition: all 0.2s ease-in-out;
   text-align: center;
+  z-index: 99;
 }
 
 .app-date-picker.-show {
