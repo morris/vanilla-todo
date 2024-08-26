@@ -23,7 +23,10 @@ there are only a few [critical areas](#523-the-bad) where a vanilla approach is
 clearly inferior.
 
 _While the first version of the case study has been published in 2020, it has
-received significant [updates](#9-changelog) over time._
+received significant [updates](#9-changelog) over time. Also, further work is
+being done with **[Vanilla Prime](https://github.com/morris/vanilla-prime)**, a
+practical guide to (almost) vanilla web development based on insights from this
+case study._
 
 _Intermediate understanding of the web platform is required to follow through._
 
@@ -649,9 +652,7 @@ _To be fair, my implementation misses quite a few features from the original. I
 suspect a fully equivalent clone to be well below 100 KB transfer, though._
 
 While there is still optimization potential, the
-[Lighthouse](https://developer.chrome.com/docs/lighthouse) score is perfect:
-
-<img src="assets/lighthouse.png" alt="Perfect Lighthouse Score">
+[Lighthouse](https://developer.chrome.com/docs/lighthouse) score is perfect.
 
 ### 5.2. Code Quality
 
@@ -826,15 +827,18 @@ explored in the future:
 
 - Run another case study with TypeScript, SCSS, and build steps (seems
   promising).
+  - _See [Vanilla Prime](https://github.com/morris/vanilla-prime)._
 - Extrapolate deep utility functions (e.g. `reconcile()`) to mitigate some of
   the discovered downsides.
+  - _See [exdom](https://github.com/morris/exdom)._
 - Experiment with architectures based on virtual DOM rendering and standard DOM
   events.
 - Compile discovered rules, patterns and techniques into a comprehensive guide.
+  - _See [Vanilla Prime](https://github.com/morris/vanilla-prime)._
 
 Case studies constrained by a set of formal rules are an effective way to find
 new patterns and techniques in a wide range of domains. I'd love to see similar
-experiments in the future.
+experiments in the future
 
 ## 8. Appendix
 
@@ -867,6 +871,10 @@ Useful VSCode extensions:
 
 ### 8.2. Response
 
+#### 12/2023
+
+- [Lobsters](https://lobste.rs/s/jofho9/case_study_on_vanilla_web_development)
+
 #### 10/2020
 
 - Trending on [Hacker News](https://news.ycombinator.com/item?id=24893247)
@@ -879,70 +887,75 @@ Thanks!
 
 ## 9. Changelog
 
+### 08/2024
+
+- Link to [Vanilla Prime](https://github.com/morris/vanilla-prime)
+- Link to [exdom](https://github.com/morris/exdom)
+- Update dependencies
+
 ### 06/2024
 
 - Use [s4d](https://github.com/morris/s4d) as local development server
-- Run pipeline checks for pull requests (#13)
-- Move past items to today when not done (#14)
+- Run pipeline checks for pull requests
+  ([#13](https://github.com/morris/vanilla-todo/issues/13))
+- Move past items to today when not done
+  ([#14](https://github.com/morris/vanilla-todo/issues/14))
 - Update dependencies
 
 ### 01/2024
 
 - Add [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
-- Correctly combine [code coverage](#431-code-coverage) from end-to-end and unit
-  tests
+- Fix merged [code coverage](#431-code-coverage) from end-to-end and unit tests
 - Remove FPS counter
 
 ### 12/2023
 
-- Added [debugging section](#45-debugging)
-- Redesigned with CSS variables
-- Added GitHub action for running checks and deployment
-- Edited closing section
-- Updated numbers
+- Add [debugging section](#45-debugging)
+- Redesign with CSS variables
+- Add GitHub action for running checks and deployment
+- Edit closing section
+- Update numbers
 
 ### 11/2023
 
-- Added [tooling section](#4-tooling)
-- Refactored business logic into pure functional module
-- Added support for [code coverage](#431-code-coverage)
-- Added [local development server](#41-local-development-server) with hot
-  reloading
-- Fixed some visual issues
-- Updated dependencies
+- Add [tooling section](#4-tooling)
+- Refactor business logic into pure functional module
+- Add support for [code coverage](#431-code-coverage)
+- Add [local development server](#41-local-development-server) with live reload
+- Fix some visual issues
+- Update dependencies
 
 ### 05/2023
 
-- Added basic testing
-- Fixed stylelint errors
-- Updated dependencies
+- Add basic testing
+- Fix stylelint errors
+- Update dependencies
 
 ### 08/2022
 
-- Small improvements
-- Fixed date seeking bug on Safari
+- Fix date seeking bug on Safari
 
 ### 05/2022
 
-- Refactored for ES2020
-- Refactored for event-driven communication exclusively
-- Moved original ES5-based version of the study to [/es5](./es5)
-- Added assessment regarding library development
-- Added date picker
+- Refactor for ES2020
+- Refactor for event-driven communication exclusively
+- Move original ES5-based version of the study to [/es5](./es5)
+- Add assessment regarding library development
+- Add date picker
 
 ### 01/2021
 
-- Added [response section](#82-response)
+- Add [response section](#82-response)
 
 ### 10/2020
 
-- Refactored for `dataset` [#2](https://github.com/morris/vanilla-todo/issues/2)
+- Refactor for `dataset` ([#2](https://github.com/morris/vanilla-todo/issues/2))
   &mdash; [@opethrocks](https://github.com/opethrocks)
-- Fixed [#3](https://github.com/morris/vanilla-todo/issues/3) (navigation bug)
+- Fix [#3](https://github.com/morris/vanilla-todo/issues/3) (navigation bug)
   &mdash; [@anchepiece](https://github.com/anchepiece),
   [@jcoussard](https://github.com/jcoussard)
-- Fixed [#4](https://github.com/morris/vanilla-todo/issues/4) (double item
+- Fix [#4](https://github.com/morris/vanilla-todo/issues/4) (double item
   creation) &mdash; [@n0nick](https://github.com/n0nick)
-- Fixed [#1](https://github.com/morris/vanilla-todo/issues/4) (bad links)
-  &mdash; [@roryokane](https://github.com/roryokane)
+- Fix [#1](https://github.com/morris/vanilla-todo/issues/4) (bad links) &mdash;
+  [@roryokane](https://github.com/roryokane)
 - Initial version
