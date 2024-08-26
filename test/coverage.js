@@ -1,7 +1,7 @@
+import { test } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { test } from 'playwright/test';
 
 // See also https://playwright.dev/docs/api/class-coverage
 
