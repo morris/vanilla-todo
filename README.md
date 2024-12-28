@@ -887,6 +887,11 @@ Thanks!
 
 ## 9. Changelog
 
+### 12/2024
+
+- Add Playwright config for testing more browsers
+- Update dependencies
+
 ### 08/2024
 
 - Link to [Vanilla Prime](https://github.com/morris/vanilla-prime)
