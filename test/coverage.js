@@ -1,3 +1,4 @@
+/* global process */
 import { test } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
