@@ -18,6 +18,9 @@ export function TodoApp(el) {
         VANILLA TODO
       </h1>
       <p class="actions">
+        <label class="app-button invertcolorscheme" title="Enable dark mode">
+          <i class="app-icon" data-id="moon-16"></i>
+        </label>
         <label class="app-button import" title="Import data">
           <i class="app-icon" data-id="upload-16"></i>
           <input type="file" name="importFile" hidden>
@@ -59,6 +62,14 @@ export function TodoApp(el) {
 
   TodoFrameDays(el.querySelector('.todo-frame.-days'));
   TodoFrameCustom(el.querySelector('.todo-frame.-custom'));
+
+  el.querySelector(
+    '.app-header > .actions > .invertcolorscheme',
+  ).addEventListener('click', () => {
+    localStorage.invertColorScheme =
+      localStorage.invertColorScheme === 'true' ? 'false' : 'true';
+    update();
+  });
 
   el.querySelector('[name=importFile]').addEventListener('change', (e) => {
     const f = e.target.files[0];
@@ -153,6 +164,26 @@ export function TodoApp(el) {
     el.querySelectorAll('.app-collapsible').forEach((el) =>
       el.dispatchEvent(new CustomEvent('collapse')),
     );
+
+    updateColorScheme();
+  }
+
+  function updateColorScheme() {
+    const prefersDarkColorScheme = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
+    const invertColorScheme = localStorage.invertColorScheme === 'true';
+
+    document.body.classList.toggle('-invertcolorscheme', invertColorScheme);
+
+    const iconEl = el.querySelector(
+      '.app-header > .actions > .invertcolorscheme > .app-icon',
+    );
+
+    iconEl.dataset.id =
+      prefersDarkColorScheme === invertColorScheme ? 'moon-16' : 'sun-16';
+
+    AppIcon(iconEl);
   }
 
   function beforeFlip(e) {

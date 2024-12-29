@@ -18,6 +18,7 @@
   font-size: inherit;
   line-height: 1.5em;
   background: transparent;
+  color: inherit;
 }
 
 .todo-item-input > .save {

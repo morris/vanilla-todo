@@ -5,7 +5,6 @@
   color: #999;
 }
 
-/* stylelint-disable-next-line rscss/no-descendant-combinator */
 .app-footer a {
   color: #999;
 }

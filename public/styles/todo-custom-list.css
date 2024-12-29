@@ -37,6 +37,8 @@
   outline: 0;
   border-radius: 0;
   vertical-align: middle;
+  color: inherit;
+  background: inherit;
 }
 
 .todo-custom-list > .header > .form > .delete {
@@ -57,7 +59,7 @@
   box-shadow:
     10px 0 12px -14px rgb(0 0 0 / 30%),
     -10px 0 12px -14px rgb(0 0 0 / 30%);
-  background: #fff;
+  background: var(--main-bg);
   opacity: 0.8;
 }
 

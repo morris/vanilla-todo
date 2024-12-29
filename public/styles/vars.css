@@ -24,3 +24,56 @@
   --button-active-bg: var(--grey4);
   --button-highlight-text: var(--red);
 }
+
+.-invertcolorscheme {
+  --main-text: var(--white);
+  --main-bg: var(--black);
+  --main-border: var(--grey3);
+  --main-border-light: var(--grey2);
+  --header-text: var(--grey2);
+  --header-bg: var(--black);
+  --highlight-text: var(--red);
+  --disabled-text: var(--grey1);
+  --aside-text: var(--grey2);
+  --button-text: var(--grey2);
+  --button-bg: transparent;
+  --button-active-text: var(--white);
+  --button-active-bg: var(--grey1);
+  --button-highlight-text: var(--red);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-text: var(--white);
+    --main-bg: var(--black);
+    --main-border: var(--grey3);
+    --main-border-light: var(--grey2);
+    --header-text: var(--grey2);
+    --header-bg: var(--black);
+    --highlight-text: var(--red);
+    --disabled-text: var(--grey1);
+    --aside-text: var(--grey2);
+    --button-text: var(--grey2);
+    --button-bg: transparent;
+    --button-active-text: var(--white);
+    --button-active-bg: var(--grey1);
+    --button-highlight-text: var(--red);
+  }
+
+  .-invertcolorscheme {
+    --main-text: var(--black);
+    --main-bg: var(--white);
+    --main-border: var(--grey2);
+    --main-border-light: var(--grey3);
+    --header-text: var(--grey1);
+    --header-bg: var(--white);
+    --highlight-text: var(--red);
+    --disabled-text: var(--grey2);
+    --aside-text: var(--grey1);
+    --button-text: var(--grey1);
+    --button-bg: transparent;
+    --button-active-text: var(--black);
+    --button-active-bg: var(--grey4);
+    --button-highlight-text: var(--red);
+  }
+}

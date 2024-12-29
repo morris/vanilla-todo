@@ -8,7 +8,6 @@
   margin: 0;
 }
 
-/* stylelint-disable-next-line rscss/no-descendant-combinator */
 .app-footer a {
   color: var(--aside-text);
 }

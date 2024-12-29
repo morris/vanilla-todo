@@ -7,9 +7,11 @@ const cache = {};
  * @param {HTMLElement} el
  */
 export function AppIcon(el) {
-  if (el.children.length > 0) return;
+  if (el.dataset.lid === el.dataset.id) return;
 
   const id = el.dataset.id;
+  el.dataset.lid = id;
+
   let promise = cache[id];
 
   if (!promise) {

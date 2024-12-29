@@ -12,12 +12,11 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background: var(--main-bg);
-  color: var(--main-text);
 }
 
 body {
+  background: var(--main-bg);
+  color: var(--main-text);
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, 'Helvetica Neue',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;

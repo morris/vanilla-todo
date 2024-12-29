@@ -889,6 +889,7 @@ Thanks!
 
 ### 12/2024
 
+- Add dark mode
 - Add Playwright config for testing more browsers
 - Update dependencies
 
