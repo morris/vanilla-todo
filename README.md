@@ -891,6 +891,8 @@ Thanks!
 
 - Add dark mode
 - Add Playwright config for testing more browsers
+- Scroll automatically when dragging items at the window border
+- Improve drag and drop behavior on touch devices
 - Update dependencies
 
 ### 08/2024

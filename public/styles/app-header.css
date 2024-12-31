@@ -2,6 +2,7 @@
   background: var(--header-bg);
   padding: 10px 20px;
   position: relative;
+  user-select: none;
 }
 
 .app-header > .title {

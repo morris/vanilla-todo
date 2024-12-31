@@ -4,18 +4,21 @@
  *  dropSelector: string;
  *  dragThreshold?: number;
  *  dropRange?: number;
+ *  scrollThreshold?: number;
+ *  scrollSpeed?: number;
  * }} options
  */
 export function AppDraggable(el, options) {
   const dragThreshold = options.dragThreshold ?? 5;
   const dropRange = options.dropRange ?? 50;
   const dropRangeSquared = dropRange * dropRange;
+  const scrollThreshold = options.scrollThreshold ?? 12;
+  const scrollSpeed = options.scrollSpeed ?? 7;
 
   let originX, originY;
   let clientX, clientY;
   let startTime;
   let dragging = false;
-  let clicked = false;
   let data;
   let image;
   let imageSource;
@@ -23,13 +26,13 @@ export function AppDraggable(el, options) {
   let currentTarget;
 
   el.addEventListener('touchstart', start, { passive: true });
-  el.addEventListener('mousedown', start);
+  el.addEventListener('mousedown', start, { passive: true });
 
-  // Maybe prevent click
+  // Prevent click while dragging
   el.addEventListener(
     'click',
     (e) => {
-      if (dragging || clicked) {
+      if (dragging) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }
@@ -42,8 +45,6 @@ export function AppDraggable(el, options) {
     if (e.type === 'mousedown' && e.button !== 0) return;
     if (e.touches && e.touches.length > 1) return;
 
-    e.preventDefault();
-
     const p = getPositionHost(e);
     clientX = originX = p.clientX ?? p.pageX;
     clientY = originY = p.clientY ?? p.pageY;
@@ -53,8 +54,6 @@ export function AppDraggable(el, options) {
   }
 
   function move(e) {
-    e.preventDefault();
-
     const p = getPositionHost(e);
     clientX = p.clientX ?? p.pageX;
     clientY = p.clientY ?? p.pageY;
@@ -72,7 +71,7 @@ export function AppDraggable(el, options) {
       return;
     }
 
-    // prevent unintentional dragging on touch devices
+    // Prevent unintentional dragging on touch devices
     if (e.touches && Date.now() - startTime < 50) {
       stopListening();
       return;
@@ -85,33 +84,27 @@ export function AppDraggable(el, options) {
     dispatchDrag();
     dispatchTarget();
     dispatchOverContinuously();
+    autoScroll();
   }
 
-  function end(e) {
-    e.preventDefault();
-
-    if (!dragging) {
-      e.target.click();
-      clicked = true;
-    }
-
+  function end() {
     stopListening();
 
     requestAnimationFrame(() => {
-      clicked = false;
-
       if (dragging) {
         dispatchTarget();
         dispatchEnd();
+
+        dragging = false;
       }
     });
   }
 
   function startListening() {
-    el.addEventListener('touchmove', move);
-    el.addEventListener('touchend', end);
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', end);
+    el.addEventListener('touchmove', move, { passive: true });
+    el.addEventListener('touchend', end, { passive: true });
+    window.addEventListener('mousemove', move, { passive: true });
+    window.addEventListener('mouseup', end, { passive: true });
   }
 
   function stopListening() {
@@ -144,8 +137,6 @@ export function AppDraggable(el, options) {
   }
 
   function dispatchTarget() {
-    if (!dragging) return;
-
     const nextTarget = getTarget();
 
     if (nextTarget === currentTarget) return;
@@ -176,11 +167,6 @@ export function AppDraggable(el, options) {
   function dispatchOverContinuously() {
     if (!dragging) return;
 
-    dispatchOver();
-    setTimeout(dispatchOver, 50);
-  }
-
-  function dispatchOver() {
     if (currentTarget) {
       currentTarget.dispatchEvent(
         new CustomEvent('draggableOver', {
@@ -190,7 +176,7 @@ export function AppDraggable(el, options) {
       );
     }
 
-    setTimeout(dispatchOver, 50);
+    setTimeout(dispatchOverContinuously, 50);
   }
 
   function dispatchEnd() {
@@ -210,6 +196,35 @@ export function AppDraggable(el, options) {
         }),
       );
     }
+  }
+
+  function autoScroll() {
+    if (!dragging) return;
+
+    let x = 0;
+    let y = 0;
+
+    if (clientX < scrollThreshold) {
+      if (window.scrollX > 0) {
+        x = -1;
+      }
+    } else if (clientX > window.innerWidth - scrollThreshold) {
+      x = 1;
+    }
+
+    if (clientY < scrollThreshold) {
+      if (window.scrollY > 0) {
+        y = -1;
+      }
+    } else if (clientY > window.innerHeight - scrollThreshold) {
+      y = 1;
+    }
+
+    if (x !== 0 || y !== 0) {
+      window.scrollBy(x * scrollSpeed, y * scrollSpeed);
+    }
+
+    requestAnimationFrame(autoScroll);
   }
 
   //
@@ -312,12 +327,12 @@ export function AppDraggable(el, options) {
 
       candidates.push({
         el,
-        distance2: distanceSquared,
+        distanceSquared,
       });
     });
 
     candidates.sort((a, b) => {
-      if (a.distance2 === 0 && b.distance2 === 0) {
+      if (a.distanceSquared === 0 && b.distanceSquared === 0) {
         // in this case, the client position is inside both rectangles
         // if A contains B, B is the correct target and vice versa
         // TODO sort by z-index somehow?
@@ -325,30 +340,40 @@ export function AppDraggable(el, options) {
       }
 
       // sort by distance, ascending
-      return a.distance2 - b.distance2;
+      return a.distanceSquared - b.distanceSquared;
     });
 
     return candidates.length > 0 ? candidates[0].el : null;
   }
+}
 
-  function pointDistanceToRectSquared(x, y, rect) {
-    const dx =
-      x < rect.left ? x - rect.left : x > rect.right ? x - rect.right : 0;
-    const dy =
-      y < rect.top ? y - rect.top : y > rect.bottom ? y - rect.bottom : 0;
+export function pointDistanceToRectSquared(x, y, rect) {
+  let dx = 0;
+  let dy = 0;
 
-    return dx * dx + dy * dy;
+  if (x < rect.left) {
+    dx = x - rect.left;
+  } else if (x > rect.right) {
+    dx = x - rect.right;
   }
 
-  function getPositionHost(e) {
-    if (e.targetTouches && e.targetTouches.length > 0) {
-      return e.targetTouches[0];
-    }
-
-    if (e.changedTouches && e.changedTouches.length > 0) {
-      return e.changedTouches[0];
-    }
-
-    return e;
+  if (y < rect.top) {
+    dy = y - rect.top;
+  } else if (y > rect.bottom) {
+    dy = y - rect.bottom;
   }
+
+  return dx * dx + dy * dy;
+}
+
+export function getPositionHost(e) {
+  if (e.targetTouches && e.targetTouches.length > 0) {
+    return e.targetTouches[0];
+  }
+
+  if (e.changedTouches && e.changedTouches.length > 0) {
+    return e.changedTouches[0];
+  }
+
+  return e;
 }

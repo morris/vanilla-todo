@@ -9,12 +9,9 @@
     transform 0.2s ease-out,
     opacity 0.2s ease-out;
   cursor: pointer;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
+  touch-action: none;
+  -webkit-touch-callout: none;
 }
 
 .todo-item > .checkbox {
