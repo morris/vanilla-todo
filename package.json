@@ -28,9 +28,10 @@
     "format-check": "prettier --check .",
     "lint": "eslint .",
     "lint-styles": "stylelint public/styles/*",
-    "test": "playwright test",
-    "test-ui": "playwright test --ui",
-    "test-coverage": "bash scripts/test-coverage.sh"
+    "test": "playwright test --project Chromium",
+    "test-coverage": "bash scripts/test-coverage.sh",
+    "test-e2e": "playwright test",
+    "test-ui": "playwright test --ui"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

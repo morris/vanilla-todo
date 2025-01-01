@@ -19,6 +19,9 @@ jobs:
       - run: npm run test-coverage
         env:
           CI: true
+      - run: npm run test-e2e
+        env:
+          CI: true
   deploy:
     if: github.ref == 'refs/heads/main'
     needs: check
