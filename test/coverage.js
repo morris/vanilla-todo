@@ -1,8 +1,8 @@
 /* global process */
 import { test } from '@playwright/test';
-import { randomUUID } from 'crypto';
-import { promises as fs } from 'fs';
-import * as path from 'path';
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
 
 // See also https://playwright.dev/docs/api/class-coverage
 
@@ -21,9 +21,12 @@ if (process.env.NODE_V8_COVERAGE) {
       })),
     };
 
-    await fs.mkdir(process.env.NODE_V8_COVERAGE, { recursive: true });
-    await fs.writeFile(
-      path.join(process.env.NODE_V8_COVERAGE, `coverage-${randomUUID()}.json`),
+    await fs.promises.mkdir(process.env.NODE_V8_COVERAGE, { recursive: true });
+    await fs.promises.writeFile(
+      path.join(
+        process.env.NODE_V8_COVERAGE,
+        `coverage-${crypto.randomUUID()}.json`,
+      ),
       JSON.stringify(output),
     );
   });
