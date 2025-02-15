@@ -252,19 +252,13 @@ export function MyCounter(el) {
     // Dispatch a custom event, using .detail to transport data.
     // Parent components can listen to this event to receive the counter's value.
     el.dispatchEvent(
-      new CustomEvent('counter', {
-        detail: value + 1,
-        bubbles: true,
-      }),
+      new CustomEvent('counter', { detail: value + 1, bubbles: true }),
     );
   });
 
   el.querySelector('.decrement').addEventListener('click', () => {
     el.dispatchEvent(
-      new CustomEvent('counter', {
-        detail: value - 1,
-        bubbles: true,
-      }),
+      new CustomEvent('counter', { detail: value - 1, bubbles: true }),
     );
   });
 
@@ -886,6 +880,10 @@ Useful VSCode extensions:
 Thanks!
 
 ## 9. Changelog
+
+### 02/2025
+
+- Update dependencies
 
 ### 12/2024
 
