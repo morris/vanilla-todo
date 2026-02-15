@@ -34,15 +34,15 @@
     "test-ui": "playwright test --ui"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.39.2",
     "@playwright/test": "^1.33.0",
     "c8": "^10.1.2",
-    "eslint": "^9.17.0",
-    "eslint-plugin-compat": "^6.0.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-compat": "^6.1.0",
     "prettier": "^3.1.0",
     "s4d": "^0.2.0",
-    "stylelint": "^16.12.0",
-    "stylelint-config-standard": "^39.0.0"
+    "stylelint": "^17.3.0",
+    "stylelint-config-standard": "^40.0.0"
   },
   "browserslist": [
     "defaults",
