@@ -2,6 +2,7 @@
   display: inline-block;
   vertical-align: baseline;
   height: 1em;
+  font-style: normal;
 }
 
 .app-icon > svg {
