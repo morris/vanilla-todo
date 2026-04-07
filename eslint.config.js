@@ -1,6 +1,5 @@
 import js from '@eslint/js';
 import compat from 'eslint-plugin-compat';
-import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -10,9 +9,6 @@ export default [
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',
-      globals: {
-        ...globals.browser,
-      },
     },
     rules: {
       'object-shorthand': 'error',
