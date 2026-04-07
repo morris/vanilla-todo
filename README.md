@@ -143,16 +143,13 @@ The results are going to be assessed by three major concerns:
 #### 2.3.1. User Experience
 
 The product should be comparable to or better than the original regarding
-functionality, performance and design.
-
-This includes testing major browsers and devices.
+functionality, performance and design. This includes testing major browsers and
+devices.
 
 #### 2.3.2. Code Quality
 
 The implementation should be _maintainable_ and follow established code quality
-standards.
-
-This will be difficult to assess objectively, as we will see later.
+standards. This will be difficult to assess objectively, as we will see later.
 
 #### 2.3.3. Generality of Patterns
 
@@ -185,14 +182,14 @@ comments to functions to get additional code completion in VSCode. This helps,
 but using TypeScript would be much safer and less verbose.
 
 Note that I've opted out of web components completely. My attempts to refactor
-the implementation using web components either added more complexity, or did not
-show significant value over the initial, more basic approach.
+the implementation using web components only added complexity without gains over
+the initial, more basic approach.
 
 ---
 
 The basic structure comes with some boilerplate, e.g. referencing all the
-individual stylesheets and scripts from the HTML; probably enough to justify a
-simple build step.
+individual stylesheets and scripts from the HTML (probably enough to justify a
+simple build step).
 
 It is otherwise straight-forward&mdash;literally a bunch of HTML, CSS and JS
 files.
@@ -210,17 +207,11 @@ Conceptually, the proposed architecture loosely maps CSS selectors to JS
 functions which are _mounted_ (i.e. called) once per matching element. This
 simple mental model aligns well with the DOM and styles:
 
-```
-TodoList -> .todo-list
-  scripts/TodoList.js
-  styles/todo-list.css
-
-AppCollapsible -> .app-collapsible
-  scripts/AppCollapsible.js
-  styles/app-collapsible.css
-
-...
-```
+| CSS Selector     | CSS Filename               | JS Function    | JS Filename               |
+| ---------------- | -------------------------- | -------------- | ------------------------- |
+| .todo-list       | styles/todo-list.css       | TodoList       | scripts/TodoList.js       |
+| .app-collapsible | styles/app-collapsible.css | AppCollapsible | scripts/AppCollapsible.js |
+| ...              |
 
 This proved to be a useful, repeatable pattern throughout all of the
 implementation process.
@@ -234,7 +225,7 @@ and rendering for the target element.
 For example, this mount function implements a simple counter:
 
 ```js
-// Define mount function.
+// Example mount function for a counter.
 // Loosely mapped to ".my-counter".
 export function MyCounter(el) {
   // Define initial state.
@@ -323,10 +314,10 @@ The controller is factored into a separate behavior
 dispatches events, calling the business logic to apply changes and emit state.
 It also handles persistence in Local Storage.
 
-Listening to and dispatching events is slightly verbose with standard APIs and
-certainly justifies introducing helpers. I didn't need event delegation à la
-jQuery for this study but I believe it's a useful concept that is difficult to
-do concisely with standard APIs.
+Listening to and dispatching events is verbose with standard APIs and justifies
+introducing helpers. I didn't need event delegation à la jQuery for this study
+but I believe it's a useful concept that is difficult to do concisely with
+standard APIs.
 
 Reference:
 
@@ -354,8 +345,8 @@ makes necessary changes.
 - **Completeness:** Update functions should render the whole component,
   regardless of what triggered the update.
 
-In effect, this means almost all DOM manipulation is done in update functions,
-which greatly contributes to robustness and readability of the codebase.
+This means almost all DOM manipulation is done in update functions, which
+greatly contributes to robustness and readability of the codebase.
 
 As seen above this approach is quite verbose and ugly compared to JSX, for
 example. However, it's very performant and can be further optimized by checking
@@ -527,11 +518,8 @@ fast.
 
 ### 4.2. Formatting and Linting
 
-Basic code consistency is provided by
-
-- [Prettier](https://prettier.io),
-- [ESLint](https://eslint.org), and
-- [stylelint](https://stylelint.io).
+Basic code consistency is provided by [Prettier](https://prettier.io),
+[ESLint](https://eslint.org), and [stylelint](https://stylelint.io).
 
 I've set the ESLint parser to ES2020 to ensure only ES2020 code is allowed. I've
 also added stylelint rules to check for rscss-compatible CSS.
@@ -626,7 +614,7 @@ an update with a much better drag & drop experience. Great job!_
 
 One notable missing feature is Markdown support. It would be unreasonable to
 implement Markdown from scratch; this is a valid candidate for using an external
-library as it is entirely orthogonal to the remaining codebase.
+library as it is orthogonal to the remaining codebase.
 
 The application has been tested on latest Chrome, Firefox, Safari, and Safari on
 iOS.
@@ -700,7 +688,7 @@ suspect a fully equivalent clone to be well below 10000 LOC, though._
 - Simple components require quite some boilerplate code.
 - `el.querySelectorAll(':scope ...')` is somewhat default/expected and would
   justify a helper.
-- Listening to and dispatching events is slightly verbose.
+- Listening to and dispatching events is verbose.
 - Although not used in this study, event delegation seems hard to implement
   without code duplication.
 
@@ -726,7 +714,7 @@ reduce the comparably low code size (see above) even further.
 - No type safety. I've always been a proponent of dynamic languages but since
   TypeScript's type system provides the best of both worlds, I cannot recommend
   using it enough.
-- We're effectively locked out of using NPM dependencies that don't provide
+- We're effectively locked out of using dependencies that don't provide
   browser-ready builds (ES modules or UMD).
 - Most frameworks handle a lot of browser inconsistencies and continuously
   monitor regressions with extensive test suites. The cost of browser testing is
@@ -789,7 +777,7 @@ utility.
 
 When looking at the downsides, remember that all of the individual parts are
 self-contained, highly decoupled, portable, and congruent to the web platform.
-The implementation cannot "rust", by definition, as no dependencies can become
+The implementation cannot "rust", by construction, as no dependencies can become
 out of date.
 
 Another thought to be taken with a grain of salt: I believe frameworks make
@@ -804,7 +792,7 @@ general-purpose utilities and get things done with what's readily available.
 
 While I think the study is relatively complete, there's always more to explore.
 [Ideas, questions, bug reports](https://github.com/morris/vanilla-todo/issues)
-and pull requests are more than welcome!
+and pull requests are welcome!
 
 Finally, this case study does not question using dependencies, libraries or
 frameworks in general&mdash;code sharing is an essential part of software
@@ -817,12 +805,12 @@ research in the area.
 As detailed in the assessment, the result of the case study could be
 significantly improved if build steps and helpers were allowed. Beyond the
 strict rules I've used in this experiment, here are a few ideas I'd like to see
-explored in the future:
+explored:
 
 - Run another case study with TypeScript, SCSS, and build steps (seems
   promising).
   - _See [Vanilla Prime](https://github.com/morris/vanilla-prime)._
-- Extrapolate deep utility functions (e.g. `reconcile()`) to mitigate some of
+- Extrapolate deep utility functions (e.g. `reconcile(...)`) to mitigate some of
   the discovered downsides.
   - _See [exdom](https://github.com/morris/exdom)._
 - Experiment with architectures based on virtual DOM rendering and standard DOM
@@ -832,7 +820,7 @@ explored in the future:
 
 Case studies constrained by a set of formal rules are an effective way to find
 new patterns and techniques in a wide range of domains. I'd love to see similar
-experiments in the future
+experiments in the future!
 
 ## 8. Appendix
 
@@ -880,6 +868,10 @@ Useful VSCode extensions:
 Thanks!
 
 ## 9. Changelog
+
+### 04/2026
+
+- Editing
 
 ### 02/2025
 
