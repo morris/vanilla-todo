@@ -43,6 +43,10 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {number} range
+   */
   static getTodoListsByDay(data, range) {
     const listsByDay = [];
 
@@ -61,6 +65,10 @@ export class TodoLogic {
     return listsByDay;
   }
 
+  /**
+   * @param {TodoData} data
+   * @param {string} listId
+   */
   static getTodoItemsForList(data, listId) {
     return data.items
       .filter((item) => item.listId === listId)
@@ -201,6 +209,10 @@ export class TodoLogic {
     };
   }
 
+  /**
+   * @param {string} listId
+   * @param {Date} now
+   */
   static isListInThePast(listId, now = new Date()) {
     const todayListId = formatDateId(now);
 
@@ -209,6 +221,9 @@ export class TodoLogic {
 
   //
 
+  /**
+   * @param {TodoData} data
+   */
   static getCustomTodoLists(data) {
     return data.customLists
       .map((list) => ({
