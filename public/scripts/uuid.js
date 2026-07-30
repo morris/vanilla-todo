@@ -1,5 +1,5 @@
 export function uuid() {
-  if (typeof window.crypto?.randomUUID === 'function') {
+  if (typeof crypto === 'object' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
   }
 
