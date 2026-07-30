@@ -14,6 +14,8 @@
   transition: transform 0.1s ease-out;
   position: relative;
   top: -0.1em;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .app-icon.-r180 > svg {

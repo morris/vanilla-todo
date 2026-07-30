@@ -10,7 +10,10 @@
   cursor: pointer;
   vertical-align: middle;
   border-radius: 4px;
-  transition: all 0.1s ease-out;
+  transition:
+    color 0.1s ease-out,
+    background-color 0.1s ease-out,
+    transform 0.1s ease-out;
   color: var(--button-text);
 }
 
@@ -21,7 +24,7 @@
 .app-button:active {
   transform: translate(0, 1px);
   color: var(--button-active-text);
-  background: var(--button-active-bg);
+  background-color: var(--button-active-bg);
 }
 
 .app-button:focus {
