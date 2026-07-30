@@ -9,22 +9,24 @@ export function TodoItem(el) {
   let editing = false;
   let startEditing = false;
   let saveOnBlur = true;
+  let editOnFocus = true;
 
   el.innerHTML = /* html */ `
     <div class="checkbox">
       <input type="checkbox" aria-label="Done">
     </div>
-    <p class="label"></p>
+    <p class="label"><button title="Edit"></button></p>
     <p class="form">
       <input type="text" class="input use-focus-other" aria-label="Label">
-      <button class="app-button save" title="Save">
+      <button class="app-button save" title="Save" tabindex="-1">
         <i class="app-icon" data-id="check-16"></i>
       </button>
     </p>
   `;
 
-  const checkboxEl = el.querySelector('.checkbox');
-  const labelEl = el.querySelector('.label');
+  const checkboxOuterEl = el.querySelector('.checkbox');
+  const checkboxEl = checkboxOuterEl.querySelector('input');
+  const editEl = el.querySelector('.label button');
   const inputEl = el.querySelector('.input');
   const saveEl = el.querySelector('.save');
 
@@ -34,7 +36,7 @@ export function TodoItem(el) {
 
   el.querySelectorAll('.app-icon').forEach(AppIcon);
 
-  checkboxEl.addEventListener(
+  checkboxOuterEl.addEventListener(
     'touchstart',
     () => {
       saveOnBlur = false;
@@ -42,11 +44,11 @@ export function TodoItem(el) {
     { passive: true },
   );
 
-  checkboxEl.addEventListener('mousedown', () => {
+  checkboxOuterEl.addEventListener('mousedown', () => {
     saveOnBlur = false;
   });
 
-  checkboxEl.addEventListener('click', () => {
+  checkboxOuterEl.addEventListener('click', () => {
     if (editing) save();
 
     el.dispatchEvent(
@@ -60,10 +62,44 @@ export function TodoItem(el) {
     );
   });
 
-  labelEl.addEventListener('click', () => {
+  checkboxEl.addEventListener('change', (e) => {
+    if (editing) save();
+
+    el.dispatchEvent(
+      new CustomEvent('checkTodoItem', {
+        detail: {
+          ...item,
+          done: e.target.checked,
+        },
+        bubbles: true,
+      }),
+    );
+  });
+
+  editEl.addEventListener('click', () => {
     startEditing = true;
     editing = true;
     update();
+  });
+
+  editEl.addEventListener('mousedown', () => {
+    editOnFocus = false;
+
+    window.addEventListener(
+      'mouseup',
+      () => {
+        editOnFocus = true;
+      },
+      { once: true },
+    );
+  });
+
+  editEl.addEventListener('focus', () => {
+    if (editOnFocus) {
+      startEditing = true;
+      editing = true;
+      update();
+    }
   });
 
   inputEl.addEventListener('keyup', (e) => {
@@ -144,8 +180,8 @@ export function TodoItem(el) {
 
   function update() {
     el.classList.toggle('-done', item.done);
-    checkboxEl.querySelector('input').checked = item.done;
-    labelEl.innerText = item.label;
+    checkboxEl.checked = item.done;
+    editEl.innerText = item.label;
 
     el.classList.toggle('-editing', editing);
     el.classList.toggle('_nodrag', editing);

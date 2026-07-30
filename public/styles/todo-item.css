@@ -33,7 +33,21 @@
   padding-bottom: 0.25em;
   border-bottom: 1px solid var(--main-border-light);
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.todo-item > .label > button {
+  display: block;
+  font-size: inherit;
+  line-height: inherit;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: inherit;
+  width: 100%;
+  text-align: left;
 }
 
 .todo-item > .form {
