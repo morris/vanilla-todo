@@ -122,6 +122,7 @@ export function AppDatePicker(el) {
 
   function update() {
     el.classList.toggle('-show', show);
+    el.inert = !show;
 
     const now = new Date();
     const first = new Date(at.year, at.month - 1, 1);
