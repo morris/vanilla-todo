@@ -188,8 +188,8 @@ export class TodoLogic {
     let targetIndex = 0;
 
     for (const item of data.items) {
-      if (item.listId === todayListId && item.index > targetIndex) {
-        targetIndex = item.index;
+      if (item.listId === todayListId && item.index >= targetIndex) {
+        targetIndex = item.index + 1;
       }
     }
 
