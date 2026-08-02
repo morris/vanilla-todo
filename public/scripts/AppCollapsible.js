@@ -4,6 +4,8 @@
 export function AppCollapsible(el) {
   let show = true;
 
+  const toggleEl = el.querySelector('.bar > .toggle');
+
   setTimeout(() => el.classList.add('-animated'), 200);
 
   el.addEventListener('collapse', (e) => {
@@ -14,7 +16,7 @@ export function AppCollapsible(el) {
     update();
   });
 
-  el.querySelector('.bar > .toggle').addEventListener('click', () => {
+  toggleEl.addEventListener('click', () => {
     show = !show;
     update();
   });
@@ -22,13 +24,12 @@ export function AppCollapsible(el) {
   update();
 
   function update() {
-    el.querySelector('.bar > .toggle > .app-icon').classList.toggle(
-      '-r180',
-      show,
-    );
+    toggleEl.setAttribute('aria-expanded', show);
+    toggleEl.querySelector('.app-icon').classList.toggle('-r180', show);
 
     el.querySelectorAll('.body').forEach((el) => {
       el.style.height = show ? `${el.children[0].offsetHeight}px` : '0';
+      el.inert = !show;
     });
   }
 }

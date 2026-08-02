@@ -18,9 +18,9 @@ export function TodoApp(el) {
         VANILLA TODO
       </h1>
       <p class="actions">
-        <label class="app-button invertcolorscheme" title="Enable dark mode">
+        <button class="app-button invertcolorscheme" title="Enable dark mode">
           <i class="app-icon" data-id="moon-16"></i>
-        </label>
+        </button>
         <label class="app-button import" title="Import data">
           <i class="app-icon" data-id="upload-16"></i>
           <input type="file" name="importFile" hidden>
@@ -173,15 +173,17 @@ export function TodoApp(el) {
       '(prefers-color-scheme: dark)',
     ).matches;
     const invertColorScheme = localStorage.invertColorScheme === 'true';
+    const isDark = prefersDarkColorScheme !== invertColorScheme;
 
     document.body.classList.toggle('-invertcolorscheme', invertColorScheme);
 
-    const iconEl = el.querySelector(
-      '.app-header > .actions > .invertcolorscheme > .app-icon',
+    const toggleEl = el.querySelector(
+      '.app-header > .actions > .invertcolorscheme',
     );
+    const iconEl = toggleEl.querySelector('.app-icon');
 
-    iconEl.dataset.id =
-      prefersDarkColorScheme === invertColorScheme ? 'moon-16' : 'sun-16';
+    iconEl.dataset.id = isDark ? 'sun-16' : 'moon-16';
+    toggleEl.title = isDark ? 'Disable dark mode' : 'Enable dark mode';
 
     AppIcon(iconEl);
   }

@@ -1,5 +1,5 @@
 import { AppIcon } from './AppIcon.js';
-import { formatMonth } from './util.js';
+import { formatDate, formatMonth } from './util.js';
 
 const datesCell = /* html */ `
   <td><button class="app-button pick"></button></td>
@@ -144,17 +144,24 @@ export function AppDatePicker(el) {
       const button = cell.children[0];
 
       button.innerHTML = current.getDate();
+      button.setAttribute('aria-label', formatDate(current));
 
       button.dataset.year = current.getFullYear();
       button.dataset.month = current.getMonth() + 1;
       button.dataset.day = current.getDate();
 
-      button.classList.toggle(
-        '-highlight',
+      const isToday =
         current.getFullYear() === now.getFullYear() &&
-          current.getMonth() === now.getMonth() &&
-          current.getDate() === now.getDate(),
-      );
+        current.getMonth() === now.getMonth() &&
+        current.getDate() === now.getDate();
+
+      button.classList.toggle('-highlight', isToday);
+
+      if (isToday) {
+        button.setAttribute('aria-current', 'date');
+      } else {
+        button.removeAttribute('aria-current');
+      }
 
       current.setDate(current.getDate() + 1);
     }
