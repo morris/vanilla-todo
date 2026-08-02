@@ -15,6 +15,14 @@
   margin: 0 0 10px;
   font-size: 1.5em;
   line-height: normal;
+}
+
+.todo-custom-list > .header > .title > button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
 

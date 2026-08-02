@@ -10,10 +10,11 @@ export function TodoCustomList(el) {
   let editing = false;
   let startEditing = false;
   let saveOnBlur = true;
+  let editOnFocus = true;
 
   el.innerHTML = /* html */ `
     <div class="header">
-      <h2 class="title"></h2>
+      <h2 class="title"><button title="Edit"></button></h2>
       <p class="form">
         <input type="text" class="input use-focus-other" aria-label="Title">
         <button class="app-button delete" title="Delete">
@@ -25,6 +26,7 @@ export function TodoCustomList(el) {
   `;
 
   const titleEl = el.querySelector('.title');
+  const titleButtonEl = titleEl.querySelector('button');
   const inputEl = el.querySelector('.input');
   const deleteEl = el.querySelector('.delete');
 
@@ -34,10 +36,30 @@ export function TodoCustomList(el) {
   el.querySelectorAll('.app-icon').forEach(AppIcon);
   TodoList(el.querySelector('.todo-list'));
 
-  titleEl.addEventListener('click', () => {
+  titleButtonEl.addEventListener('click', () => {
     startEditing = true;
     editing = true;
     update();
+  });
+
+  titleButtonEl.addEventListener('mousedown', () => {
+    editOnFocus = false;
+
+    window.addEventListener(
+      'mouseup',
+      () => {
+        editOnFocus = true;
+      },
+      { once: true },
+    );
+  });
+
+  titleButtonEl.addEventListener('focus', () => {
+    if (editOnFocus) {
+      startEditing = true;
+      editing = true;
+      update();
+    }
   });
 
   deleteEl.addEventListener(
@@ -52,9 +74,13 @@ export function TodoCustomList(el) {
     saveOnBlur = false;
   });
 
-  inputEl.addEventListener('blur', () => {
-    if (saveOnBlur) save();
+  inputEl.addEventListener('blur', (e) => {
+    if (saveOnBlur && e.relatedTarget !== deleteEl) save();
     saveOnBlur = true;
+  });
+
+  deleteEl.addEventListener('blur', (e) => {
+    if (e.relatedTarget !== inputEl) save();
   });
 
   inputEl.addEventListener('focusOther', () => {
@@ -140,7 +166,7 @@ export function TodoCustomList(el) {
   }
 
   function update() {
-    titleEl.innerText = list.title || '...';
+    titleButtonEl.innerText = list.title || '...';
 
     el.querySelector('.todo-list').dispatchEvent(
       new CustomEvent('todoItems', { detail: list.items }),
