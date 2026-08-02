@@ -66,6 +66,13 @@ export function TodoFrameCustom(el) {
     update();
   });
 
+  let resizeTimeout;
+
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(update, 200);
+  });
+
   function update() {
     const customLists = TodoLogic.getCustomTodoLists(todoData);
 
@@ -105,11 +112,16 @@ export function TodoFrameCustom(el) {
   }
 
   function updatePositions() {
-    el.querySelectorAll('.container > *').forEach((child, index) => {
-      child.style.transform = `translateX(${
-        (index - todoData.customAt) * 100
-      }%)`;
-    });
+    const container = el.querySelector('.container');
+    const columns = TodoLogic.getColumns(window.innerWidth);
+
+    for (let i = 0, l = container.children.length; i < l; ++i) {
+      const child = container.children[i];
+      const position = i - todoData.customAt;
+
+      child.style.transform = `translateX(${position * 100}%)`;
+      child.inert = position < 0 || position >= columns;
+    }
   }
 
   function updateHeight() {

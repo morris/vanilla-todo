@@ -50,6 +50,8 @@
   transition: height 0.2s ease-out;
 }
 
+/* Keep in sync with breakpoints in ../styles/todo-frame.css */
+
 @media (width >= 600px) {
   .todo-frame > .container {
     right: 70px;

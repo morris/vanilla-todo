@@ -369,4 +369,18 @@ export class TodoLogic {
       item.index === index ? item : { ...item, index },
     );
   }
+
+  /**
+   * Keep in sync with breakpoints in ../styles/todo-frame.css
+   * @param {number} windowWidth
+   * @returns {number}
+   */
+  static getColumns(windowWidth) {
+    if (windowWidth >= 1280) return 5;
+    if (windowWidth >= 1024) return 4;
+    if (windowWidth >= 768) return 3;
+    if (windowWidth >= 600) return 2;
+
+    return 1;
+  }
 }

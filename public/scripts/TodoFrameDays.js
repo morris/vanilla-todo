@@ -95,8 +95,16 @@ export function TodoFrameDays(el) {
     update();
   });
 
+  let resizeTimeout;
+
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(update, 200);
+  });
+
   function update() {
     const listsByDay = TodoLogic.getTodoListsByDay(todoData, RANGE);
+    const columns = TodoLogic.getColumns(window.innerWidth);
 
     const container = el.querySelector('.container');
     const obsolete = new Set(container.children);
@@ -118,6 +126,7 @@ export function TodoFrameDays(el) {
 
       child.dispatchEvent(new CustomEvent('todoDay', { detail: day }));
       child.style.transform = `translateX(${day.position * 100}%)`;
+      child.inert = day.position < 0 || day.position >= columns;
 
       return child;
     });
