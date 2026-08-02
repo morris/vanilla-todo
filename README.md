@@ -22,7 +22,7 @@ but also demonstrates that standard web technologies can be used effectively and
 there are only a few [critical areas](#523-the-bad) where a vanilla approach is
 clearly inferior.
 
-_While the first version of the case study has been published in 2020, it has
+_While the first version of the case study was published in 2020, it has
 received significant [updates](#9-changelog) over time. Also, further work is
 being done with **[Vanilla Prime](https://github.com/morris/vanilla-prime)**, a
 practical guide to (almost) vanilla web development based on insights from this
@@ -77,7 +77,7 @@ methods for building web applications without third party dependencies.
 
 It's not enough to describe how to create DOM nodes or how to toggle a class
 without a framework. It's also rather harmful to write an article saying you
-don't need library X, and then proceed in describing how to roll your own
+don't need library X, and then proceed to describe how to roll your own
 untested, inferior version of X.
 
 What's missing are thorough examples of complex web applications built only with
@@ -106,7 +106,7 @@ interesting challenges, in particular performant drag & drop when combined with
 animations.
 
 _The original TeuxDeux app deserves praise here. In my opinion it has the best
-over-all concept and UX of all the to-do apps out there.
+overall concept and UX of all the to-do apps out there.
 [Thank you!](https://fictivekin.com/)_
 
 The user interface is arguably small (which is good for a case study) but large
@@ -165,7 +165,7 @@ problems found during the process. You're encouraged to inspect the
 ### 3.1. Basic Structure
 
 Since build steps are ruled out, the codebase consists of plain HTML, CSS and JS
-files. The HTML and CSS follows [rscss](https://ricostacruz.com/rscss/) (devised
+files. The HTML and CSS follow [rscss](https://ricostacruz.com/rscss/) (devised
 by [Rico Sta. Cruz](https://ricostacruz.com)) resulting in an intuitive,
 component-oriented structure.
 
@@ -622,7 +622,7 @@ iOS.
 _TODO Test more browsers and devices._
 
 A fresh load of the original TeuxDeux application transfers around **1.2 MB**
-and finishes loading at over **1000 ms**, sometimes up to 2000ms (measured in
+and finishes loading at over **1000 ms**, sometimes up to 2000 ms (measured in
 12/2023). Reloads finish at around **700 ms**.
 
 With a transferred size of around **55 KB**, the vanilla application
@@ -640,7 +640,7 @@ While there is still optimization potential, the
 
 Unfortunately, it is quite hard to find undisputed, objective measurements for
 code quality (besides trivialities like code style, linting, etc.). The only
-generally accepted assessment seems to be peer reviewal.
+generally accepted assessment seems to be peer review.
 
 To have at least some degree of assessment of the code's quality, the following
 sections summarize relevant facts about the codebase and some opinionated
@@ -765,9 +765,9 @@ is quite verbose and even messy in some areas. This could be mitigated by a
 small number of helper functions and simple build steps (e.g. SCSS and
 TypeScript).
 
-The study's method helped discovering patterns and techniques that are at least
-on par with a framework-based approach for the given subject, without
-accidentally building a custom framework.
+The study's method helped discover patterns and techniques that are at least on
+par with a framework-based approach for the given subject, without accidentally
+building a custom framework.
 
 A notable exception to the latter is rendering variable numbers of elements in a
 concise way. I was unable to eliminate the verbosity involved in basic but
@@ -869,6 +869,13 @@ Thanks!
 
 ## 9. Changelog
 
+### 07/2026
+
+- Improve keyboard navigation for to-do items
+- Use `crypto.randomUUID()` when available for generating IDs
+- Fix SVG rendering regression
+- Update dependencies
+
 ### 04/2026
 
 - Editing
@@ -954,6 +961,6 @@ Thanks!
   [@jcoussard](https://github.com/jcoussard)
 - Fix [#4](https://github.com/morris/vanilla-todo/issues/4) (double item
   creation) &mdash; [@n0nick](https://github.com/n0nick)
-- Fix [#1](https://github.com/morris/vanilla-todo/issues/4) (bad links) &mdash;
+- Fix [#1](https://github.com/morris/vanilla-todo/issues/1) (bad links) &mdash;
   [@roryokane](https://github.com/roryokane)
 - Initial version
