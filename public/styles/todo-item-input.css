@@ -1,8 +1,6 @@
 .todo-item-input {
   position: relative;
   margin: 0 0 0 30px;
-  padding: 0 30px 0 0;
-  border-bottom: 1px solid var(--main-border-light);
   font-size: 0.8em;
   line-height: 1.5em;
   transition: transform 0.2s ease-out;
@@ -10,15 +8,20 @@
 
 .todo-item-input > .input {
   border: 0;
+  border-bottom: 1px solid var(--main-border-light);
   border-radius: 0;
   outline: 0;
-  padding: 0.25em 0;
+  padding: 0.25em 30px 0.25em 0;
   width: 100%;
   font-family: inherit;
   font-size: inherit;
   line-height: 1.5em;
   background: transparent;
   color: inherit;
+}
+
+.todo-item-input > .input:focus-visible {
+  border-bottom: 1px solid var(--highlight-text);
 }
 
 .todo-item-input > .save {

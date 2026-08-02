@@ -181,6 +181,7 @@ export function TodoItem(el) {
   function update() {
     el.classList.toggle('-done', item.done);
     checkboxEl.checked = item.done;
+    checkboxEl.setAttribute('aria-label', item.label);
     editEl.innerText = item.label;
 
     el.classList.toggle('-editing', editing);

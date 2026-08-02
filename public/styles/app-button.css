@@ -27,8 +27,9 @@
   background-color: var(--button-active-bg);
 }
 
-.app-button:focus {
-  color: var(--button-active-text);
+.app-button:focus-visible {
+  outline: 2px solid var(--highlight-text);
+  outline-offset: 2px;
 }
 
 .app-button.-circle {

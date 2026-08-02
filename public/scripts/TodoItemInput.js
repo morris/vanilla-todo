@@ -8,7 +8,7 @@ export function TodoItemInput(el) {
 
   el.innerHTML = /* html */ `
     <input type="text" class="input use-focus-other" aria-label="Label">
-    <button class="app-button save" title="Save">
+    <button class="app-button save" title="Save" tabindex="-1">
       <i class="app-icon" data-id="plus-24"></i>
     </button>
   `;

@@ -869,6 +869,12 @@ Thanks!
 
 ## 9. Changelog
 
+### 08/2026
+
+- Accessibility updates
+- Minor bugfixes
+- Editing
+
 ### 07/2026
 
 - Improve keyboard navigation for to-do items
